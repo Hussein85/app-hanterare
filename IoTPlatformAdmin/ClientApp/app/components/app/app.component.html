@@ -11,14 +11,14 @@
             <a class="navbar-brand" href="#">IotPlatformAdmin</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
+            <!--<ul class="nav navbar-nav">
                 <li><a routerLink="/"><span class='glyphicon glyphicon-home'></span> Home</a></li>
-            </ul>
+            </ul>-->
             
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#" (click)="auth.login()" *ngIf="!auth.authenticated()"><span class='glyphicon glyphicon-log-in'></span> Login</a></li>
-                <li><a [routerLink]="['/profile']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-user'></span> Profile</a></li>
                 <li><a [routerLink]="['/fetch-data']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-th-list'></span> Fetch data</a></li>
+                <li><a [routerLink]="['/profile']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-user'></span> Profile</a></li>
                 <li><a href="#" (click)="auth.logout()" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>
             </ul>
         </div><!--/.nav-collapse -->

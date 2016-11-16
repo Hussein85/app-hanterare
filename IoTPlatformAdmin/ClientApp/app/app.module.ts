@@ -1,14 +1,16 @@
 // Modules
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UniversalModule } from 'angular2-universal';
 import { AUTH_PROVIDERS } from 'angular2-jwt';                  // Provides the AuthHttp helper which automatically adds the authorization header to requests
 
 // Components
-import { AppComponent } from './components/app/app.component'
+import { AppComponent } from './components/app/app.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
+import { LoginComponent } from './components/login/login.component';
 
 // Routing and AuthGuard
 import { routing, appRoutingProviders } from './app.routing';
@@ -25,10 +27,12 @@ import { ForecastService } from './services/forecast.service';
         AppComponent, 
         FetchDataComponent,
         HomeComponent,
-        ProfileComponent
+        ProfileComponent,
+        LoginComponent
     ],
     imports: [
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
+        FormsModule,
         routing
     ],
     providers: [
