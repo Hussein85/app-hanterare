@@ -11,10 +11,13 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { LoginComponent } from './components/login/login.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 // Routing and AuthGuard
 import { routing, appRoutingProviders } from './app.routing';
-import { AuthGuard } from './auth.guard';
+import { AuthGuardUser } from './auth.guard';
+import { AuthGuardAdmin } from './auth.guard';
+
 
 // Services
 import { AuthService } from './services/auth.service';
@@ -28,7 +31,8 @@ import { ForecastService } from './services/forecast.service';
         FetchDataComponent,
         HomeComponent,
         ProfileComponent,
-        LoginComponent
+        LoginComponent,
+        AdminComponent
     ],
     imports: [
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
@@ -37,7 +41,8 @@ import { ForecastService } from './services/forecast.service';
     ],
     providers: [
         AuthService,
-        AuthGuard,
+        AuthGuardUser,
+        AuthGuardAdmin,
         AUTH_PROVIDERS,
         appRoutingProviders,
         ForecastService

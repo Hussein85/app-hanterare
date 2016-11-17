@@ -5,34 +5,31 @@ import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { LoginComponent } from './components/login/login.component';
+import { AdminComponent } from './components/admin/admin.component';
 
-
-import { AuthGuard } from './auth.guard';
+import { AuthGuardUser } from './auth.guard';
+import { AuthGuardAdmin } from './auth.guard';
 
 const appRoutes: Routes = [
     {
         path: '',
         component: HomeComponent
     },
-    /*
     {
-        path: 'home',
-        component: HomeComponent,
-        canActivate: [AuthGuard]
+        path: 'admin',
+        component: AdminComponent,
+        canActivate: [AuthGuardAdmin]
     },
-    */
     {
         path: 'profile',
         component: ProfileComponent,
-        canActivate: [AuthGuard]
-    },
-    
+        canActivate: [AuthGuardUser]
+    },  
     {
         path: 'fetch-data',
         component: FetchDataComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuardUser]
     }
-
 
 ];
 

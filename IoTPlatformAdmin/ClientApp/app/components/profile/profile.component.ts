@@ -31,7 +31,7 @@ export class ProfileComponent {
             user_metadata: {
                 firstname: this.profile.user_metadata.firstname,
                 lastname: this.profile.user_metadata.lastname,
-            }
+            },
             //email : this.profile.email
         });
         
