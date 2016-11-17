@@ -8,16 +8,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">IotPlatformAdmin</a>
+            <a class="navbar-brand" [routerLink]="['/']">IotPlatformAdmin</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-            <!--<ul class="nav navbar-nav">
-                <li><a routerLink="/"><span class='glyphicon glyphicon-home'></span> Home</a></li>
-            </ul>-->
+            <ul class="nav navbar-nav">
+                <li><a [routerLink]="['/']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-home'></span> Home</a></li>
+            </ul>
             
             <ul class="nav navbar-nav navbar-right">
 
-                <li><a href="#" (click)="auth.login()" *ngIf="!auth.authenticated()"><span class='glyphicon glyphicon-log-in'></span> Login</a></li>
+                <!--<li><a href="#" (click)="auth.login()" *ngIf="!auth.authenticated()"><span class='glyphicon glyphicon-log-in'></span> Login</a></li>-->
                 <li><a [routerLink]="['/admin']" *ngIf="auth.isAdmin()"><span class='glyphicon glyphicon-cog'></span> Admin</a></li>
                 <li><a [routerLink]="['/fetch-data']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-th-list'></span> Fetch data</a></li>
                 <li><a [routerLink]="['/profile']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-user'></span> Profile</a></li>

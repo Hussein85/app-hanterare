@@ -13,7 +13,7 @@ export class AuthGuardUser implements CanActivate {
             return true;
         } else {
             console.log('BLOCKED BY AUTH GUARD USER ');
-            this.router.navigate(['/']);
+            this.router.navigate(['/login']);
             return false;
         }
     }
@@ -29,7 +29,7 @@ export class AuthGuardAdmin implements CanActivate {
             return true;
         } else {
             console.log('BLOCKED BY AUTH GUARD ADMIN');
-            this.router.navigate(['/']);
+            this.router.navigate(['/login']);
             return false;
         }
     }
