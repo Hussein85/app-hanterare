@@ -23,6 +23,7 @@ import { AuthGuardAdmin } from './auth.guard';
 // Services
 import { AuthService } from './services/auth.service';
 import { ForecastService } from './services/forecast.service';
+import { UserPreferencesService } from './services/userPreferences.service';
 
 // ng2-translate
 import { TranslateModule } from 'ng2-translate';
@@ -61,7 +62,8 @@ import { TranslateService, TranslateLoader, TranslateStaticLoader } from 'ng2-tr
         AuthGuardAdmin,
         AUTH_PROVIDERS,
         appRoutingProviders,
-        ForecastService
+        ForecastService,
+        UserPreferencesService
     ]
 })
 export class AppModule {
