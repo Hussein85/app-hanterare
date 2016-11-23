@@ -12,21 +12,66 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a [routerLink]="['/']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-home'></span> Home</a></li>
+                <li><a [routerLink]="['/']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-home'></span> {{ 'NAV.HOME' | translate }}</a></li>
             </ul>
             
             <ul class="nav navbar-nav navbar-right">
 
                 <!--<li><a href="#" (click)="auth.login()" *ngIf="!auth.authenticated()"><span class='glyphicon glyphicon-log-in'></span> Login</a></li>-->
-                <li><a [routerLink]="['/admin']" *ngIf="auth.isAdmin()"><span class='glyphicon glyphicon-cog'></span> Admin</a></li>
-                <li><a [routerLink]="['/fetch-data']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-th-list'></span> Fetch data</a></li>
-                <li><a [routerLink]="['/profile']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-user'></span> Profile</a></li>
-                <li><a href="#" (click)="auth.logout()" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>
+                <li><a [routerLink]="['/admin']" *ngIf="auth.isAdmin()"><span class='glyphicon glyphicon-cog'></span> {{ 'NAV.ADMIN' | translate }}</a></li>
+                <li><a [routerLink]="['/fetch-data']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-th-list'></span> {{ 'NAV.FETCHDATA' | translate }}</a></li>
+                <li><a [routerLink]="['/profile']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-user'></span>{{ 'NAV.PROFILE' | translate }}</a></li>
+                <li><a href="#" (click)="auth.logout()" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-log-out'></span> {{ 'NAV.LOGOUT' | translate }}</a></li>
+                
+               
+              
+            
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
+<div class="row">
+    <div class="changeLanguage">
+        <span >{{ 'NAV.CHANGELANGUAGE' | translate }}</span>
+        <select #langSelect (change)="translate.use(langSelect.value)">
+            <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
+        </select>
+    </div>
+</div>
 <div class="container">
     <router-outlet></router-outlet>
 </div><!-- /.container -->
 
+
+<!--
+<div>
+    
+    <h2>{{ 'HOME.TITLE' | translate }}</h2>
+    <h2>{{ 'HOME.LOGOUT' | translate }}</h2>
+    <h2>{{ 'HOME.PROFILE' | translate }}</h2>
+    <h2>{{ 'HOME.ADMIN' | translate }}</h2>
+    <label>
+        {{ 'HOME.SELECT' | translate }}
+        <select #langSelect (change)="translate.use(langSelect.value)">
+            <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
+        </select>
+    </label>
+</div>
+ -->  
+
+ 
+   
+
+
+
+
+
+<!-- angular2 localization
+<h1>{{ 'TITLE' | translate:lang }}</h1>
+
+<h3>{{ 'CHANGE_COUNTRY' | translate:lang }}</h3>
+
+<a (click)="selectLocale('en', 'US', 'USD');">United States</a>
+<a (click)="selectLocale('en', 'GB', 'GBP');">United Kingdom</a>
+<a (click)="selectLocale('it', 'IT', 'EUR');">Italia</a>
+    -->

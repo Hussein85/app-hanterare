@@ -32,7 +32,9 @@ module.exports = {
             'es6-promise',
             'jquery',
             'zone.js',
-            'angular2-jwt'
+            'angular2-jwt',
+            'ng2-translate',
+            'angular2localization'
         ]
     },
     output: {

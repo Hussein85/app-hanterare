@@ -1,0 +1,27 @@
+﻿{
+  "NAV": {
+    "HOME": "Home",
+    "LOGOUT": "Logout",
+    "CHANGELANGUAGE": "Change language",
+    "PROFILE": "Profile",
+    "ADMIN": "Admin",
+    "FETCHDATA": "Fetch data"
+  },
+  "LOGIN": {
+    "LOGINTITLE": "Please login",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "LOGIN": "Login",
+    "WRONGEMAILORPASSWORD": "Wrong email or password!"
+  },
+  "HOME": {
+    "TITLE": "Home Component",
+    "LOGGEDIN": "You are logged in"
+  },
+  "ADMIN": {
+    "TITLE": "You are viewing this because you are logged in and you have 'admin' role"
+
+  } 
+
+   
+}

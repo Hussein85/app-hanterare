@@ -9,6 +9,8 @@ declare var Auth0: any;
 @Injectable()
 export class AuthService {
 
+    wrongEmailOrPassword = false;
+
     // Configure Auth0
     auth0 = new Auth0({
         domain: myConfig.domain,
@@ -30,19 +32,25 @@ export class AuthService {
       
         } else if (result && result.error) {
             alert('error: ' + result.error);
+            
         }
     };
 
 
     public login(username, password) {
+
         this.auth0.login({
             connection: 'Username-Password-Authentication',
             responseType: 'token',
             email: username,
             password: password,
-        }, function (err) {
-            if (err) alert(err.message);
+        }, (err) => {
+            if (err) {
+                //alert(err.message);
+                this.wrongEmailOrPassword = true;
+            }
         });
+
     };
 
 
@@ -59,6 +67,7 @@ export class AuthService {
         localStorage.removeItem('profile');   
         location.reload();
     };
+
 
 
     public isAdmin() {

@@ -1,0 +1,14 @@
+﻿{
+
+  "HOME": {
+    "TITLE": "Hello Angular 2 with ng2-translate! test r",
+    "SELECT1": "Change language",
+    "LOGOUT": "Logout",
+    "CHANGELANGUAGE": "Change language",
+    "PROFILE": "Profile",
+    "ADMIN": "Admin",
+    "FETCHDATA": "Fetch data"
+  }
+
+    
+}

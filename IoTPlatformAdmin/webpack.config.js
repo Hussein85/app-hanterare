@@ -1,4 +1,5 @@
 var isDevBuild = process.argv.indexOf('--env.prod') < 0;
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
 var nodeExternals = require('webpack-node-externals');
@@ -7,7 +8,7 @@ var allFilenamesExceptJavaScript = /\.(?!js(\?|$))([^.]+(\?|$))/;
 
 // Configuration in common to both client-side and server-side bundles
 var sharedConfig = {
-    resolve: { extensions: [ '', '.js', '.ts' ] },
+    resolve: { extensions: [ '', '.js', '.ts'] },
     output: {
         filename: '[name].js',
         publicPath: '/dist/' // Webpack dev middleware, if enabled, handles requests for this URL prefix
@@ -32,6 +33,7 @@ var clientBundleConfig = merge(sharedConfig, {
             context: __dirname,
             manifest: require('./wwwroot/dist/vendor-manifest.json')
         })
+       
     ].concat(isDevBuild ? [] : [
         // Plugins that apply in production builds only
         new webpack.optimize.OccurenceOrderPlugin(),
@@ -48,7 +50,17 @@ var serverBundleConfig = merge(sharedConfig, {
     },
     target: 'node',
     devtool: 'inline-source-map',
-    externals: [nodeExternals({ whitelist: [allFilenamesExceptJavaScript] })] // Don't bundle .js files from node_modules
+    externals: [nodeExternals({ whitelist: [allFilenamesExceptJavaScript] })], // Don't bundle .js files from node_modules
+    plugins: [
+         new CopyWebpackPlugin([
+        {
+            from: 'ClientApp/i18n', // copy i18n folder to wwwrot folder
+            to: '../../wwwroot/i18n'
+        }
+         ])
+    ]
 });
+
+
 
 module.exports = [clientBundleConfig, serverBundleConfig];

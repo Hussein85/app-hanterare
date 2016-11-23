@@ -9,7 +9,6 @@ namespace IoTPlatformAdmin.Models
 {
     public class UserSettings
     {
-        public string theme { get; set; }
-       
+        public string Theme { get; set; }
     }
 }

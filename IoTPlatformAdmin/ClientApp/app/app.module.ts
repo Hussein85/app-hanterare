@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UniversalModule } from 'angular2-universal';
 import { AUTH_PROVIDERS } from 'angular2-jwt';                  // Provides the AuthHttp helper which automatically adds the authorization header to requests
+import { HttpModule, Http } from '@angular/http';
 
 // Components
 import { AppComponent } from './components/app/app.component';
@@ -23,6 +24,12 @@ import { AuthGuardAdmin } from './auth.guard';
 import { AuthService } from './services/auth.service';
 import { ForecastService } from './services/forecast.service';
 
+// ng2-translate
+import { TranslateModule } from 'ng2-translate';
+import { TranslateService, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+
+// Angular 2 Localization.
+//import { LocaleModule, LocalizationModule } from 'angular2localization';
 
 @NgModule({
     bootstrap: [ AppComponent ],
@@ -37,7 +44,16 @@ import { ForecastService } from './services/forecast.service';
     imports: [
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         FormsModule,
-        routing
+        routing,
+
+        // angular2 localization
+        //LocaleModule.forRoot(),         // New instance of LocaleService.           
+        //LocalizationModule.forRoot()    // New instance of LocalizationService.
+
+        //ng2-translate
+        TranslateModule.forRoot(),
+        HttpModule,
+       
     ],
     providers: [
         AuthService,
@@ -50,3 +66,4 @@ import { ForecastService } from './services/forecast.service';
 })
 export class AppModule {
 }
+

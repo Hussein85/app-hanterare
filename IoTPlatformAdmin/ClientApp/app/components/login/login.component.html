@@ -2,14 +2,17 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
-            <h1 class="text-center login-title">Login to continue to IotPlatformAdmin</h1>
+            <h1 class="text-center login-title">{{ 'LOGIN.LOGINTITLE' | translate }}</h1>
             <div class="account-wall">
                 <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
                      alt="">
                 <form class="form-signin">
-                    <input type="text" class="form-control" #username placeholder="Email" required autofocus>
-                    <input type="password" class="form-control" #password placeholder="Password" required>
-                    <button class="btn btn-lg btn-primary btn-block" (click)="auth.login(username.value, password.value)" type="submit">
+                    <input type="text" class="form-control" #username placeholder="{{ 'LOGIN.EMAIL' | translate }}" required autofocus>
+                    <input type="password" class="form-control" #password placeholder="{{ 'LOGIN.PASSWORD' | translate }}" required>
+                    
+                    <div class="alert alert-danger" *ngIf="wrongEmailOrPassword()">{{ 'LOGIN.LOGINTITLE' | translate }}</div>
+
+                    <button class="btn btn-lg btn-primary btn-block" (click)="login(username.value, password.value)" type="submit">
                         Login
                     </button>
                       
@@ -19,4 +22,6 @@
         </div>
     </div>
 </div>
+
+
 

@@ -1,0 +1,26 @@
+﻿{
+  "NAV": {
+    "HOME": "Accueil",
+    "LOGOUT": "Se déconnecter",
+    "CHANGELANGUAGE": "Changer la langue",
+    "PROFILE": "Profil",
+    "ADMIN": "Administrateur",
+    "FETCHDATA": "Récupérer des données"
+  },
+  "LOGIN": {
+    "LOGINTITLE": "S'il vous plaît vous connecter",
+    "EMAIL": "Email",
+    "PASSWORD": "Mot de passe",
+    "LOGIN": "Login",
+    "WRONGEMAILORPASSWORD": "E-mail ou mot de passe incorrect!"
+  },
+  "HOME": {
+    "TITLE": "le composant d'accueil",
+    "LOGGEDIN": "Vous êtes authentifié"
+  },
+  "ADMIN": {
+    "TITLE": "Vous voyez ceci parce que vous êtes connecté et que vous avez le rôle 'admin'"
+  }
+
+
+} 
