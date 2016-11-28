@@ -13,6 +13,7 @@ using System.Security.Claims;
 
 namespace IoTPlatformAdmin.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class UserPreferencesController : Controller
     {
@@ -24,12 +25,14 @@ namespace IoTPlatformAdmin.Controllers
         private static readonly string CollectionId = "UserPreferences";
 
 
-        [Authorize]
-        [HttpGet]
+
+        //[HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetUserPreferences()
         {
             var docDbRepo = new DocumentDbRepository<UserPreferences>(CacheClient.GetDatabaseClient(_endpoint, _authKey), _databaseId, CollectionId);
-            var pref = docDbRepo.Query().FirstOrDefault(f => f.UserId == GetUserId());
+            //var pref = docDbRepo.Query().FirstOrDefault(f => f.UserId == GetUserId());
+            var pref = docDbRepo.Query().AsEnumerable().FirstOrDefault(f => f.UserId == GetUserId());
 
             if (pref != null)
             {
