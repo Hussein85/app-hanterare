@@ -13,8 +13,8 @@ namespace IoTPlatformAdmin
     {
         private readonly string _databaseId;
         private readonly string _collectionId;
-        private static Dictionary<string, Database> _databaseCache = new Dictionary<string, Database>();
-        private static Dictionary<string, DocumentCollection> _collectiontCache = new Dictionary<string, DocumentCollection>();
+        private Dictionary<string, Database> _databaseCache = new Dictionary<string, Database>();
+        private Dictionary<string, DocumentCollection> _collectiontCache = new Dictionary<string, DocumentCollection>();
 
         public DocumentDbRepository(DocumentClient client, string databaseId, string collection)
         {
@@ -160,6 +160,11 @@ namespace IoTPlatformAdmin
         public IQueryable<T> Query(string sql)
         {
             return Client.CreateDocumentQuery<T>("dbs/" + Database.Id + "/colls/" + Collection.Id, sql);
+        }
+
+        public IQueryable<Document> DocumentQuery(string sql)
+        {
+            return Client.CreateDocumentQuery<Document>("dbs/" + Database.Id + "/colls/" + Collection.Id, sql);
         }
 
         public Document GetDocument(string id)

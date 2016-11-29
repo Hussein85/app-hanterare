@@ -71,12 +71,17 @@ namespace IoTPlatformAdmin
 
 
             app.UseStaticFiles();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
+                    template: "api/{controller}/{id}");
+
+                routes.MapRoute(
+                    name: "home",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                
 
                 routes.MapSpaFallbackRoute(
                     name: "spa-fallback",

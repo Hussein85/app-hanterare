@@ -14,23 +14,49 @@ import { UserPreferences } from '../../models/userPreferences';
 export class HomeComponent implements OnInit {
 
     public userPreferences: UserPreferences;
+    public specificUserPreference: UserPreferences;
+
+    
 
     constructor(private authService: AuthService, private translateService: TranslateService, private userPreferencesService: UserPreferencesService) { }
 
 
     ngOnInit(): void {
-        this.getPreferences();
+        this.getSpecificUserPreference("1");
+        this.getAllPreferences();
+        //this.getSpecificUserPreference();
     }
 
-    getPreferences(): void {
-        this.userPreferencesService.getUserPreferences()
+    getAllPreferences(): void {
+        this.userPreferencesService.getAllUserPreferences()
             .subscribe(
             userPreferences => this.userPreferences = userPreferences,
             error => {
                 console.log(error);
-                console.log("hello");
             });
     }
+
+    getSpecificUserPreference(id): void {
+        this.userPreferencesService.getSpecificUserPreference(id)
+            .subscribe(
+            specificUserPreference => this.specificUserPreference = specificUserPreference,
+            error => {
+                console.log(error);
+            });
+    }
+
+    updateSpecificUserPreference(userPref): void {
+        this.userPreferencesService.updateSpecificUserPreference(userPref)
+            .subscribe(
+            specificUserPreference => this.specificUserPreference = specificUserPreference,
+            error => {
+                console.log(error);
+            });
+    }
+    
+    
+    
+
 
 
 }

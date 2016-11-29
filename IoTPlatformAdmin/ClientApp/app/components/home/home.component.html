@@ -1,6 +1,11 @@
 <h1>{{ 'HOME.TITLE' | translate }}</h1>
 <!--<div class="alert alert-success" *ngIf="auth.authenticated()">{{ 'HOME.LOGGEDIN' | translate }}</div>-->
+<hr />
 
-
-
-<pre> {{userPreferences | json}}</pre>
+<div *ngIf="userPreferences">
+    <h3>All user preferences</h3>
+    <pre> {{userPreferences | json}}</pre>
+    <hr />
+    <h3>Specific user preferences</h3>
+    <pre> {{specificUserPreference | json}}</pre>
+</div>
