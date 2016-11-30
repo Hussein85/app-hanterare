@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
 import { UserPreferencesService } from '../../services/userPreferences.service';
 import { UserPreferences } from '../../models/userPreferences';
 
+// ng2-translate
+import { TranslateService } from 'ng2-translate';
+
 
 @Component({
     selector: 'profile',
@@ -17,18 +20,23 @@ export class ProfileComponent implements OnInit {
     userPreferences: any;
     specificUserPreferences: any;
 
-    languages: string[] = ["eng", "fra"];
+    //languages: string[] = ["eng", "fra"];
+    languages: string[];
     themes: string[] = ["light", "dark"];
    
-    constructor(private auth: AuthService, private authHttp: AuthHttp, private router: Router, private userPreferencesService: UserPreferencesService) {
-          
-    }
+    constructor(private auth: AuthService,
+                private authHttp: AuthHttp,
+                private router: Router,
+                private userPreferencesService: UserPreferencesService,
+                private translateService: TranslateService
+    ){}
 
 
     ngOnInit(): void {
         this.getPreferences();
         this.getSpecificUserPreferences();
         this.profile = JSON.parse(localStorage.getItem('profile'));
+        this.languages = this.translateService.getLangs();
     }
 
     getPreferences(): void {
@@ -85,6 +93,10 @@ export class ProfileComponent implements OnInit {
             specificUserPreferences => {
                 this.specificUserPreferences = specificUserPreferences;
                 alert("Preferences saved");
+
+                //Set language in view
+                this.translateService.use(this.specificUserPreferences.language);
+
             },
             error => {
                 console.log(error);

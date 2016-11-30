@@ -46,8 +46,11 @@ export class AuthService {
             password: password,
         }, (err) => {
             if (err) {
-                //alert(err.message);
-                this.wrongEmailOrPassword = true;
+                
+                if(username || password)
+                    this.wrongEmailOrPassword = true;
+                else
+                    this.wrongEmailOrPassword = false;
             }
         });
 
@@ -62,7 +65,6 @@ export class AuthService {
 
 
     public logout() {
-        // Remove token from localStorage
         localStorage.removeItem('id_token');
         localStorage.removeItem('profile');   
         location.reload();

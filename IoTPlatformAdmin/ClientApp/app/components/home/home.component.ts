@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { TranslateService } from 'ng2-translate';
+
 
 import { UserPreferencesService } from '../../services/userPreferences.service';
 import { UserPreferences } from '../../models/userPreferences';
 
-
+// ng2-translate
+import { TranslateService } from 'ng2-translate';
 
 @Component({
     selector: 'home',
@@ -16,9 +17,11 @@ export class HomeComponent implements OnInit {
     public userPreferences: UserPreferences;
     public specificUserPreference: UserPreferences;
 
-    
-
-    constructor(private authService: AuthService, private translateService: TranslateService, private userPreferencesService: UserPreferencesService) { }
+   
+    constructor(private authService: AuthService,
+        private translateService: TranslateService,
+        private userPreferencesService: UserPreferencesService
+    ){}
 
 
     ngOnInit(): void {
@@ -39,26 +42,17 @@ export class HomeComponent implements OnInit {
     getSpecificUserPreference(id): void {
         this.userPreferencesService.getSpecificUserPreference(id)
             .subscribe(
-            specificUserPreference => this.specificUserPreference = specificUserPreference,
+            specificUserPreference => {
+                this.specificUserPreference = specificUserPreference;
+                this.translateService.use(specificUserPreference.language);
+            },
             error => {
                 console.log(error);
             });
     }
 
-    /*
-    updateSpecificUserPreference(userPref): void {
-        this.userPreferencesService.updateSpecificUserPreference(userPref)
-            .subscribe(
-            specificUserPreference => this.specificUserPreference = specificUserPreference,
-            error => {
-                console.log(error);
-            });
-    }
-    */
     
     
     
-
-
-
+    
 }

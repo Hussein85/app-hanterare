@@ -1,0 +1,39 @@
+﻿{
+  "NAV": {
+    "HOME": "Startseite",
+    "LOGOUT": "Ausloggen",
+    "CHANGELANGUAGE": "Sprache ändern",
+    "PROFILE": "Profil",
+    "ADMIN": "Admin",
+    "FETCHDATA": "Daten abrufen"
+  },
+  "LOGIN": {
+    "LOGINTITLE": "Bitte loggen Sie sich ein",
+    "EMAIL": "Email",
+    "PASSWORD": "Passwort",
+    "LOGIN": "Einloggen",
+    "WRONGEMAILORPASSWORD": "Falsche Email oder Passwort!"
+  },
+  "HOME": {
+    "TITLE": "Startseite Component",
+    "LOGGEDIN": "Du bist eingeloggt"
+  },
+  "ADMIN": {
+    "TITLE": "Sie sehen dies, weil Sie angemeldet sind und Sie 'admin' haben"
+  },
+  "PROFILE": {
+    "PROFILE": "Profil",
+    "EDITPROFILE": "Profil bearbeiten",
+    "PREFERENCES": "Voreinstellungen",
+    "FIRSTNAME": "Vorname",
+    "LASTNAME": "Nachname",
+    "EMAIL": "Email",
+    "PASSWORD": "Passwort",
+    "CONFPASSWORD": "Bestätige das Passwort",
+    "SAVECHANGES": "Änderungen speichern",
+    "LANGUAGE": "Sprache",
+    "THEME": "Thema"
+  }
+
+
+}

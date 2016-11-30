@@ -3,15 +3,15 @@
 <div class="container" style="padding-top: 60px;" *ngIf="profile">
 
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#profile">Profile</a></li>
-        <li><a data-toggle="tab" href="#edit">Edit Profile</a></li>
-        <li><a data-toggle="tab" href="#pref">Preferences</a></li>
+        <li class="active"><a data-toggle="tab" href="#profile">{{ 'PROFILE.PROFILE' | translate }}</a></li>
+        <li><a data-toggle="tab" href="#edit">{{ 'PROFILE.EDITPROFILE' | translate }}</a></li>
+        <li><a data-toggle="tab" href="#pref">{{ 'PROFILE.PREFERENCES' | translate }}</a></li>
     </ul>
 
     <div class="tab-content">
         <div id="profile" class="tab-pane fade in active">
             <!--PROFILE-->
-            <h1 class="page-header">Profile</h1>
+            <h1 class="page-header">{{ 'PROFILE.PROFILE' | translate }}</h1>
             <div class="row" *ngIf="profile">
                 <div class="col-md-2">
                     <div class="text-center">
@@ -22,19 +22,19 @@
 
                     <form class="form-horizontal" (ngSubmit)="onSubmit()">
                         <div class="form-group">
-                            <label class="col-lg-3 control-label">First name:</label>
+                            <label class="col-lg-3 control-label">{{ 'PROFILE.FIRSTNAME' | translate }}:</label>
                             <div class="col-lg-8">
                                 <input class="form-control" type="text" [(ngModel)]="profile.user_metadata.firstname" name="firstname"  disabled>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-3 control-label">Last name:</label>
+                            <label class="col-lg-3 control-label">{{ 'PROFILE.LASTNAME' | translate }}:</label>
                             <div class="col-lg-8">
                                 <input class="form-control" [(ngModel)]="profile.user_metadata.lastname" name="lastname" type="text"  disabled>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="name" class="col-lg-3 control-label">Email:</label>
+                            <label for="name" class="col-lg-3 control-label">{{ 'PROFILE.EMAIL' | translate }}:</label>
                             <div class="col-lg-8">
                                 <input class="form-control" type="text" [(ngModel)]="profile.email" name="email"  disabled>
                             </div>
@@ -47,7 +47,7 @@
         </div>
         <div id="edit" class="tab-pane fade">
             <!--EDIT PROFILE-->
-            <h1 class="page-header">Edit Profile</h1>
+            <h1 class="page-header">{{ 'PROFILE.EDITPROFILE' | translate }}</h1>
             <div class="row">
                 <div class="col-md-2 col-sm-6 col-xs-12">
                     <div class="text-center">
@@ -57,25 +57,25 @@
                 <div class="col-md-7">
                     <form class="form-horizontal" (ngSubmit)="saveProfile()">
                         <div class="form-group">
-                            <label class="col-lg-3 control-label">First name:</label>
+                            <label class="col-lg-3 control-label">{{ 'PROFILE.FIRSTNAME' | translate }}:</label>
                             <div class="col-lg-8">
                                 <input class="form-control" type="text" [(ngModel)]="profile.user_metadata.firstname" name="firstname">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-3 control-label">Last name:</label>
+                            <label class="col-lg-3 control-label">{{ 'PROFILE.LASTNAME' | translate }}:</label>
                             <div class="col-lg-8">
                                 <input class="form-control" [(ngModel)]="profile.user_metadata.lastname" name="lastname" type="text">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Password:</label>
+                            <label class="col-md-3 control-label">{{ 'PROFILE.PASSWORD' | translate }}:</label>
                             <div class="col-md-8">
                                 <input class="form-control" value="password" type="password">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Confirm password:</label>
+                            <label class="col-md-3 control-label">{{ 'PROFILE.CONFPASSWORD' | translate }}:</label>
                             <div class="col-md-8">
                                 <input class="form-control" value="password" type="password">
                             </div>
@@ -83,7 +83,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label"></label>
                             <div class="col-md-8">
-                                <input class="btn btn-primary" value="Save Changes" type="submit">
+                                <input class="btn btn-primary" value="{{ 'PROFILE.SAVECHANGES' | translate }}" type="submit">
                             </div>
                         </div>
                     </form>
@@ -93,13 +93,13 @@
         </div>
         <div id="pref" class="tab-pane fade">
             <!--USER PREFERENCES-->
-            <h1 class="page-header">Preferences</h1>
+            <h1 class="page-header">{{ 'PROFILE.PREFERENCES' | translate }}</h1>
             <div class="row" *ngIf="specificUserPreferences">
                 <div class="col-md-5">
                     <form class="form-horizontal" (ngSubmit)="savePreferences()">
 
                         <div class="form-group">
-                            <label class="col-lg-3 control-label">Language:</label>
+                            <label class="col-lg-3 control-label">{{ 'PROFILE.LANGUAGE' | translate }}:</label>
                             <div class="col-md-5">
                                 <!--<input class="form-control" [(ngModel)]="userPreferences[0].language" name="language" type="text">-->
                                 <select [(ngModel)]="specificUserPreferences.language" name="Select language" class="form-control">
@@ -109,7 +109,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-lg-3 control-label">Theme:</label>
+                            <label class="col-lg-3 control-label">{{ 'PROFILE.THEME' | translate }}:</label>
                             <div class="col-md-5">
                                 <!--<input class="form-control" type="text" [(ngModel)]="userPreferences.theme" name="theme">-->
                                 <select [(ngModel)]="specificUserPreferences.theme" name="Select theme" class="form-control">
@@ -121,7 +121,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label"></label>
                             <div class="col-md-8">
-                                <input class="btn btn-primary" value="Save Changes" type="submit">
+                                <input class="btn btn-primary" value="{{ 'PROFILE.SAVECHANGES' | translate }}" type="submit">
                             </div>
                         </div>
                     </form>
