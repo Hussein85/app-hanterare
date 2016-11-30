@@ -45,6 +45,7 @@ export class HomeComponent implements OnInit {
             });
     }
 
+    /*
     updateSpecificUserPreference(userPref): void {
         this.userPreferencesService.updateSpecificUserPreference(userPref)
             .subscribe(
@@ -53,6 +54,7 @@ export class HomeComponent implements OnInit {
                 console.log(error);
             });
     }
+    */
     
     
     

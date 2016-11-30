@@ -1,13 +1,13 @@
 ﻿
 
 <div class="container" style="padding-top: 60px;" *ngIf="profile">
- 
+
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#profile">Profile</a></li>
         <li><a data-toggle="tab" href="#edit">Edit Profile</a></li>
         <li><a data-toggle="tab" href="#pref">Preferences</a></li>
     </ul>
-       
+
     <div class="tab-content">
         <div id="profile" class="tab-pane fade in active">
             <!--PROFILE-->
@@ -24,19 +24,19 @@
                         <div class="form-group">
                             <label class="col-lg-3 control-label">First name:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="text" [(ngModel)]="profile.user_metadata.firstname" name="firstname">
+                                <input class="form-control" type="text" [(ngModel)]="profile.user_metadata.firstname" name="firstname"  disabled>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Last name:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" [(ngModel)]="profile.user_metadata.lastname" name="lastname" type="text">
+                                <input class="form-control" [(ngModel)]="profile.user_metadata.lastname" name="lastname" type="text"  disabled>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="name" class="col-lg-3 control-label">Email:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="text" [(ngModel)]="profile.email" name="email">
+                                <input class="form-control" type="text" [(ngModel)]="profile.email" name="email"  disabled>
                             </div>
                         </div>
 
@@ -89,34 +89,35 @@
                     </form>
                 </div>
             </div> <!--/ EDIT PROFILE-->
-            
+
         </div>
         <div id="pref" class="tab-pane fade">
             <!--USER PREFERENCES-->
-            <h1 class="page-header">User Preferences</h1>
-            <div class="row" *ngIf="userPreferences">
-                <div class="col-md-4">
+            <h1 class="page-header">Preferences</h1>
+            <div class="row" *ngIf="specificUserPreferences">
+                <div class="col-md-5">
                     <form class="form-horizontal" (ngSubmit)="savePreferences()">
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">Theme:</label>
-                            <div class="col-md-5">
-                                <!--<input class="form-control" type="text" [(ngModel)]="userPreferences.theme" name="theme">-->
-                                <select class="form-control" id="sel1">
-                                    <option>light</option>
-                                    <option>dark</option>
-                                </select>
-                            </div>                         
-                        </div>
+
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Language:</label>
                             <div class="col-md-5">
                                 <!--<input class="form-control" [(ngModel)]="userPreferences[0].language" name="language" type="text">-->
-                                <select class="form-control"  id="sel2">
-                                    <option>en</option>
-                                    <option>fr</option>
+                                <select [(ngModel)]="specificUserPreferences.language" name="Select language" class="form-control">
+                                    <option *ngFor="let n of languages" [attr.value]="n">{{n}}</option>
                                 </select>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Theme:</label>
+                            <div class="col-md-5">
+                                <!--<input class="form-control" type="text" [(ngModel)]="userPreferences.theme" name="theme">-->
+                                <select [(ngModel)]="specificUserPreferences.theme" name="Select theme" class="form-control">
+                                    <option *ngFor="let n of themes" [attr.value]="n">{{n}}</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="col-md-3 control-label"></label>
                             <div class="col-md-8">
@@ -127,13 +128,11 @@
                 </div>
             </div> <!--/ USER PREFERENCE-->
         </div>
+    </div>
+</div>
 
-    </div>  
 
- </div>
- 
 
-    
 
 
 

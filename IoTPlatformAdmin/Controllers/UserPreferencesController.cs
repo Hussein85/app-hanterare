@@ -79,7 +79,7 @@ namespace IoTPlatformAdmin.Controllers
 
         [HttpPut]
         [Route("")]
-        public async Task<IActionResult> UpdateUserPreference(UserPreferences userPreference)
+        public async Task<IActionResult> UpdateUserPreference( [FromBody] UserPreferences userPreference)
         {
             var docDbRepo = new DocumentDbRepository<UserPreferences>(CacheClient.GetDatabaseClient(_endpoint, _authKey), _databaseId, CollectionId);
 

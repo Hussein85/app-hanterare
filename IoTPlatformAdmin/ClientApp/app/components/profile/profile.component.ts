@@ -15,6 +15,10 @@ import { UserPreferences } from '../../models/userPreferences';
 export class ProfileComponent implements OnInit {
     profile: any;
     userPreferences: any;
+    specificUserPreferences: any;
+
+    languages: string[] = ["eng", "fra"];
+    themes: string[] = ["light", "dark"];
    
     constructor(private auth: AuthService, private authHttp: AuthHttp, private router: Router, private userPreferencesService: UserPreferencesService) {
           
@@ -23,6 +27,7 @@ export class ProfileComponent implements OnInit {
 
     ngOnInit(): void {
         this.getPreferences();
+        this.getSpecificUserPreferences();
         this.profile = JSON.parse(localStorage.getItem('profile'));
     }
 
@@ -35,6 +40,14 @@ export class ProfileComponent implements OnInit {
             });
     }
 
+    getSpecificUserPreferences(): void {
+        this.userPreferencesService.getSpecificUserPreference("1")
+            .subscribe(
+            specificUserPreferences => this.specificUserPreferences = specificUserPreferences,
+            error => {
+                console.log(error);
+            });
+    }
 
     saveProfile() {
         var headers: any = {
@@ -67,10 +80,18 @@ export class ProfileComponent implements OnInit {
     }
 
     savePreferences() {
-       
-
+        this.userPreferencesService.updateSpecificUserPreference(this.specificUserPreferences)
+            .subscribe(
+            specificUserPreferences => {
+                this.specificUserPreferences = specificUserPreferences;
+                alert("Preferences saved");
+            },
+            error => {
+                console.log(error);
+            });         
     }
 
 
+    
 }
 

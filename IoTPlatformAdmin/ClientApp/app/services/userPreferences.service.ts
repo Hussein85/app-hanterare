@@ -21,13 +21,15 @@ export class UserPreferencesService {
 
     constructor(private http: Http, private authHttp: AuthHttp) { }
 
-  
+
+    // Get all user preferences
     getAllUserPreferences(): Observable<UserPreferences> {
         return this.http.get(this.API_URL, this.options)
             .map((response: Response) => response.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
+    // Get specific user preferences
     getSpecificUserPreference(id): Observable<UserPreferences> {
         return this.http.get(this.API_URL + "/" + id, this.options)
             .map((response: Response) => response.json())
@@ -35,14 +37,14 @@ export class UserPreferencesService {
     }
 
 
+    // Update user preferences
     updateSpecificUserPreference(userPref): Observable<UserPreferences> {
         return this.http.put(this.API_URL, userPref, this.options)
             .map((response: Response) => response.json())
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));       
     }
 
     
-
 
 }
 
