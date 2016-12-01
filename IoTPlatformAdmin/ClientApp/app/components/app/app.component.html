@@ -60,18 +60,8 @@
  -->  
 
  
-   
+<h1>Theems</h1>
 
-
-
-
-
-<!-- angular2 localization
-<h1>{{ 'TITLE' | translate:lang }}</h1>
-
-<h3>{{ 'CHANGE_COUNTRY' | translate:lang }}</h3>
-
-<a (click)="selectLocale('en', 'US', 'USD');">United States</a>
-<a (click)="selectLocale('en', 'GB', 'GBP');">United Kingdom</a>
-<a (click)="selectLocale('it', 'IT', 'EUR');">Italia</a>
-    -->
+<select [(ngModel)]="selectedTheme" name="Select theme" class="form-control" (change)="changeTheme(selectedTheme)">
+    <option *ngFor="let n of themes" [attr.value]="n">{{n}}</option>
+</select>
