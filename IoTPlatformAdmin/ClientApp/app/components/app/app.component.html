@@ -32,8 +32,8 @@
 </nav>
 <div class="row">
     <div class="changeLanguage">
-        <span >{{ 'NAV.CHANGELANGUAGE' | translate }}</span>
-        <select #langSelect (change)="translate.use(langSelect.value)">
+        <!--<span >{{ 'NAV.LANGUAGE' | translate }}</span>-->
+        <select #langSelect (change)="translate.use(langSelect.value)" class="form-control">
             <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
         </select>
     </div>
@@ -60,8 +60,8 @@
  -->  
 
  
-<h1>Theems</h1>
+<!--<h1>Theems</h1>
 
 <select [(ngModel)]="selectedTheme" name="Select theme" class="form-control" (change)="changeTheme(selectedTheme)">
     <option *ngFor="let n of themes" [attr.value]="n">{{n}}</option>
-</select>
+</select>-->

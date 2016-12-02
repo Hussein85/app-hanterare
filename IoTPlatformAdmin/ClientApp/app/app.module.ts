@@ -24,6 +24,7 @@ import { AuthGuardAdmin } from './auth.guard';
 import { AuthService } from './services/auth.service';
 import { ForecastService } from './services/forecast.service';
 import { UserPreferencesService } from './services/userPreferences.service';
+import { ThemeService } from './services/theme.service';
 
 // ng2-translate
 import { TranslateModule } from 'ng2-translate';
@@ -63,7 +64,8 @@ import { TranslateService, TranslateLoader, TranslateStaticLoader } from 'ng2-tr
         AUTH_PROVIDERS,
         appRoutingProviders,
         ForecastService,
-        UserPreferencesService
+        UserPreferencesService,
+        ThemeService
     ]
 })
 export class AppModule {

@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 import { AuthService } from '../../services/auth.service';
 import { AuthHttp } from 'angular2-jwt';
@@ -9,6 +9,9 @@ import { UserPreferences } from '../../models/userPreferences';
 
 // ng2-translate
 import { TranslateService } from 'ng2-translate';
+//import { DOCUMENT } from '@angular/platform-browser';
+
+import { ThemeService } from '../../services/theme.service';
 
 
 @Component({
@@ -17,28 +20,33 @@ import { TranslateService } from 'ng2-translate';
 })
 export class ProfileComponent implements OnInit {
     profile: any;
-    userPreferences: any;
+    //userPreferences: any;
     specificUserPreferences: any;
-
-    //languages: string[] = ["eng", "fra"];
-    languages: string[];
-    themes: string[] = ["light", "dark"];
+    themes: any;
+   
+    
+    languages: any;
+   
    
     constructor(private auth: AuthService,
                 private authHttp: AuthHttp,
                 private router: Router,
                 private userPreferencesService: UserPreferencesService,
-                private translateService: TranslateService
+                private translateService: TranslateService,
+                private themeService: ThemeService
+                //@Inject(DOCUMENT) private document
     ){}
 
 
     ngOnInit(): void {
-        this.getPreferences();
+        //this.getPreferences();
         this.getSpecificUserPreferences();
         this.profile = JSON.parse(localStorage.getItem('profile'));
         this.languages = this.translateService.getLangs();
+        this.themes = this.themeService.getThemes();
     }
 
+    /*
     getPreferences(): void {
         this.userPreferencesService.getAllUserPreferences()
             .subscribe(
@@ -47,11 +55,19 @@ export class ProfileComponent implements OnInit {
                 console.log(error);
             });
     }
+    */
+
+
 
     getSpecificUserPreferences(): void {
         this.userPreferencesService.getSpecificUserPreference("1")
             .subscribe(
-            specificUserPreferences => this.specificUserPreferences = specificUserPreferences,
+            specificUserPreferences => {
+                this.specificUserPreferences = specificUserPreferences;
+                this.translateService.use(specificUserPreferences.language);
+                this.themeService.changeTheme(this.specificUserPreferences.theme);
+            },
+
             error => {
                 console.log(error);
             });
@@ -101,6 +117,11 @@ export class ProfileComponent implements OnInit {
             error => {
                 console.log(error);
             });         
+    }
+
+    changeTheme() {
+        //this.document.getElementById('theme').setAttribute('href', themes[this.specificUserPreferences.theme]);
+        this.themeService.changeTheme(this.specificUserPreferences.theme)
     }
 
 

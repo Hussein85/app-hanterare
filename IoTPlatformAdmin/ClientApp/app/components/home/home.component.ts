@@ -8,6 +8,9 @@ import { UserPreferences } from '../../models/userPreferences';
 // ng2-translate
 import { TranslateService } from 'ng2-translate';
 
+import { ThemeService } from '../../services/theme.service';
+
+
 @Component({
     selector: 'home',
     template: require('./home.component.html')
@@ -20,14 +23,14 @@ export class HomeComponent implements OnInit {
    
     constructor(private authService: AuthService,
         private translateService: TranslateService,
-        private userPreferencesService: UserPreferencesService
+        private userPreferencesService: UserPreferencesService,
+        private themeService: ThemeService
     ){}
 
 
     ngOnInit(): void {
         this.getSpecificUserPreference("1");
         this.getAllPreferences();
-        //this.getSpecificUserPreference();
     }
 
     getAllPreferences(): void {
@@ -45,14 +48,13 @@ export class HomeComponent implements OnInit {
             specificUserPreference => {
                 this.specificUserPreference = specificUserPreference;
                 this.translateService.use(specificUserPreference.language);
+                this.themeService.changeTheme(this.specificUserPreference.theme);
+
             },
             error => {
                 console.log(error);
             });
     }
-
-    
-    
-    
+ 
     
 }

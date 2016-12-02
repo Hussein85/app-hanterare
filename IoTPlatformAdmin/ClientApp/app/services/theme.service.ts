@@ -1,13 +1,6 @@
-import { Component, Inject } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+﻿import { Injectable, Inject } from '@angular/core';
 
 import { DOCUMENT } from '@angular/platform-browser';
-
-// ng2-translate
-import { TranslateService} from 'ng2-translate';
-
-// angular2 localization
-//import { Locale, LocaleService, LocalizationService } from 'angular2localization';
 
 
 const themes = {
@@ -27,56 +20,27 @@ const themes = {
     spacelab: "https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/spacelab/bootstrap.min.css",
     superhero: "https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/superhero/bootstrap.min.css",
     united: "https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/united/bootstrap.min.css",
-    yeti: "https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css"   
+    yeti: "https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css"
 }
 
 
-   // ` @import "${themes.slate}" ;`,
-// ng2-translate
-@Component({
-    selector: 'app',
-    template: require('./app.component.html'),
-    styles: [  require('./app.component.css')]
-   
-})
-export class AppComponent  {
-    themes = [
-        "default",
-        "cerulean",
-        "cosmo",
-        "cyborg",
-        "darkly",
-        "flatly",
-        "journal",
-        "lumen",
-        "paper",
-        "readable",
-        "sandstone",
-        "simplex",
-        "slate",
-        "spacelab",
-        "superhero",
-        "united",
-        "yeti"
-    ];
-    selectedTheme = "";
-  
-    constructor(private auth: AuthService, private translate: TranslateService, @Inject(DOCUMENT) private document) {
-        translate.addLangs(["eng","fra","ger"]);
-        translate.setDefaultLang('eng');
+@Injectable()
+export class ThemeService {
 
-        let browserLang = translate.getBrowserLang();
-        translate.use(browserLang.match(/eng|fra/) ? browserLang : 'eng');
+    constructor( @Inject(DOCUMENT) private document) { }
 
-       // this.changeTheme(this.selectedTheme);
+    // Get all themes
+    getThemes(){
+        return Object.keys(themes).map(function (key) { return key; });
     }
 
+    // Change theme
     changeTheme(theme) {
-        this.document.getElementById('theme').setAttribute('href', theme);
-        
+        this.document.getElementById('theme').setAttribute('href', themes[theme]);
     }
-    
+
 }
+
 
 
 

@@ -21,7 +21,9 @@
 }
 
 .changeLanguage{
+   
     margin-top:1px;
     margin-right:50px;
     float: right;
+    display :flex
 }

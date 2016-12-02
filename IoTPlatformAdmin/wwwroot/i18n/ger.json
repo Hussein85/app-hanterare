@@ -2,7 +2,7 @@
   "NAV": {
     "HOME": "Startseite",
     "LOGOUT": "Ausloggen",
-    "CHANGELANGUAGE": "Sprache ändern",
+    "LANGUAGE": "Sprache",
     "PROFILE": "Profil",
     "ADMIN": "Admin",
     "FETCHDATA": "Daten abrufen"
