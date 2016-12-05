@@ -26,6 +26,7 @@ import { AuthService } from './services/auth.service';
 import { ForecastService } from './services/forecast.service';
 import { UserPreferencesService } from './services/userPreferences.service';
 import { ThemeService } from './services/theme.service';
+import { TenantsService } from './services/tenants.service';
 
 // ng2-translate
 import { TranslateModule } from 'ng2-translate';
@@ -59,7 +60,8 @@ import { TranslateService, TranslateLoader, TranslateStaticLoader } from 'ng2-tr
         appRoutingProviders,
         ForecastService,
         UserPreferencesService,
-        ThemeService
+        ThemeService,
+        TenantsService
     ]
 })
 export class AppModule {

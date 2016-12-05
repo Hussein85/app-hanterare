@@ -33,8 +33,7 @@ export class HomeComponent implements OnInit {
 
         // If no user preferences exists in local storage, then do a server call.
         if (localStorage.getItem('userPref') === null) {
-            this.userPreferencesService.getUserPreferences()
-                .subscribe(
+            this.userPreferencesService.getUserPreferences().subscribe(
                 userPreferences => {
                     this.userPreferences = userPreferences;
                     this.translateService.use(userPreferences.language);

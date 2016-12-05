@@ -45,8 +45,7 @@ export class ProfileComponent implements OnInit {
 
 
     getUserPreferences(): void {
-        this.userPreferencesService.getUserPreferences()
-            .subscribe(
+        this.userPreferencesService.getUserPreferences().subscribe(
             userPreferences => {
                 this.userPreferences = userPreferences;
                 this.translateService.use(userPreferences.language);
@@ -75,8 +74,7 @@ export class ProfileComponent implements OnInit {
         // post updated data to auth0. Obs! authHttp adds token to header automatically
         this.authHttp
             .patch('https://' + 'iotplatformadmin.eu.auth0.com' + '/api/v2/users/' + this.profile.user_id, data, { headers: headers })
-            .map(response => response.json())
-            .subscribe(
+            .map(response => response.json()).subscribe(
             response => {
                 this.profile = response;
                 localStorage.setItem('profile', JSON.stringify(response));
@@ -89,8 +87,7 @@ export class ProfileComponent implements OnInit {
     }
 
     savePreferences(): void {
-        this.userPreferencesService.updateUserPreferences(this.userPreferences)
-            .subscribe(
+        this.userPreferencesService.updateUserPreferences(this.userPreferences).subscribe(
             userPreferences => {
                 this.userPreferences = userPreferences;
 
