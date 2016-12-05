@@ -10,11 +10,11 @@ export class LoginComponent {
     constructor(private auth: AuthService, private translate: TranslateService) { }
 
 
-    public login(username, password) {
+    login(username, password): void {
         this.auth.login(username, password);
     }
 
-    public wrongEmailOrPassword() {
+    wrongEmailOrPassword(): boolean {
         return this.auth.wrongEmailOrPassword;
     }
 

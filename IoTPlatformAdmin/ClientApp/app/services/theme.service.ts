@@ -1,5 +1,4 @@
 ﻿import { Injectable, Inject } from '@angular/core';
-
 import { DOCUMENT } from '@angular/platform-browser';
 
 
@@ -30,12 +29,12 @@ export class ThemeService {
     constructor( @Inject(DOCUMENT) private document) { }
 
     // Get all themes
-    getThemes(){
+    getThemes(): string[] {
         return Object.keys(themes).map(function (key) { return key; });
     }
 
     // Change theme
-    changeTheme(theme) {
+    changeTheme(theme): void {
         this.document.getElementById('theme').setAttribute('href', themes[theme]);
     }
 

@@ -3,6 +3,7 @@
     "HOME": "Home",
     "LOGOUT": "Logout",
     "LANGUAGE": "Language",
+    "TENANTMANAGER": "Tenant Manager",
     "PROFILE": "Profile",
     "ADMIN": "Admin",
     "FETCHDATA": "Fetch data"
@@ -33,6 +34,9 @@
     "SAVECHANGES": "Save Changes",
     "LANGUAGE": "Language",
     "THEME": "Theme"
+  },
+  "TENANTMANAGER": {
+    "TITLE": "Tenant Manager"
   }
 
 

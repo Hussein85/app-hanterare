@@ -1,5 +1,5 @@
 ﻿export class UserPreferences {
-    id: number;
+    id: string;
     language:string;
     theme: string;
     userId: string;

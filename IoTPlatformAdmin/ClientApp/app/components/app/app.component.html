@@ -14,18 +14,14 @@
             <ul class="nav navbar-nav">
                 <li><a [routerLink]="['/']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-home'></span> {{ 'NAV.HOME' | translate }}</a></li>
             </ul>
-            
-            <ul class="nav navbar-nav navbar-right">
 
-                <!--<li><a href="#" (click)="auth.login()" *ngIf="!auth.authenticated()"><span class='glyphicon glyphicon-log-in'></span> Login</a></li>-->
+            <ul class="nav navbar-nav navbar-right">
                 <li><a [routerLink]="['/admin']" *ngIf="auth.isAdmin()"><span class='glyphicon glyphicon-cog'></span> {{ 'NAV.ADMIN' | translate }}</a></li>
-                <li><a [routerLink]="['/fetch-data']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-th-list'></span> {{ 'NAV.FETCHDATA' | translate }}</a></li>
+                <!--<li><a [routerLink]="['/fetch-data']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-th-list'></span> {{ 'NAV.FETCHDATA' | translate }}</a></li>-->
+                <li><a [routerLink]="['/tenantManager']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-th-list'></span>{{ 'NAV.TENANTMANAGER' | translate }}</a></li>
+
                 <li><a [routerLink]="['/profile']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-user'></span>{{ 'NAV.PROFILE' | translate }}</a></li>
                 <li><a href="#" (click)="auth.logout()" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-log-out'></span> {{ 'NAV.LOGOUT' | translate }}</a></li>
-                
-               
-              
-            
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -33,7 +29,7 @@
 <div class="row">
     <div class="changeLanguage">
         <!--<span >{{ 'NAV.LANGUAGE' | translate }}</span>-->
-        <select #langSelect (change)="translate.use(langSelect.value)" class="form-control">
+        <select #langSelect (change)="changeLanguage(langSelect)" class="form-control">
             <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
         </select>
     </div>
@@ -41,27 +37,3 @@
 <div class="container">
     <router-outlet></router-outlet>
 </div><!-- /.container -->
-
-
-<!--
-<div>
-    
-    <h2>{{ 'HOME.TITLE' | translate }}</h2>
-    <h2>{{ 'HOME.LOGOUT' | translate }}</h2>
-    <h2>{{ 'HOME.PROFILE' | translate }}</h2>
-    <h2>{{ 'HOME.ADMIN' | translate }}</h2>
-    <label>
-        {{ 'HOME.SELECT' | translate }}
-        <select #langSelect (change)="translate.use(langSelect.value)">
-            <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
-        </select>
-    </label>
-</div>
- -->  
-
- 
-<!--<h1>Theems</h1>
-
-<select [(ngModel)]="selectedTheme" name="Select theme" class="form-control" (change)="changeTheme(selectedTheme)">
-    <option *ngFor="let n of themes" [attr.value]="n">{{n}}</option>
-</select>-->

@@ -1,13 +1,13 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { TranslateService } from 'ng2-translate';
 import { ThemeService } from '../../services/theme.service';
 
 
 @Component({
-    template: require('./admin.component.html')
+    template: require('./tenantManager.component.html')
 })
-export class AdminComponent implements OnInit {
+export class TenantManagerComponent implements OnInit {
 
     constructor(
         private auth: AuthService,

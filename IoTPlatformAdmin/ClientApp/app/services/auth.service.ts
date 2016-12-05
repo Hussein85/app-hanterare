@@ -29,10 +29,10 @@ export class AuthService {
             this.auth0.getProfile(result.idToken, function (err, profile) {
                 localStorage.setItem('profile', JSON.stringify(profile));
             });
-      
+
         } else if (result && result.error) {
             alert('error: ' + result.error);
-            
+
         }
     };
 
@@ -46,8 +46,8 @@ export class AuthService {
             password: password,
         }, (err) => {
             if (err) {
-                
-                if(username || password)
+
+                if (username || password)
                     this.wrongEmailOrPassword = true;
                 else
                     this.wrongEmailOrPassword = false;
@@ -66,7 +66,8 @@ export class AuthService {
 
     public logout() {
         localStorage.removeItem('id_token');
-        localStorage.removeItem('profile');   
+        localStorage.removeItem('profile');
+        localStorage.removeItem('userPref');
         location.reload();
     };
 
@@ -75,7 +76,7 @@ export class AuthService {
     public isAdmin() {
         let profile = JSON.parse(localStorage.getItem('profile'));
 
-        return profile && profile.app_metadata
+        return tokenNotExpired() && profile && profile.app_metadata
             && profile.app_metadata.roles
             && profile.app_metadata.roles.indexOf('admin') > -1;
     };
@@ -114,7 +115,7 @@ export class AuthService {
 //    // Configure Auth0
 //    lock = new Auth0Lock(myConfig.clientID, myConfig.domain, options);
 
-    
+
 //    constructor(private router: Router) {
 
 //        // Add callback for lock `authenticated` event
@@ -127,7 +128,7 @@ export class AuthService {
 //                }
 //                localStorage.setItem('id_token', authResult.idToken);
 //                localStorage.setItem('profile', JSON.stringify(profile));
-                   
+
 //            });
 //        });
 //    }
@@ -152,7 +153,7 @@ export class AuthService {
 
 //    public isAdmin() {
 //        let profile = JSON.parse(localStorage.getItem('profile'));
-        
+
 //        return profile && profile.app_metadata
 //            && profile.app_metadata.roles
 //            && profile.app_metadata.roles.indexOf('admin') > -1;

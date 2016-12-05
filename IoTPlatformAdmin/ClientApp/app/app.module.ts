@@ -13,6 +13,7 @@ import { HomeComponent } from './components/home/home.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { LoginComponent } from './components/login/login.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { TenantManagerComponent } from './components/tenantManager/tenantManager.component';
 
 // Routing and AuthGuard
 import { routing, appRoutingProviders } from './app.routing';
@@ -30,8 +31,7 @@ import { ThemeService } from './services/theme.service';
 import { TranslateModule } from 'ng2-translate';
 import { TranslateService, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 
-// Angular 2 Localization.
-//import { LocaleModule, LocalizationModule } from 'angular2localization';
+
 
 @NgModule({
     bootstrap: [ AppComponent ],
@@ -41,21 +41,15 @@ import { TranslateService, TranslateLoader, TranslateStaticLoader } from 'ng2-tr
         HomeComponent,
         ProfileComponent,
         LoginComponent,
-        AdminComponent
+        AdminComponent,
+        TenantManagerComponent
     ],
     imports: [
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         FormsModule,
         routing,
-
-        // angular2 localization
-        //LocaleModule.forRoot(),         // New instance of LocaleService.           
-        //LocalizationModule.forRoot()    // New instance of LocalizationService.
-
-        //ng2-translate
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot(), //ng2-translate
         HttpModule,
-       
     ],
     providers: [
         AuthService,

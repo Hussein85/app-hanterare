@@ -3,6 +3,7 @@
     "HOME": "Accueil",
     "LOGOUT": "Se déconnecter",
     "LANGUAGE": "La langue",
+    "TENANTMANAGER": "Tenant Manager",
     "PROFILE": "Profil",
     "ADMIN": "Administrateur",
     "FETCHDATA": "Récupérer des données"
@@ -33,6 +34,9 @@
     "SAVECHANGES": "Sauvegarder les modifications",
     "LANGUAGE": "La langue",
     "THEME": "Thème"
+  },
+  "TENANTMANAGER": {
+    "TITLE": "Tenant Manager"
   }
 
 
