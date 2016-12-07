@@ -15,12 +15,20 @@ export class AppComponent {
         private auth: AuthService,
         private translate: TranslateService
     ) {
-        translate.addLangs(["eng", "fra", "ger"]);
-        translate.setDefaultLang('eng');
+        translate.addLangs(["en", "fr", "de", "sv"]);
+
+        translate.setDefaultLang('en');
 
         //let browserLang = translate.getBrowserLang();
-        //translate.use(browserLang.match(/eng|fra/) ? browserLang : 'eng');
-        translate.use('eng');
+        //translate.use(browserLang.match(/en|fr|de|sv/) ? browserLang : 'en');
+        //translate.use('eng');
+
+        let browserLang = this.translate.getBrowserLang();
+        
+        if (translate.getLangs().indexOf(browserLang) === -1) {
+            browserLang = "en";
+        }
+        this.translate.use(browserLang);
     }
 
     changeLanguage(langSelect) {

@@ -1,9 +1,188 @@
-<h1>{{ 'TENANTMANAGER.TITLE' | translate }}</h1>
-<!--<div class="alert alert-success" *ngIf="auth.authenticated()">{{ 'HOME.LOGGEDIN' | translate }}</div>-->
-<hr />
+<div class='panel panel-primary'>
+    <div class='panel-heading'>
+        Tenant Manager
+    </div>
+    <!-- Filter the Products   -->
+    <div class='panel-body'>
+        <div class='row'>
+           
+            <div class='col-md-4'>     
+                <input type="text" [(ngModel)]="filterText" placeholder="Search..." /> 
+                <!--<i class="glyphicon glyphicon-search"></i>-->
+            </div>
+        </div>
+        
+        <div class='has-error' *ngIf='errorMessage'>{{errorMessage}}</div>
+        <div class='table-responsive'>
+            <table class='table' *ngIf='true'>
 
-<div *ngIf="tenants">
-   
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Version</th>
+                        <th>Health State <span class="glyphicon glyphicon-filter"></span></th>
+                        <th>Status <span class="glyphicon glyphicon-filter"></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+
+                        <td><a [routerLink]="['/tenant', 1]">name1</a></td>
+                        <td>1.0</td>
+                        <td><button type="button" class="btn btn-success btn-xs btn-round"><span class="glyphicon glyphicon-ok"></span></button> OK</td>
+                        <td>Running</td>
+                        <!--<td>
+                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-info-sign"> Details</span></button>
+                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"> Edit</span></button>
+                <button class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"> Delete</span></button>
+            </td>-->
+                    </tr>
+                    <tr>
+                        <td><a [routerLink]="">name2</a></td>
+                        <td>1.0</td>
+                        <td><button type="button" class="btn btn-success btn-xs btn-round"><span class="glyphicon glyphicon-ok"></span></button> OK</td>
+                        <td>Running</td>
+                        <!--<td>
+                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-info-sign"> Details</span></button>
+                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"> Edit</span></button>
+                <button class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"> Delete</span></button>
+            </td>-->
+                    </tr>
+                    <tr>
+                        <td><a [routerLink]="">name3</a></td>
+                        <td>
+                            1.1
+                        </td>
+                        <td><button type="button" class="btn btn-danger btn-xs btn-round"><span class="glyphicon glyphicon-remove"></span></button> Error</td>
+                        <td>Stopped</td>
+                        <!--<td>
+                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-info-sign"> Details</span></button>
+                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"> Edit</span></button>
+                <button class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"> Delete</span></button>
+            </td>-->
+                    </tr>
+                </tbody>
+
+
+            </table>
+        </div>
+    </div>
 </div>
-<h3>Tenants</h3>
-<pre> {{tenants | json}}</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<h1>{{ 'TENANTMANAGER.TITLE' | translate }}</h1>-->
+<!--<div class="alert alert-success" *ngIf="auth.authenticated()">{{ 'HOME.LOGGEDIN' | translate }}</div>-->
+<!--<hr />-->
+
+<!--<div *ngIf="tenants">
+   
+</div>-->
+<!--<h3>Tenants</h3>
+<pre> {{tenants | json}}</pre>-->
+
+<!--<i class="glyphicon glyphicon-search"></i>
+<input type="text" [(ngModel)]="filterText" placeholder="Search..." /> 
+
+<table class='table' *ngIf="tenants">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Version</th>
+            <th>Health State <span class="glyphicon glyphicon-filter"></span></th>
+            <th>Status <span class="glyphicon glyphicon-filter"></span></th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+
+            <td><a [routerLink]="['/tenant', 1]">name1</a></td>
+            <td>1.1</td>
+            <td><button type="button" class="btn btn-success btn-xs btn-round"><span class="glyphicon glyphicon-ok"></span></button> OK</td>
+            <td>Running</td>
+            <td>
+                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-info-sign"> Details</span></button>
+                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"> Edit</span></button>
+                <button class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"> Delete</span></button>
+            </td>
+        </tr>
+        <tr>
+            <td><a [routerLink]="">name2</a></td>
+            <td>1.1</td>
+            <td><button type="button" class="btn btn-success btn-xs btn-round"><span class="glyphicon glyphicon-ok"></span></button> OK</td>
+            <td>Running</td>
+            <td>
+                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-info-sign"> Details</span></button>
+                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"> Edit</span></button>
+                <button class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"> Delete</span></button>
+            </td>
+        </tr>
+        <tr>
+            <td><a [routerLink]="">name3</a></td>
+            <td>
+                1.0
+                <a [routerLink]="">
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                    Update
+                </a>
+
+            </td>
+            <td><button type="button" class="btn btn-danger btn-xs btn-round"><span class="glyphicon glyphicon-remove"></span></button> Error</td>
+            <td>Stopped</td>
+            <td>
+                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-info-sign"> Details</span></button>
+                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"> Edit</span></button>
+                <button class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"> Delete</span></button>
+            </td>
+        </tr>
+
+    </tbody>
+</table>-->
+
+<!--<table class='table' *ngIf="tenants">
+    <thead>
+        <tr> 
+            <th>Name</th>
+            <th>Version</th>
+            <th>Health State <span class="glyphicon glyphicon-filter"></span></th>
+            <th>Status</th>       
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let tenant of tenants">
+            <td>{{ tenant.name }}</td>
+            <td>{{ tenant.version }}</td>
+            <td>{{ tenant.healthState }}</td>
+            <td>{{ tenant.status }}</td>
+            <td>
+                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-info-sign"> Details</span></button>
+                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"> Edit</span></button>
+                <button class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"> Delete</span></button>
+               
+            </td>
+        </tr>
+    </tbody>
+</table>-->
+
+<!--<button type="button" class="btn btn-success btn-xs btn-round"><span class="glyphicon glyphicon-ok"></span></button>
+    <button type="button" class="btn btn-danger btn-xs btn-round"><span class="glyphicon glyphicon-remove"></span></button>-->
+
+
+
+

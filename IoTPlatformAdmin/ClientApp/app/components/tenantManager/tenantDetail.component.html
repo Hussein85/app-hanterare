@@ -1,0 +1,75 @@
+﻿<!--<h1>Tenant Detail</h1>
+<hr />-->
+<!--<button (click)='goBack()' class="btn btn-default">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+    Back
+</button>-->
+
+
+<div class='panel panel-primary'>
+    <div class='panel-heading' style='font-size:large'>
+        Tenant detail
+    </div>
+    <div class='panel-body'>
+        <div class='row'>
+            <div class='col-md-12'>
+
+                <div class='row'>
+                    <div class='col-md-4'><strong>Name:</strong></div>
+                    <div class='col-md-4'>name1</div>
+
+
+                </div>
+                <div class='row'>
+                    <div class='col-md-4'><strong>Health State:</strong></div>
+                    <div class='col-md-4'>
+                        <button type="button" class="btn btn-success btn-xs btn-round"><span class="glyphicon glyphicon-ok"></span></button> OK
+                       
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-4'><strong>Status:</strong></div>
+                    <div class='col-md-4'>Running</div>
+                    <a [routerLink]=""> Stop </a>
+                </div>
+                <div class='row'>
+                    <div class='col-md-4'><strong>Version:</strong></div>
+                    <div class='col-md-4'>1.0</div>
+                    <a [routerLink]="">
+                        <!--<span class="glyphicon glyphicon-download-alt"></span>-->
+                        Update
+                    </a>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class='panel-footer'>
+
+
+
+
+
+
+        <div class='row'>
+            <div class='col-md-7'>
+                <a class='btn btn-default' (click)='onBack()' style='width:80px'>
+                    <i class='glyphicon glyphicon-chevron-left'></i> Back
+                </a>
+            </div>
+            <div class='col-md-5'>
+                <button class="btn btn-primary  "><span class="glyphicon glyphicon-edit"> Edit</span></button>
+                <button class="btn btn-danger  "><span class="glyphicon glyphicon-trash"> Delete</span></button>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+
+

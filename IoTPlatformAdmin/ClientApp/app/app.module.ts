@@ -14,6 +14,7 @@ import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { LoginComponent } from './components/login/login.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { TenantManagerComponent } from './components/tenantManager/tenantManager.component';
+import { TenantDetailComponent } from './components/tenantManager/tenantDetail.component';
 
 // Routing and AuthGuard
 import { routing, appRoutingProviders } from './app.routing';
@@ -43,7 +44,8 @@ import { TranslateService, TranslateLoader, TranslateStaticLoader } from 'ng2-tr
         ProfileComponent,
         LoginComponent,
         AdminComponent,
-        TenantManagerComponent
+        TenantManagerComponent,
+        TenantDetailComponent
     ],
     imports: [
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.

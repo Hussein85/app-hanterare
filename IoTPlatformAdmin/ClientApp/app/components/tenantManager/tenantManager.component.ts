@@ -5,11 +5,34 @@ import { ThemeService } from '../../services/theme.service';
 import { TenantsService } from '../../services/tenants.service';
 
 @Component({
-    template: require('./tenantManager.component.html')
+    template: require('./tenantManager.component.html'),
+    styles: [require('./tenantManager.component.css')]
 })
 export class TenantManagerComponent implements OnInit {
 
-    tenants: any;
+    tenants = [
+        {
+            id: "1",
+            name: "name1",
+            version: "1.0",
+            healthState: "OK",
+            status: "running"
+        },
+        {
+            id: "2",
+            name: "name2",
+            version: "1.0",
+            healthState: "OK",
+            status: "running"
+        },
+        {
+            id: "3",
+            name: "name3",
+            version: "1.1",
+            healthState: "OK",
+            status: "running"
+        }
+                ];
 
     constructor(
         private auth: AuthService,
@@ -23,7 +46,7 @@ export class TenantManagerComponent implements OnInit {
         var specificUserPreference = JSON.parse(localStorage.getItem('userPref'));
         this.themeService.changeTheme(specificUserPreference.theme);
         this.translateService.use(specificUserPreference.language);
-        this.getTenants();
+        //this.getTenants();
     }
 
 

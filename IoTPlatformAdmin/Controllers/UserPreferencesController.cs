@@ -44,7 +44,7 @@ namespace IoTPlatformAdmin.Controllers
                 UserPreferences defaultPrefs = new UserPreferences
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Language = "eng",
+                    Language = "en",
                     Theme = "default",
                     UserId = GetUserId()
                 };

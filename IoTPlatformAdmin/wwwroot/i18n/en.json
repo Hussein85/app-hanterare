@@ -2,7 +2,8 @@
   "NAV": {
     "HOME": "Home",
     "LOGOUT": "Logout",
-    "CHANGELANGUAGE": "Change language",
+    "LANGUAGE": "Language",
+    "TENANTMANAGER": "Tenant Manager",
     "PROFILE": "Profile",
     "ADMIN": "Admin",
     "FETCHDATA": "Fetch data"
@@ -20,8 +21,23 @@
   },
   "ADMIN": {
     "TITLE": "You are viewing this because you are logged in and you have 'admin' role"
+  },
+  "PROFILE": {
+    "PROFILE": "Profile",
+    "EDITPROFILE": "Edit Profile",
+    "PREFERENCES": "Preferences",
+    "FIRSTNAME": "First name",
+    "LASTNAME": "Last name",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "CONFPASSWORD": "Confirm password",
+    "SAVECHANGES": "Save Changes",
+    "LANGUAGE": "Language",
+    "THEME": "Theme"
+  },
+  "TENANTMANAGER": {
+    "TITLE": "Tenant Manager"
+  }
 
-  } 
 
-   
 }
