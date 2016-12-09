@@ -13,6 +13,7 @@
     "@angular/router": "3.0.0",
     "@types/node": "^6.0.38",
     "angular2-jwt": "^0.1.25",
+    "angular2-modal": "^2.0.2",
     "angular2-platform-node": "~2.0.10",
     "angular2-universal": "~2.0.10",
     "angular2-universal-polyfills": "~2.0.10",

@@ -23,3 +23,45 @@
     width: 24px;
     height: 24px;
 }
+
+.top-buffer { margin-top:20px; }
+
+.panel-heading
+{
+    border-top-left-radius: inherit; 
+    border-top-right-radius: inherit;
+}
+
+a{
+    cursor:pointer;
+}
+
+
+
+
+.round-green {
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    line-height: 25px;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    background-color: #42A129;    
+    color: #FFF;
+    text-align: center;    
+}
+
+.round-red {
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    line-height: 25px;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    background-color: #ff0000;    
+    color: #FFF;
+    text-align: center;    
+}
+
+
+

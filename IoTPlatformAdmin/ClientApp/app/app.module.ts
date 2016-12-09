@@ -34,6 +34,8 @@ import { TranslateModule } from 'ng2-translate';
 import { TranslateService, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 
 
+import { ModalModule } from 'angular2-modal';
+import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 
 @NgModule({
     bootstrap: [ AppComponent ],
@@ -51,8 +53,10 @@ import { TranslateService, TranslateLoader, TranslateStaticLoader } from 'ng2-tr
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         FormsModule,
         routing,
-        TranslateModule.forRoot(), //ng2-translate
+        TranslateModule.forRoot(), 
         HttpModule,
+        ModalModule.forRoot(),
+        BootstrapModalModule
     ],
     providers: [
         AuthService,

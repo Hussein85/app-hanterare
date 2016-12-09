@@ -3,7 +3,7 @@ import { DOCUMENT } from '@angular/platform-browser';
 
 
 const themes = {
-    default: "//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css",
+    default: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css",
     cerulean: "https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cerulean/bootstrap.min.css",
     cosmo: "https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css",
     cyborg: "https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cyborg/bootstrap.min.css",

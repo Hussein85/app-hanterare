@@ -1,10 +1,13 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, ViewContainerRef, ViewEncapsulation  } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { TranslateService } from 'ng2-translate';
 import { ThemeService } from '../../services/theme.service';
 import { TenantsService } from '../../services/tenants.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { Overlay } from 'angular2-modal';
+
+import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 @Component({
     template: require('./tenantDetail.component.html'),
@@ -21,7 +24,10 @@ export class TenantDetailComponent implements OnInit {
         private tenantsService: TenantsService,
         private route: ActivatedRoute,
         private router: Router,
-    ) { }
+        public modal: Modal,
+        overlay: Overlay,
+        vcRef: ViewContainerRef, 
+    ) { overlay.defaultViewContainer = vcRef; }
 
     ngOnInit(): void {
         // Read user preferences from localstorage 
@@ -33,6 +39,8 @@ export class TenantDetailComponent implements OnInit {
             let id = params['id'];
             //this.getTenant(id);     
         });
+
+        
     }
 
     getTenant(id) {
@@ -45,7 +53,25 @@ export class TenantDetailComponent implements OnInit {
     }
 
 
-  
+    delete() {
+        //this.modal.alert()
+        //    .size('lg')
+        //    .showClose(true)
+        //    .title('Confirm Tenant Deletion')
+        //    .body(`
+        //    <h4>Delete Tenant?</h4>
+        //    <input type="text" [(ngModel)]="filterText" placeholder="Search..." /> 
+        //    <i class="glyphicon glyphicon-search"></i>
+        //    <ul>
+        //        <li>Nodn blocking (click anywhere outside to dismiss)</li>
+        //        <li>Size large</li>
+        //        <li>Dismissed with default keyboard key (ESC)</li>
+        //        <li>Close wth button click</li>
+        //        <li>HTML content</li>
+        //    </ul>`)
+        //    .open();
+
+    }
 
 
 

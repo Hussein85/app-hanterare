@@ -20,3 +20,8 @@ if (document.readyState === 'complete') {
 } else {
     document.addEventListener('DOMContentLoaded', bootApplication);
 }
+
+
+//import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+//// Compile and launch the module
+//platformBrowserDynamic().bootstrapModule(AppModule);

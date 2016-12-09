@@ -8,50 +8,43 @@
 
 <div class='panel panel-primary'>
     <div class='panel-heading' style='font-size:large'>
-        Tenant detail
+        Tenant Detail
     </div>
     <div class='panel-body'>
         <div class='row'>
             <div class='col-md-12'>
 
-                <div class='row'>
+                <div class='row top-buffer'>
                     <div class='col-md-4'><strong>Name:</strong></div>
                     <div class='col-md-4'>name1</div>
-
-
                 </div>
-                <div class='row'>
+                <div class='row top-buffer'>
                     <div class='col-md-4'><strong>Health State:</strong></div>
                     <div class='col-md-4'>
-                        <button type="button" class="btn btn-success btn-xs btn-round"><span class="glyphicon glyphicon-ok"></span></button> OK
-                       
+                        <div class="round-green">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </div> 
+                        OK
                     </div>
                 </div>
-                <div class='row'>
+                <div class='row top-buffer'>
                     <div class='col-md-4'><strong>Status:</strong></div>
                     <div class='col-md-4'>Running</div>
                     <a [routerLink]=""> Stop </a>
                 </div>
-                <div class='row'>
+                <div class='row top-buffer'>
                     <div class='col-md-4'><strong>Version:</strong></div>
                     <div class='col-md-4'>1.0</div>
-                    <a [routerLink]="">
+                    <a data-toggle="modal" data-target="#updateModal">
                         <!--<span class="glyphicon glyphicon-download-alt"></span>-->
                         Update
                     </a>
                 </div>
-
-
             </div>
 
         </div>
     </div>
     <div class='panel-footer'>
-
-
-
-
-
 
         <div class='row'>
             <div class='col-md-7'>
@@ -60,16 +53,101 @@
                 </a>
             </div>
             <div class='col-md-5'>
-                <button class="btn btn-primary  "><span class="glyphicon glyphicon-edit"> Edit</span></button>
-                <button class="btn btn-danger  "><span class="glyphicon glyphicon-trash"> Delete</span></button>
+                <button data-toggle="modal" data-target="#editModal" class="btn btn-primary"><span class="glyphicon glyphicon-edit"> Edit</span></button>
+                <button data-toggle="modal" data-target="#deleteModal" class="btn btn-danger"><span class="glyphicon glyphicon-trash"> Delete</span></button>
             </div>
 
         </div>
-
 
     </div>
 </div>
 
 
 
+<!-- Delete Tenant Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content panel-primary">
+            <div class="modal-header panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirm Tenant Deletion</h4>
+            </div>
+            <div class="modal-body">
+                 <div class="row">
+                    <div class='col-md-12'>
+                        Delete tenant?
+                    </div>
+                 </div>
+                 <div class="row top-buffer"> 
+                    <div class='col-md-10'>
+                        <input type="text" class="form-control" [(ngModel)]="filterText" placeholder="Type in name1 to continue" />
+                    </div>
+                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
+
+<!-- Update Tenant Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content panel-primary">
+            <div class="modal-header panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Update Tenant</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row top-buffer">
+                    <div class='col-md-1 col-md-offset-1'><strong>From:</strong></div>
+                    <div class='col-md-1 col-md-offset-1'>v1.0</div>
+                </div>
+                <div class="row top-buffer">
+                    <div class='col-md-1 col-md-offset-1'><strong>To:</strong></div>
+                    <div class='col-md-1 col-md-offset-1'>
+                        <select >
+                            <option value="v0.9">v0.9</option>
+                            <option value="v1.1" selected>v1.1</option>
+                            <option value="v1.2">v1.2</option>
+                            <option value="v1.3" >v1.3</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Update</button>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!--Edit Tenant Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content panel-primary">
+            <div class="modal-header panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Edit Tenant</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row top-buffer">
+                    <div class='col-md-1 col-md-offset-1'><strong>Name:</strong></div>
+                    <div class='col-md-4 col-md-offset-1'><input type="text" class="form-control" /></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -34,7 +34,8 @@ module.exports = {
             'zone.js',
             'angular2-jwt',
             'ng2-translate',
-            'angular2localization'
+            'angular2localization',
+            'angular2-modal'
         ]
     },
     output: {
