@@ -16,6 +16,8 @@ import { Modal } from 'angular2-modal/plugins/bootstrap';
 export class TenantDetailComponent implements OnInit {
 
     tenant: any;
+    version = "v1.1";
+    versions = ["v0.9", "v1.1", "v1.2", "v1.3", "v1.4"];
 
     constructor(
         private auth: AuthService,
@@ -40,7 +42,7 @@ export class TenantDetailComponent implements OnInit {
             //this.getTenant(id);     
         });
 
-        
+        this.version = "v1.2";
     }
 
     getTenant(id) {
