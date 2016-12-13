@@ -18,6 +18,7 @@ export class TenantDetailComponent implements OnInit {
     tenant: any;
     version = "v1.1";
     versions = ["v0.9", "v1.1", "v1.2", "v1.3", "v1.4"];
+    
 
     constructor(
         private auth: AuthService,

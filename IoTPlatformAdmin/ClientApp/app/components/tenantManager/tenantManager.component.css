@@ -4,30 +4,7 @@
 
 .top-buffer { margin-top:20px; }
 
-.btn-round {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-     
-}
 
-.btn-round.btn-lg {
-    width: 48px;
-    height: 48px;
-    
-}
-
-.btn-round.btn-sm {
-    width: 34px;
-    height: 34px;
-    
-}
-
-.btn-round.btn-xs {
-    width: 24px;
-    height: 24px;
-   
-}
 
 .glyphicon-filter {
     cursor:pointer;
@@ -43,87 +20,40 @@
 .bottom-buffer { margin-bottom:20px; }
 
 
-
-.btn-circle {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  padding: 6px 0;
-  font-size: 12px;
-  line-height: 1.428571429;
-  border-radius: 15px;
-}
-.btn-circle.btn-lg {
-  width: 50px;
-  height: 50px;
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.33;
-  border-radius: 25px;
-}
-.btn-circle.btn-xl {
-  width: 70px;
-  height: 70px;
-  padding: 10px 16px;
-  font-size: 24px;
-  line-height: 1.33;
-  border-radius: 35px;
-}
-
-
-
 .round-green {
     display: inline-block;
     height: 24px;
     width: 24px;
-    line-height: 24px;
+    line-height: 22px;
     -moz-border-radius: 50%;
     border-radius: 50%;
     background-color: #42A129;    
     color: #FFF;
-    text-align: center;    
+    text-align: center; 
+    
+    border-style: solid;
+    border-width: 2px;
+    border-color: #FFF;     
 }
 
 .round-red {
     display: inline-block;
     height: 24px;
     width: 24px;
-    line-height: 24px;
+    line-height: 22px;
     -moz-border-radius: 50%;
     border-radius: 50%;
     background-color: #ff0000;    
     color: #FFF;
-    text-align: center;    
+    text-align: center;  
+    
+    border-style: solid;
+    border-width: 2px;
+    border-color: #FFF;  
 }
 
 
-.triangle-orange {
-    display: inline-block;
-    height: 25px;
-    width: 25px;
-    line-height: 25px;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-    background-color: orange;    
-    color: #FFF;
-    text-align: center;    
-}
 
- .up_triangle {
-    display: block;
-    width: 0px;
-    height: 0px;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-top: 20px solid transparent;
-    border-bottom: 35px solid transparent;
-    margin: 10px; /* Purely Presentational */
-    float: left; /* Purely Presentational */
-    border-bottom-color: orange;
-    text-align: center; 
-    color: #FFF; 
-    line-height: 40px;
-}
 
  li{
      margin-left:10px;

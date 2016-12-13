@@ -2,40 +2,42 @@
     <div class='panel-heading' style='font-size:large'>
         Tenants
     </div>
-    
+
     <div class='panel-body'>
 
         <div class='row bottom-buffer'>
 
             <div class='col-md-3'>
-                <div class="form-group has-feedback">    
+                <div class="form-group has-feedback">
                     <input type="text" class="form-control" id="inputValidation" placeholder="Search" />
                     <span class="glyphicon glyphicon-search form-control-feedback"></span>
                 </div>
-
-                <!--<input class="form-control" type="text" [(ngModel)]="filterText" placeholder="Search..." />-->
-                <!--<i class="glyphicon glyphicon-search"></i>-->
             </div>
-            <div class='col-md-2 col-md-offset-7'>
+
+            <div class='col-md-2 '>
+                <button *ngIf="update" type="button" class="btn btn-primary btn-md">
+                    Update
+                </button>
+            </div>
+
+            <div class='col-md-2 col-md-offset-5'>
                 <button data-toggle="modal" data-target="#addModal" type="button" class="btn btn-primary btn-md">
                     <span class="glyphicon glyphicon-plus"></span>
                     Add Tenant
                 </button>
-                <!--<i class="glyphicon glyphicon-search"></i>-->
             </div>
+
         </div>
 
-       
-           
-
-
+        <!-- TENANTS -->
         <div class='table-responsive'>
             <table class='table table-striped' *ngIf='true'>
+
+                <!-- THEAD -->
                 <thead>
                     <tr>
                         <th>
                             <input type="checkbox"> Name
-                            
                         </th>
                         <th>Version</th>
                         <th>
@@ -50,7 +52,6 @@
                             </div>
                         </th>
                         <th>
-                            <!--<span class="glyphicon glyphicon-filter"></span>-->
                             <div class="dropdown">
                                 <span>Status</span>
                                 <span class="dropdown-toggle glyphicon glyphicon-filter" data-toggle="dropdown"></span>
@@ -59,77 +60,48 @@
                                     <li><input type="checkbox"> Stopped</li>
                                 </ul>
                             </div>
-
                         </th>
                     </tr>
-                </thead>
+                </thead> <!--/THEAD-->
+                <!-- TBODY -->
                 <tbody>
-                    <tr>
+                    <tr *ngFor="let tenant of tenants">
                         <td>
-                            <input type="checkbox"> <a [routerLink]="['/tenant', 1]">name1</a>
+                            <input #name1 type="checkbox" (change)="update = name1.checked"> <a [routerLink]="['/tenant', 1]">{{tenant.name}}</a>
+                        </td>
+                        <td>{{tenant.version}}</td>
 
-                        </td>
-                        <td>1.0</td>
                         <td>
-                            <div class="round-green">
-                                <span class="glyphicon glyphicon-ok"></span>
+                            <div [ngSwitch]="tenant.healthState">
+                                <div *ngSwitchCase="'OK'">
+                                    <div class="round-green">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </div>
+                                    OK
+                                </div>
+                                <div *ngSwitchCase="'Error'">
+                                    <div class="round-red">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </div>
+                                    Error
+                                </div>
                             </div>
-                            OK
                         </td>
-                        <td>Running</td>
-                        <!--<td>
-                            <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-info-sign"> Details</span></button>
-                            <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"> Edit</span></button>
-                            <button class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"> Delete</span></button>
-                        </td>-->
+
+                        <td>{{tenant.status}}</td>
                     </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox"> <a [routerLink]="['/tenant', 1]">name2</a>
-                        </td>
-                        <td>1.0</td>
-                        <td>
-                            <div class="round-green">
-                                <span class="glyphicon glyphicon-ok"></span>
-                            </div>
-                            OK
-                        </td>
-                        <td>Running</td>
-                        <!--<td>
-                            <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-info-sign"> Details</span></button>
-                            <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"> Edit</span></button>
-                            <button class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"> Delete</span></button>
-                        </td>-->
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox"> <a [routerLink]="['/tenant', 1]">name3</a>
-                        </td>
-                        <td>
-                            1.1
-                        </td>
-                        <td>
-                            <div class="round-red">
-                                <span class="glyphicon glyphicon-remove"></span>
-                            </div>
-                            Error
-                        </td>
-                        <td>Stopped</td>
-                        <!--<td>
-                            <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-info-sign"> Details</span></button>
-                            <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"> Edit</span></button>
-                            <button class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"> Delete</span></button>
-                        </td>-->
-                    </tr>
+
                 </tbody>
 
             </table>
-        </div>
+        </div> <!--/ TENANTS -->
+
     </div>
 </div>
 
 
-<!--Add Tenant Modal -->
+
+<!--ADD TENANT MODAL -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content panel-primary">
@@ -137,135 +109,98 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 Add Tenant
             </div>
+
             <div class="modal-body">
-                <div class="row top-buffer">
-                    <div class='col-md-2'><strong>Name:</strong></div>
-                    <div class='col-md-7'><input type="text" class="form-control" /></div>
-                </div>
-                <div class='row top-buffer'>
-                    <div class='col-md-2'><strong>param1:</strong></div>
-                    <div class='col-md-7'> <input class="form-control" type="text" name="fname"> </div>
-                    <div class='col-md-3'> <input type="checkbox"> secret </div>
-                </div>
-                <div class='row top-buffer'>
-                    <div class='col-md-2'><strong>param2:</strong></div>
-                    <div class='col-md-7'> <input class="form-control" type="text" name="fname"> </div>
-                    <div class='col-md-3'> <input type="checkbox"> secret </div>
-                </div>
-                <div class='row top-buffer'>
-                    <div class='col-md-2'><strong>param3:</strong></div>
-                    <div class='col-md-7'> <input class="form-control" type="text" name="fname"> </div>
-                    <div class='col-md-3'> <input type="checkbox"> secret </div>
-                </div>
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Add</button>
-            </div>
 
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+                <!--FORM-->
+                <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm)">
+
+                    <!--DISPLAY NAME-->
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" formControlName="displayName">
+                        <small *ngIf="!myForm.controls.displayName.valid" class="text-danger">
+                            Required
+                        </small>
+                    </div>
+
+                    <!--NAV TABS-->
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#addParameters">Add Parameters</a></li>
+                        <li><a data-toggle="tab" href="#addServices">Add Services</a></li>
+                    </ul>
+
+                    <!--TAB CONTENT-->
+                    <div class="tab-content">
+
+                        <!--ADD PARAMETERS-->
+                        <div id="addParameters" class="tab-pane fade in active">
+                            <div style="margin-top:40px;" formArrayName="parameters">
+                                <div *ngFor="let parameter of myForm.controls.parameters.controls; let i=index">
+                                    <div class="row" [formGroupName]="i">
+
+                                        <!--REMOVE PARAMETER-->
+                                        <div class="form-group col-xs-1">
+                                            <span style="margin-top:10px; cursor:pointer;" class="glyphicon glyphicon-remove" (click)="removeParameter(i)"></span>
+                                        </div>
+
+                                        <!--PARAMETER NAME-->
+                                        <div class="form-group col-xs-5">
+                                            <input type="text" class="form-control" formControlName="name" placeholder="Parameter name">
+                                            <small [hidden]="myForm.controls.parameters.controls[i].controls.name.valid" class="text-danger">
+                                                Required
+                                            </small>
+                                        </div>
+
+                                        <!--PARAMETER VALUE AND SECRET-->
+                                        <div class="form-group col-xs-6">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" formControlName="value" placeholder="value">
+                                                <span class="input-group-addon">
+                                                    <input type="checkbox" formControlName="secret"> secret
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!--ADD PARAMETER-->
+                                <div class="col-xs-6">
+                                    <a (click)="addParameter()" style="cursor: pointer">
+                                        Add parameter +
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div> <!--/ADD PARAMETERS-->
+                        <!--ADD SERVICES-->
+                        <div id="addServices" class="tab-pane fade in active">
+
+                        </div> <!--/ADD SERVICES-->
+
+                    </div> <!--/ TAB CONTENT-->
 
 
+                    <!--FOR DEBUGGING-->
+                    <div class="margin-20">
+                        <!--
+                        <div>myForm details:-</div>
+                        <pre>Is myForm valid?: <br>{{myForm.valid | json}}</pre>-->
+                        <hr />
+                        <!--<pre>Tenant: <br>{{myForm.value | json}}</pre>-->
+                        <pre>Tenant: <br>{{tenant | json}}</pre>
+                    </div>
+             
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <!--<button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Add</button>-->
+                        <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Add</button>
+                    </div>
+                </form> <!--/FORM-->
 
+            </div> <!--/ MODAL BODY-->
 
-
-
-
-
-
-
-<!--<h1>{{ 'TENANTMANAGER.TITLE' | translate }}</h1>-->
-<!--<div class="alert alert-success" *ngIf="auth.authenticated()">{{ 'HOME.LOGGEDIN' | translate }}</div>-->
-<!--<hr />-->
-<!--<div *ngIf="tenants">
-
-</div>-->
-<!--<h3>Tenants</h3>
-<pre> {{tenants | json}}</pre>-->
-<!--<i class="glyphicon glyphicon-search"></i>
-<input type="text" [(ngModel)]="filterText" placeholder="Search..." />
-
-<table class='table' *ngIf="tenants">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Version</th>
-            <th>Health State <span class="glyphicon glyphicon-filter"></span></th>
-            <th>Status <span class="glyphicon glyphicon-filter"></span></th>
-
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-
-            <td><a [routerLink]="['/tenant', 1]">name1</a></td>
-            <td>1.1</td>
-            <td><button type="button" class="btn btn-success btn-xs btn-round"><span class="glyphicon glyphicon-ok"></span></button> OK</td>
-            <td>Running</td>
-            <td>
-                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-info-sign"> Details</span></button>
-                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"> Edit</span></button>
-                <button class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"> Delete</span></button>
-            </td>
-        </tr>
-        <tr>
-            <td><a [routerLink]="">name2</a></td>
-            <td>1.1</td>
-            <td><button type="button" class="btn btn-success btn-xs btn-round"><span class="glyphicon glyphicon-ok"></span></button> OK</td>
-            <td>Running</td>
-            <td>
-                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-info-sign"> Details</span></button>
-                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"> Edit</span></button>
-                <button class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"> Delete</span></button>
-            </td>
-        </tr>
-        <tr>
-            <td><a [routerLink]="">name3</a></td>
-            <td>
-                1.0
-                <a [routerLink]="">
-                    <span class="glyphicon glyphicon-download-alt"></span>
-                    Update
-                </a>
-
-            </td>
-            <td><button type="button" class="btn btn-danger btn-xs btn-round"><span class="glyphicon glyphicon-remove"></span></button> Error</td>
-            <td>Stopped</td>
-            <td>
-                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-info-sign"> Details</span></button>
-                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"> Edit</span></button>
-                <button class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"> Delete</span></button>
-            </td>
-        </tr>
-
-    </tbody>
-</table>-->
-<!--<table class='table' *ngIf="tenants">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Version</th>
-            <th>Health State <span class="glyphicon glyphicon-filter"></span></th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let tenant of tenants">
-            <td>{{ tenant.name }}</td>
-            <td>{{ tenant.version }}</td>
-            <td>{{ tenant.healthState }}</td>
-            <td>{{ tenant.status }}</td>
-            <td>
-                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-info-sign"> Details</span></button>
-                <button class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"> Edit</span></button>
-                <button class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"> Delete</span></button>
-
-            </td>
-        </tr>
-    </tbody>
-</table>-->
-<!--<button type="button" class="btn btn-success btn-xs btn-round"><span class="glyphicon glyphicon-ok"></span></button>
-    <button type="button" class="btn btn-danger btn-xs btn-round"><span class="glyphicon glyphicon-remove"></span></button>-->
+        </div>
+    </div>
+</div><!-- / ADD TENANT MODAL -->

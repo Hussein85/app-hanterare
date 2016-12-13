@@ -19,21 +19,34 @@
                 <li><a [routerLink]="['/admin']" *ngIf="auth.isAdmin()"><span class='glyphicon glyphicon-cog'></span> {{ 'NAV.ADMIN' | translate }}</a></li>
                 <!--<li><a [routerLink]="['/fetch-data']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-th-list'></span> {{ 'NAV.FETCHDATA' | translate }}</a></li>-->
                 <li><a [routerLink]="['/tenantManager']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-th-list'></span>{{ 'NAV.TENANTMANAGER' | translate }}</a></li>
-
                 <li><a [routerLink]="['/profile']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-user'></span>{{ 'NAV.PROFILE' | translate }}</a></li>
                 <li><a href="#" (click)="auth.logout()" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-log-out'></span> {{ 'NAV.LOGOUT' | translate }}</a></li>
+                <li style="margin-top:5px; margin-right:-60px;">
+                    <select #langSelect (change)="changeLanguage(langSelect)" class="form-control">
+                        <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
+                    </select>
+                </li>
+
             </ul>
+
+         
+
         </div><!--/.nav-collapse -->
+
+       
+        
     </div>
 </nav>
-<div class="row">
+
+<!--<div class="row">
     <div class="changeLanguage">
-        <!--<span >{{ 'NAV.LANGUAGE' | translate }}</span>-->
         <select #langSelect (change)="changeLanguage(langSelect)" class="form-control">
             <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
         </select>
     </div>
-</div>
+</div>-->
+
+
 <div class="container">
     <router-outlet></router-outlet>
 </div><!-- /.container -->

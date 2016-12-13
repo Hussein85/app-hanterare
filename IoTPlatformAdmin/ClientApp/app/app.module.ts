@@ -1,6 +1,6 @@
 // Modules
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UniversalModule } from 'angular2-universal';
 import { AUTH_PROVIDERS } from 'angular2-jwt';                  // Provides the AuthHttp helper which automatically adds the authorization header to requests
@@ -52,6 +52,7 @@ import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
     imports: [
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
         FormsModule,
+        ReactiveFormsModule,
         routing,
         TranslateModule.forRoot(), 
         HttpModule,
