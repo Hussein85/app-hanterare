@@ -11,7 +11,9 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
     styles: [require('./tenantManager.component.css')]
 })
 export class TenantManagerComponent implements OnInit {
+
     
+
     tenants = [
         {
             id: "1",
@@ -68,6 +70,8 @@ export class TenantManagerComponent implements OnInit {
         ]
     }
 
+    services = [];
+
     constructor(
         private auth: AuthService,
         private translateService: TranslateService,
@@ -86,7 +90,15 @@ export class TenantManagerComponent implements OnInit {
         this.myForm = this.fb.group({
             //displayName: ['', [Validators.required, Validators.minLength(1)]],
             displayName: ['', [Validators.required]],
-            parameters: this.fb.array([this.initParameter()])
+            serviceName: [''],
+            serviceTypeName: [''],
+            serviceType: ['Stateless'],
+            instanceCount: [1],
+            minReplicaSetSize: [1],
+            targetReplicaSetSize: [1],
+
+            parameters: this.fb.array([this.initParameter()]),
+            services: this.fb.array([])
         });
     }
 
@@ -109,15 +121,58 @@ export class TenantManagerComponent implements OnInit {
         });
     }
 
+    initServiceStateless() {
+        this.myForm.patchValue({ serviceType: 'Stateless' });
+        this.myForm.patchValue({ serviceTypeName: '' });
+        this.myForm.patchValue({ serviceName: '' });
+        this.myForm.patchValue({ instanceCount: 1 });
+    }
+
+    initServiceStateful() {
+        this.myForm.patchValue({ serviceType: 'Stateless' });
+        this.myForm.patchValue({ serviceTypeName: '' });
+        this.myForm.patchValue({ serviceName: '' });
+        this.myForm.patchValue({ minReplicaSetSize: 1 });
+        this.myForm.patchValue({ targetReplicaSetSize: 1 });
+    }
+
 
     addParameter() {
         const control = <FormArray>this.myForm.controls['parameters'];
         control.push(this.initParameter());  
     }
 
+    addService() {
+        
+        if (this.myForm.controls['serviceType'].value === 'Stateless') {
+            let statelessService = {
+                type: "stateless",
+                typename: this.myForm.controls['serviceTypeName'].value,
+                instanceCount: this.myForm.controls['instanceCount'].value,
+                name: this.myForm.controls['serviceName'].value
+            }
+            this.services.push(statelessService);
+            this.initServiceStateless();
+        } else {
+            let statefulService = {
+                type: "stateful",
+                typename: this.myForm.controls['serviceTypeName'].value,
+                minReplicaSetSize: this.myForm.controls['minReplicaSetSize'].value,
+                targetReplicaSetSize: this.myForm.controls['targetReplicaSetSize'].value,
+                name: this.myForm.controls['serviceName'].value
+            }
+            this.services.push(statefulService);
+            this.initServiceStateful();
+        }
+    }
+
     removeParameter(i: number) {
         const control = <FormArray>this.myForm.controls['parameters'];
         control.removeAt(i);
+    }
+
+    removeService(i: number) {
+        this.services.splice(i, 1);
     }
 
     save(model) {
@@ -127,16 +182,23 @@ export class TenantManagerComponent implements OnInit {
         this.tenant.displayName = displayName;
 
         let parameters = <FormArray>this.myForm.controls['parameters'].value;
-       
+
+        // Add parameters and services
         for (let idx in this.tenant.resources) {
             if (this.tenant.resources[idx].type === 'tenantApp') {
                 this.tenant.resources[idx].configuration.parameters = [];
                 this.tenant.resources[idx].configuration.parameters.push(parameters)
+                this.tenant.resources[idx].configuration.services = [];
+                this.tenant.resources[idx].configuration.services.push(this.services)
             }
         }
 
         console.log(model);
     }
+
+
+ 
+
 }
 
 

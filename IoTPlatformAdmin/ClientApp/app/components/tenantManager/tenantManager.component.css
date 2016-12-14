@@ -1,7 +1,4 @@
-﻿thead{
-    font-size:18px;
-}
-
+﻿
 .top-buffer { margin-top:20px; }
 
 
@@ -15,7 +12,9 @@
    color:lightblue;
 }
 
-
+label {
+  margin-top:6px;
+}​
 
 .bottom-buffer { margin-bottom:20px; }
 
