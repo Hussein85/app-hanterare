@@ -11,6 +11,10 @@ export class TenantFilterPipe implements PipeTransform {
 
         filterText = filterText.toLocaleLowerCase();
 
+        if (filterText === 'all') {
+            return items;
+        }
+
         return filterText ? items.filter((item: any) =>
             item[filterBy].toString().toLocaleLowerCase().indexOf(filterText) !== -1) : items;
 

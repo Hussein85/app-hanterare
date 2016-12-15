@@ -44,14 +44,12 @@
                             <div class="dropdown">
                                 <span>Health State</span>
                                 <span class="dropdown-toggle glyphicon glyphicon-filter" data-toggle="dropdown"></span>
-                                <ul class="dropdown-menu" >
-                                    <li><input #cbOK type="checkbox" value="OK" (change)="healthStatusCheckbox(cbOK)"> OK</li>
-                                    <li><input #cbError type="checkbox" value="Error" (change)="healthStatusCheckbox(cbError)"> Error</li>
+                                <ul class="dropdown-menu">
+                                    <li><input checked="checked" #rAll type="radio" name="r" value="All" (change)="healthStatus(rAll)"> All</li>
+                                    <li><input #rOK type="radio" name="r" value="OK" (change)="healthStatus(rOK)"> OK</li>
+                                    <li><input #rError type="radio" name="r" value="Error" (change)="healthStatus(rError)"> Error</li>
                                 </ul>
                             </div>
-
-                        
-
 
                         </th>
                         <th>
@@ -59,8 +57,9 @@
                                 <span>Status</span>
                                 <span class="dropdown-toggle glyphicon glyphicon-filter" data-toggle="dropdown"></span>
                                 <ul class="dropdown-menu">
-                                    <li><input type="checkbox"> Running</li>
-                                    <li><input type="checkbox"> Stopped</li>
+                                    <li><input checked="checked" #rAll type="radio" name="s" value="All" (change)="statusRunning(rAll)"> All</li>
+                                    <li><input #rRunning type="radio" name="s" value="Running" (change)="statusRunning(rRunning)"> Running</li>
+                                    <li><input #rStopped type="radio" name="s" value="Stopped" (change)="statusRunning(rStopped)"> Stopped</li>
                                 </ul>
                             </div>
                         </th>
@@ -69,7 +68,7 @@
           
                 
                 <tbody>
-                    <tr *ngFor="let tenant of tenants | tenantFilter:'name':filterText | tenantFilter:'healthState':healthState ">
+                    <tr *ngFor="let tenant of tenants | tenantFilter:'name':filterText | tenantFilter:'healthState':healthState | tenantFilter:'status':status ">
                         <td>
                             <input #name1 type="checkbox" (change)="update = name1.checked"> <a [routerLink]="['/tenant', 1]">{{tenant.name}}</a>
                         </td>
@@ -102,6 +101,7 @@
 
     </div>
 </div>
+
 
 
 <!--ADD TENANT MODAL -->
