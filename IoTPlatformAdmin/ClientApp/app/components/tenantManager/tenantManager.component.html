@@ -109,8 +109,7 @@
             </div>
 
             <div class="modal-body">
-
-            
+   
                 <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm)">
 
                     <div class="form-group">
@@ -139,6 +138,9 @@
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" class="form-control" formControlName="parameterName" />
+                                        <small *ngIf="!myForm.controls.parameterName.valid" class="text-danger">
+                                            Required
+                                        </small>
                                     </div>
                                 </div>
 
@@ -148,6 +150,9 @@
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" class="form-control" formControlName="parameterValue" />
+                                        <small *ngIf="!myForm.controls.parameterValue.valid" class="text-danger">
+                                            Required
+                                        </small>
                                     </div>
                                 </div>
 
@@ -156,15 +161,26 @@
                                         <label>Secret</label>
                                     </div>
                                     <div style="margin-top:5px;" class="col-md-8">
-                                        <input type="checkbox" formControlName="parameterSecret"> 
+                                        <input type="checkbox" formControlName="parameterSecret">
                                     </div>
                                 </div>
 
+
+
                                 <div style="margin-top:15px;" class="row">
                                     <div class="col-md-3 ">
-                                        <a (click)="addParameter()" style="cursor: pointer">
-                                            <strong>Add Parameter +</strong>
-                                        </a>
+                                        <div [ngSwitch]="parameterValid()">
+                                            <div *ngSwitchCase="true">
+                                                <a (click)="addParameter()" style="cursor: pointer">
+                                                    <strong>Add Parameter +</strong>
+                                                </a>
+                                            </div>
+                                            <div *ngSwitchCase="false">
+                                                <a style="cursor: default; pointer-events:none;opacity: 0.5;">
+                                                    <strong>Add Parameter +</strong>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -224,6 +240,9 @@
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" class="form-control" formControlName="serviceName" />
+                                        <small *ngIf="!myForm.controls.serviceName.valid" class="text-danger">
+                                            Required
+                                        </small>
                                     </div>
                                 </div>
 
@@ -233,6 +252,9 @@
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" class="form-control" formControlName="serviceTypeName" />
+                                        <small *ngIf="!myForm.controls.serviceTypeName.valid" class="text-danger">
+                                            Required
+                                        </small>
                                     </div>
                                 </div>
 
@@ -244,6 +266,9 @@
                                             </div>
                                             <div class="col-md-8">
                                                 <input type="number" class="form-control" formControlName="instanceCount" />
+                                                <small *ngIf="!myForm.controls.instanceCount.valid" class="text-danger">
+                                                    Required
+                                                </small>
                                             </div>
                                         </div>
                                     </div>
@@ -255,6 +280,9 @@
                                             </div>
                                             <div class="col-md-8">
                                                 <input type="number" class="form-control" formControlName="minReplicaSetSize" />
+                                                <small *ngIf="!myForm.controls.minReplicaSetSize.valid" class="text-danger">
+                                                    Required
+                                                </small>
                                             </div>
                                         </div>
 
@@ -264,16 +292,29 @@
                                             </div>
                                             <div class="col-md-8">
                                                 <input type="number" class="form-control" formControlName="targetReplicaSetSize" />
+                                                <small *ngIf="!myForm.controls.targetReplicaSetSize.valid" class="text-danger">
+                                                    Required
+                                                </small>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                
 
                                 <div style="margin-top:15px;" class="row">
                                     <div class="col-md-3 ">
-                                        <a (click)="addService()" style="cursor: pointer">
-                                            <strong>Add Service +</strong>
-                                        </a>
+                                        <div [ngSwitch]="serviceValid()">
+                                            <div *ngSwitchCase="true">
+                                                <a (click)="addService()" style="cursor: pointer">
+                                                    <strong>Add Service +</strong>
+                                                </a>
+                                            </div>
+                                            <div *ngSwitchCase="false">
+                                                <a style="cursor: default; pointer-events:none;opacity: 0.5;">
+                                                    <strong>Add Service +</strong>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -304,7 +345,7 @@
                                             <div class="col-md-4">
                                                 {{service.type}}
                                             </div>
-                                        </div>                                   
+                                        </div>
                                     </div>
                                 </div>
 
@@ -318,7 +359,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="!formValid()">Add</button>
                     </div>
 
                 </form> 

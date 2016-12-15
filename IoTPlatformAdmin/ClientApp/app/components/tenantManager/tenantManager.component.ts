@@ -90,14 +90,14 @@ export class TenantManagerComponent implements OnInit {
         this.myForm = this.fb.group({
             //displayName: ['', [Validators.required, Validators.minLength(1)]],
             displayName: ['', [Validators.required]],
-            serviceName: [''],
-            serviceTypeName: [''],
+            serviceName: ['', [Validators.required]],
+            serviceTypeName: ['', [Validators.required]],
             serviceType: ['Stateless'],
-            instanceCount: [1],
-            minReplicaSetSize: [1],
-            targetReplicaSetSize: [1],
-            parameterName: [''],
-            parameterValue: [''],
+            instanceCount: [1, [Validators.required]],
+            minReplicaSetSize: [1, [Validators.required]],
+            targetReplicaSetSize: [1, [Validators.required]],
+            parameterName: ['', [Validators.required]],
+            parameterValue: ['', [Validators.required]],
             parameterSecret: [false],      
         });
     }
@@ -195,8 +195,24 @@ export class TenantManagerComponent implements OnInit {
         console.log(model);
     }
 
+    parameterValid() {
+        return this.myForm.controls['parameterName'].valid && this.myForm.controls['parameterValue'].valid 
+    }
 
- 
+    serviceValid() {
+        return this.myForm.controls['serviceName'].valid && this.myForm.controls['serviceTypeName'].valid &&
+            this.myForm.controls['instanceCount'].valid && this.myForm.controls['minReplicaSetSize'].valid &&
+            this.myForm.controls['targetReplicaSetSize'].valid;
+    }
+
+    formValid() {
+        if (this.parameters.length > 0 || this.services.length > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 }
 
