@@ -99,8 +99,6 @@
     </div>
 </div>
 
-
-
 <!--ADD TENANT MODAL -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -115,7 +113,6 @@
             
                 <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm)">
 
-                    <!--DISPLAY NAME-->
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" class="form-control" formControlName="displayName">
@@ -132,56 +129,84 @@
                         </ul>
 
                         <div class="tab-content">
+
+                            <!--ADD PARAMETERS-->
                             <div class="tab-pane active" id="tab1">
-                                <div style="margin-top:40px;" formArrayName="parameters">
-                                    <div *ngFor="let parameter of myForm.controls.parameters.controls; let i=index">
-                                        <div class="row" [formGroupName]="i">
 
-                                            <!--REMOVE PARAMETER-->
-                                            <div class="form-group col-xs-1">
-                                                <span style="margin-top:10px; cursor:pointer;" class="glyphicon glyphicon-remove" (click)="removeParameter(i)"></span>
-                                            </div>
-
-                                            <!--PARAMETER NAME-->
-                                            <div class="form-group col-xs-5">
-                                                <input type="text" class="form-control" formControlName="name" placeholder="Parameter name">
-                                                <small [hidden]="myForm.controls.parameters.controls[i].controls.name.valid" class="text-danger">
-                                                    Required
-                                                </small>
-                                            </div>
-
-                                            <!--PARAMETER VALUE AND SECRET-->
-                                            <div class="form-group col-xs-6">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" formControlName="value" placeholder="value">
-                                                    <span class="input-group-addon">
-                                                        <input type="checkbox" formControlName="secret"> secret
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                        </div>
+                                <div style="margin-top:30px;" class="row">
+                                    <div class="col-md-4">
+                                        <label>Parameter Name</label>
                                     </div>
-
-                                    <!--ADD PARAMETER-->
-                                  
-                                    <div style="margin-top:7px;" class="row">
-                                        <div class="col-md-3 ">
-                                            <a (click)="addParameter()" style="cursor: pointer">
-                                                <strong>Add parameter +</strong>
-                                            </a>
-                                        </div>
-
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" formControlName="parameterName" />
                                     </div>
-
-
                                 </div>
+
+                                <div style="margin-top:10px;" class="row">
+                                    <div class="col-md-4">
+                                        <label>Parameter Value</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" formControlName="parameterValue" />
+                                    </div>
+                                </div>
+
+                                <div style="margin-top:10px;" class="row">
+                                    <div class="col-md-4">
+                                        <label>Secret</label>
+                                    </div>
+                                    <div style="margin-top:5px;" class="col-md-8">
+                                        <input type="checkbox" formControlName="parameterSecret"> 
+                                    </div>
+                                </div>
+
+                                <div style="margin-top:15px;" class="row">
+                                    <div class="col-md-3 ">
+                                        <a (click)="addParameter()" style="cursor: pointer">
+                                            <strong>Add Parameter +</strong>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top:30px;" class="row" *ngIf="parameters.length">
+                                    <div class="col-md-12 ">
+                                        <div style="margin-bottom:-20px" class="row">
+                                            <div class="col-md-3 col-md-offset-1">
+                                                <label>Parameter Name</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Parameter Value</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Secret</label>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div style="margin-bottom:15px;" class="row" *ngFor="let parameter of parameters; let i=index">
+                                            <div class="col-md-1">
+                                                <span style="cursor:pointer;" class="glyphicon glyphicon-remove" (click)="removeParameter(i)"></span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                {{parameter.name}}
+                                            </div>
+                                            <div class="col-md-4">
+                                                {{parameter.value}}
+                                            </div>
+                                            <div class="col-md-4">
+                                                {{parameter.secret}}
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
                             </div>
 
                             <!--ADD SERVICES-->
-                            <div class="tab-pane" id="tab2" >
+                            <div class="tab-pane" id="tab2">
 
-                                <div style="margin-top:30px;" class="row" >
+                                <div style="margin-top:30px;" class="row">
                                     <div class="col-md-4">
                                         <label>Service Type</label>
                                     </div>
@@ -211,8 +236,6 @@
                                     </div>
                                 </div>
 
-                           
-
                                 <div [ngSwitch]="myForm.controls['serviceType'].value">
                                     <div *ngSwitchCase="'Stateless'">
                                         <div style="margin-top:10px;" class="row">
@@ -234,88 +257,72 @@
                                                 <input type="number" class="form-control" formControlName="minReplicaSetSize" />
                                             </div>
                                         </div>
-                                        
+
                                         <div style="margin-top:10px;" class="row">
                                             <div class="col-md-4">
                                                 <label>Target Replica Set Size</label>
                                             </div>
                                             <div class="col-md-8">
-                                                <input type="number" class="form-control" formControlName="targetReplicaSetSize"/>
+                                                <input type="number" class="form-control" formControlName="targetReplicaSetSize" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                
-                                <div style="margin-top:10px;" class="row">
+                                <div style="margin-top:15px;" class="row">
                                     <div class="col-md-3 ">
                                         <a (click)="addService()" style="cursor: pointer">
-                                            <strong>Add service +</strong>
+                                            <strong>Add Service +</strong>
                                         </a>
-                                    </div>                                   
-                                </div>
-
-                                <hr />
-
-                                <div style="margin-top:10px;" class="row">
-
-                                   
-                                    <div class="col-md-10 ">
-                                        <table class='table ' *ngIf='true'>
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Type</th>
-                                                    <th>Typename</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let service of services; let i=index">
-                                                    <td>
-                                                        <span style="margin-top:10px; cursor:pointer;" class="glyphicon glyphicon-remove" (click)="removeService(i)"></span>
-                                                        {{service.name}}
-                                                    </td>
-                                                    <td>{{service.type}}</td>
-                                                    <td>{{service.typename}}</td>
-                                                </tr>
-                                            </tbody>
-
-                                        </table>
                                     </div>
-
                                 </div>
 
-
-                               
-                                  
-                       
-                           
-
+                                <div style="margin-top:30px;" class="row" *ngIf="services.length">
+                                    <div class="col-md-12 ">
+                                        <div style="margin-bottom:-20px" class="row">
+                                            <div class="col-md-3 col-md-offset-1">
+                                                <label>Service Name</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Service Type Name</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Service Type</label>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div style="margin-bottom:15px;" class="row" *ngFor="let service of services; let i=index">
+                                            <div class="col-md-1">
+                                                <span style="cursor:pointer;" class="glyphicon glyphicon-remove" (click)="removeService(i)"></span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                {{service.name}}
+                                            </div>
+                                            <div class="col-md-4">
+                                                {{service.typename}}
+                                            </div>
+                                            <div class="col-md-4">
+                                                {{service.type}}
+                                            </div>
+                                        </div>                                   
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
 
                     </div>
 
-
-
-
-
-                   
-                    <pre> {{tenant | json}}</pre>
+                    <!--<pre> {{tenant | json}}</pre>-->
                     <!--<pre> {{myForm.value | json}}</pre>-->
-
-                    
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary" >Add</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
                     </div>
 
                 </form> 
-
             </div> 
-
         </div>
     </div>
 </div>

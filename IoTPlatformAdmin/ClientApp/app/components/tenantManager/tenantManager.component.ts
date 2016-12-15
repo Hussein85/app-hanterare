@@ -12,8 +12,7 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 })
 export class TenantManagerComponent implements OnInit {
 
-    
-
+    // TODO: get tenants from API
     tenants = [
         {
             id: "1",
@@ -71,6 +70,7 @@ export class TenantManagerComponent implements OnInit {
     }
 
     services = [];
+    parameters = [];
 
     constructor(
         private auth: AuthService,
@@ -84,7 +84,7 @@ export class TenantManagerComponent implements OnInit {
         var specificUserPreference = JSON.parse(localStorage.getItem('userPref'));
         this.themeService.changeTheme(specificUserPreference.theme);
         this.translateService.use(specificUserPreference.language);
-        //this.getTenants();
+        //this.getTenants();    // TODO: get Tenants from API
 
 
         this.myForm = this.fb.group({
@@ -96,9 +96,9 @@ export class TenantManagerComponent implements OnInit {
             instanceCount: [1],
             minReplicaSetSize: [1],
             targetReplicaSetSize: [1],
-
-            parameters: this.fb.array([this.initParameter()]),
-            services: this.fb.array([])
+            parameterName: [''],
+            parameterValue: [''],
+            parameterSecret: [false],      
         });
     }
 
@@ -113,12 +113,10 @@ export class TenantManagerComponent implements OnInit {
     }
 
 
-    initParameter() {
-        return this.fb.group({
-            name: ['', Validators.required],
-            value: [''],
-            secret:[false]
-        });
+    initParameter() { 
+        this.myForm.patchValue({ parameterName: '' });
+        this.myForm.patchValue({ parameterValue: '' });
+        this.myForm.patchValue({ parameterSecret: false });    
     }
 
     initServiceStateless() {
@@ -138,12 +136,16 @@ export class TenantManagerComponent implements OnInit {
 
 
     addParameter() {
-        const control = <FormArray>this.myForm.controls['parameters'];
-        control.push(this.initParameter());  
+        let parameter = {
+            name: this.myForm.controls['parameterName'].value,
+            value: this.myForm.controls['parameterValue'].value,
+            secret: this.myForm.controls['parameterSecret'].value      
+        } 
+        this.parameters.push(parameter);
+        this.initParameter();
     }
 
-    addService() {
-        
+    addService() {      
         if (this.myForm.controls['serviceType'].value === 'Stateless') {
             let statelessService = {
                 type: "stateless",
@@ -166,9 +168,8 @@ export class TenantManagerComponent implements OnInit {
         }
     }
 
-    removeParameter(i: number) {
-        const control = <FormArray>this.myForm.controls['parameters'];
-        control.removeAt(i);
+    removeParameter(i: number) {   
+        this.parameters.splice(i, 1);
     }
 
     removeService(i: number) {
@@ -181,13 +182,11 @@ export class TenantManagerComponent implements OnInit {
         let displayName = this.myForm.controls['displayName'].value;
         this.tenant.displayName = displayName;
 
-        let parameters = <FormArray>this.myForm.controls['parameters'].value;
-
         // Add parameters and services
         for (let idx in this.tenant.resources) {
             if (this.tenant.resources[idx].type === 'tenantApp') {
                 this.tenant.resources[idx].configuration.parameters = [];
-                this.tenant.resources[idx].configuration.parameters.push(parameters)
+                this.tenant.resources[idx].configuration.parameters.push(this.parameters)
                 this.tenant.resources[idx].configuration.services = [];
                 this.tenant.resources[idx].configuration.services.push(this.services)
             }
