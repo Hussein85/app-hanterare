@@ -5,6 +5,9 @@ import { RouterModule } from '@angular/router';
 import { UniversalModule } from 'angular2-universal';
 import { AUTH_PROVIDERS } from 'angular2-jwt';                  // Provides the AuthHttp helper which automatically adds the authorization header to requests
 import { HttpModule, Http } from '@angular/http';
+import { ModalModule } from 'angular2-modal';
+import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
+import { TranslateModule } from 'ng2-translate';
 
 // Components
 import { AppComponent } from './components/app/app.component';
@@ -21,21 +24,19 @@ import { routing, appRoutingProviders } from './app.routing';
 import { AuthGuardUser } from './auth.guard';
 import { AuthGuardAdmin } from './auth.guard';
 
-
 // Services
 import { AuthService } from './services/auth.service';
 import { ForecastService } from './services/forecast.service';
 import { UserPreferencesService } from './services/userPreferences.service';
 import { ThemeService } from './services/theme.service';
 import { TenantsService } from './services/tenants.service';
-
-// ng2-translate
-import { TranslateModule } from 'ng2-translate';
 import { TranslateService, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 
+// Pipes
+import { TenantFilterPipe } from "./pipes/tenant-filter.pipe";
 
-import { ModalModule } from 'angular2-modal';
-import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
+
+
 
 @NgModule({
     bootstrap: [ AppComponent ],
@@ -47,7 +48,8 @@ import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
         LoginComponent,
         AdminComponent,
         TenantManagerComponent,
-        TenantDetailComponent
+        TenantDetailComponent,
+        TenantFilterPipe
     ],
     imports: [
         UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.

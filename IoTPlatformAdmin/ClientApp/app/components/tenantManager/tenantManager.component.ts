@@ -52,7 +52,8 @@ export class TenantManagerComponent implements OnInit {
     ];
 
     public myForm: FormGroup;
-
+    filterText = "";
+    healthState = "";
     update = false;
 
     tenant = {
@@ -211,6 +212,11 @@ export class TenantManagerComponent implements OnInit {
         } else {
             return false;
         }
+    }
+
+    healthStatusCheckbox(cb) {
+        this.healthState = cb.value;
+     
     }
 
 
