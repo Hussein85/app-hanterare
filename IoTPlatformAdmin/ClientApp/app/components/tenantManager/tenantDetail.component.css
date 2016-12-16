@@ -8,6 +8,9 @@
     margin: 0 auto;
 }
 
+.modal-dialog  {width:80%;}
+
+
 /*.btn-round {
     width: 40px;
     height: 40px;
