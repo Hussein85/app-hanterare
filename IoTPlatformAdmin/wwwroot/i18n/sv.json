@@ -3,13 +3,13 @@
     "HOME": "Hem",
     "LOGOUT": "Logga ut",
     "LANGUAGE": "Språk",
-    "TENANTMANAGER": "Tenant Hanterare",
+    "TENANTMANAGER": "Tenants",
     "PROFILE": "Profil",
     "ADMIN": "Admin",
     "FETCHDATA": "Hämta data"
   },
   "LOGIN": {
-    "LOGINTITLE": "Vänligen logga in",
+    "LOGINTITLE": "Logga in",
     "EMAIL": "Email",
     "PASSWORD": "Lösenord",
     "LOGIN": "Logga in",

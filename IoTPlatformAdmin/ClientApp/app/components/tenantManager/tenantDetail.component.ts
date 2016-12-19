@@ -101,15 +101,17 @@ export class TenantDetailComponent implements OnInit {
 
         this.route.params.subscribe(params => {
             let id = params['id'];
-            //this.getTenant(id);       // TODO: get tenant from aPI     
+            //this.getTenant(id);            
         });
 
         this.version = "v1.2";
     }
 
+    // TODO: get tenant from API
     getTenant(id) {
-        this.tenantsService.getTenantById(id).subscribe(
-            tenant => this.tenant = tenant);
+        //this.tenantsService.getTenantById(id).subscribe(
+        //    tenant => this.tenant = tenant);
+
     }
 
     onBack(): void {     

@@ -16,7 +16,7 @@
 
             <div class='col-md-2 '>
                 <button *ngIf="update" type="button" class="btn btn-primary btn-md">
-                    Update
+                    Upgrade
                 </button>
             </div>
 
@@ -124,6 +124,7 @@
                     </div>
                 </div>
 
+
                     <div class="tabbable">
 
                         <ul class="nav nav-tabs">
@@ -179,7 +180,6 @@
                                 </div>
 
                               
-
                             </div>
 
 
@@ -222,7 +222,6 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-1">
-
 
                                                 <div [ngSwitch]="service.type">
                                                     <div *ngSwitchCase="'stateless'">
@@ -280,7 +279,7 @@
 
                     </div>
 
-                    <pre>{{tenant | json}}</pre>
+                    <pre *ngIf="services.length">{{tenant | json}}</pre>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

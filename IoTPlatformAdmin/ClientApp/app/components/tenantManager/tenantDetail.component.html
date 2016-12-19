@@ -1,9 +1,4 @@
-﻿<!--<h1>Tenant Detail</h1>
-<hr />-->
-<!--<button (click)='goBack()' class="btn btn-default">
-    <span class="glyphicon glyphicon-chevron-left"></span>
-    Back
-</button>-->
+﻿
 
 
 <div style="margin-top:50px;" class='panel panel-primary'>
@@ -37,7 +32,7 @@
                     <div class='col-md-4'>1.0</div>
                     <a data-toggle="modal" data-target="#updateModal">
                         <!--<span class="glyphicon glyphicon-download-alt"></span>-->
-                        Update
+                        Upgrade
                     </a>
                 </div>
 
@@ -60,7 +55,7 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Type</th>
-                                        <th>Instances</th>
+                                        <!--<th>Instances</th>-->
                                         <th>Typename</th>
                                     </tr>
                                 </thead>
@@ -68,7 +63,7 @@
                                     <tr *ngFor="let service of services">
                                         <td>{{service.name}}</td>
                                         <td>{{service.type}}</td>
-                                        <td>{{service.instanceCount}}</td>
+                                        <!--<td>{{service.instanceCount}}</td>-->
                                         <td>{{service.typename}}</td>
                                     </tr>
 
@@ -88,38 +83,30 @@
                         </a>
                     </div>
                 </div>
-
-          
-
+        
                 <div id="collapseParameters" class="panel-collapse collapse">
                     <div class="panel-body">
                         <div class='table-responsive'>
-                            <table class='table ' *ngIf='true'>
+                            <table class='table' *ngIf='true'>
                                 <thead>
                                     <tr>
                                         <th>Name</th>
                                         <th>Value</th>
-                                        <th>Secret</th>                                     
+                                        <!--<th>Secret</th>-->                                     
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let parameter of parameters">
                                         <td>{{parameter.name}}</td>
                                         <td>{{parameter.value}}</td>
-                                        <td>{{parameter.secret}}</td>
-                                       
-                                    </tr>
-                                   
+                                        <!--<td>{{parameter.secret}}</td>-->                                    
+                                    </tr>                                 
                                 </tbody>
-
                             </table>
                         </div>
                     </div>
 
                 </div>
-
-
-
 
             </div>
 
@@ -145,9 +132,6 @@
 
 
 
-
-
-
 <!-- Delete Tenant Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -164,7 +148,7 @@
                 </div>
                 <div class="row top-buffer">
                     <div class='col-md-10'>
-                        <input type="text" class="form-control" [(ngModel)]="filterText" placeholder="Type in name1 to continue" />
+                        <input type="text" class="form-control" [(ngModel)]="tenant.displayName" placeholder="Type in name1 to continue" />
                     </div>
                 </div>
             </div>
@@ -183,7 +167,7 @@
         <div class="modal-content panel-primary">
             <div class="modal-header panel-heading" style='font-size:large'>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                Update Tenant
+                Upgrade Tenant
             </div>
             <div class="modal-body">
                 <div class="row top-buffer">
@@ -201,7 +185,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Update</button>
+                <button type="button" class="btn btn-primary">Upgrade</button>
             </div>
 
         </div>
@@ -353,8 +337,6 @@
                                         </div>
                                         <div class="col-md-2">
                                             
-
-
                                             <div [ngSwitch]="service.type">
                                                 <div *ngSwitchCase="'stateless'">
                                                    
@@ -388,7 +370,7 @@
 
                         </div>
 
-                        <pre>{{tenant | json}}</pre>
+                        <!--<pre>{{tenant | json}}</pre>-->
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
