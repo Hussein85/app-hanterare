@@ -4,7 +4,7 @@ import { TranslateService } from 'ng2-translate';
 import { ThemeService } from '../../services/theme.service';
 import { TenantsService } from '../../services/tenants.service';
 
-import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+//import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
     template: require('./tenantManager.component.html'),
@@ -51,13 +51,37 @@ export class TenantManagerComponent implements OnInit {
         }
     ];
 
-    public myForm: FormGroup;
+    
     filterText = "";
     healthState = "";
     status = "";
     update = false;
+    displayName = "";
 
-    tenant = {
+   
+    services = [
+        //{
+        //    type: "stateless",
+        //    typename: "",
+        //    instanceCount: 1,
+        //    name: ""
+        //}
+    ];
+
+    parameters = [
+        //{
+        //    name: "",
+        //    value: "",
+        //    secret: false
+        //}
+    ];
+
+    serviceTypes = [
+        "stateless",
+        "stateful"
+    ]
+
+   tenant = {
         displayName: "",
         resources: [
             {
@@ -71,15 +95,12 @@ export class TenantManagerComponent implements OnInit {
         ]
     }
 
-    services = [];
-    parameters = [];
-
     constructor(
         private auth: AuthService,
         private translateService: TranslateService,
         private themeService: ThemeService,
-        private tenantsService: TenantsService,
-        private fb: FormBuilder
+        private tenantsService: TenantsService
+       
     ) { }
 
     ngOnInit(): void {
@@ -87,26 +108,11 @@ export class TenantManagerComponent implements OnInit {
         this.themeService.changeTheme(specificUserPreference.theme);
         this.translateService.use(specificUserPreference.language);
         //this.getTenants();    // TODO: get Tenants from API
-
-
-        this.myForm = this.fb.group({
-            //displayName: ['', [Validators.required, Validators.minLength(1)]],
-            displayName: ['', [Validators.required]],
-            serviceName: ['', [Validators.required]],
-            serviceTypeName: ['', [Validators.required]],
-            serviceType: ['Stateless'],
-            instanceCount: [1, [Validators.required]],
-            minReplicaSetSize: [1, [Validators.required]],
-            targetReplicaSetSize: [1, [Validators.required]],
-            parameterName: ['', [Validators.required]],
-            parameterValue: ['', [Validators.required]],
-            parameterSecret: [false],      
-        });
+    
     }
 
 
-    getTenants(): void {
-        // TODO: get tenants from API
+    getTenants(): void {  
         this.tenantsService.getTenants().subscribe(
             tenants => this.tenants = tenants,
             error => {
@@ -115,59 +121,26 @@ export class TenantManagerComponent implements OnInit {
     }
 
 
-    initParameter() { 
-        this.myForm.patchValue({ parameterName: '' });
-        this.myForm.patchValue({ parameterValue: '' });
-        this.myForm.patchValue({ parameterSecret: false });    
-    }
-
-    initServiceStateless() {
-        this.myForm.patchValue({ serviceType: 'Stateless' });
-        this.myForm.patchValue({ serviceTypeName: '' });
-        this.myForm.patchValue({ serviceName: '' });
-        this.myForm.patchValue({ instanceCount: 1 });
-    }
-
-    initServiceStateful() {
-        this.myForm.patchValue({ serviceType: 'Stateless' });
-        this.myForm.patchValue({ serviceTypeName: '' });
-        this.myForm.patchValue({ serviceName: '' });
-        this.myForm.patchValue({ minReplicaSetSize: 1 });
-        this.myForm.patchValue({ targetReplicaSetSize: 1 });
-    }
-
-
-    addParameter() {
+    addParameter() {  
         let parameter = {
-            name: this.myForm.controls['parameterName'].value,
-            value: this.myForm.controls['parameterValue'].value,
-            secret: this.myForm.controls['parameterSecret'].value      
-        } 
-        this.parameters.push(parameter);
-        this.initParameter();
+            name: "",
+            value: "",
+            secret: false     
+        }
+        this.parameters.push(parameter);  
     }
 
-    addService() {      
-        if (this.myForm.controls['serviceType'].value === 'Stateless') {
-            let statelessService = {
-                type: "stateless",
-                typename: this.myForm.controls['serviceTypeName'].value,
-                instanceCount: this.myForm.controls['instanceCount'].value,
-                name: this.myForm.controls['serviceName'].value
-            }
-            this.services.push(statelessService);
-            this.initServiceStateless();
-        } else {
-            let statefulService = {
-                type: "stateful",
-                typename: this.myForm.controls['serviceTypeName'].value,
-                minReplicaSetSize: this.myForm.controls['minReplicaSetSize'].value,
-                targetReplicaSetSize: this.myForm.controls['targetReplicaSetSize'].value,
-                name: this.myForm.controls['serviceName'].value
-            }
-            this.services.push(statefulService);
-            this.initServiceStateful();
+    addService() {        
+        let service = {
+            type: "stateless",
+            typename: "",
+            instanceCount: 1,
+            minReplicaSetSize: 1,
+            targetReplicaSetSize: 1,
+            name: ""
         }
+        this.services.push(service);
+        
     }
 
     removeParameter(i: number) {   
@@ -178,11 +151,10 @@ export class TenantManagerComponent implements OnInit {
         this.services.splice(i, 1);
     }
 
-    save(model) {
-        // TODO: call API to save
-        
-        let displayName = this.myForm.controls['displayName'].value;
-        this.tenant.displayName = displayName;
+    // TODO: call API to save tenant
+    save() {
+
+        this.tenant.displayName = this.displayName;
 
         // Add parameters and services
         for (let idx in this.tenant.resources) {
@@ -190,29 +162,28 @@ export class TenantManagerComponent implements OnInit {
                 this.tenant.resources[idx].configuration.parameters = [];
                 this.tenant.resources[idx].configuration.parameters.push(this.parameters)
                 this.tenant.resources[idx].configuration.services = [];
-                this.tenant.resources[idx].configuration.services.push(this.services)
+                this.tenant.resources[idx].configuration.services.push(this.cleanFields(this.services))
             }
         }
-
-        console.log(model);
+  
     }
 
     parameterValid() {
-        return this.myForm.controls['parameterName'].valid && this.myForm.controls['parameterValue'].valid 
+        //return this.myForm.controls['parameterName'].valid && this.myForm.controls['parameterValue'].valid 
     }
 
     serviceValid() {
-        return this.myForm.controls['serviceName'].valid && this.myForm.controls['serviceTypeName'].valid &&
-            this.myForm.controls['instanceCount'].valid && this.myForm.controls['minReplicaSetSize'].valid &&
-            this.myForm.controls['targetReplicaSetSize'].valid;
+        //return this.myForm.controls['serviceName'].valid && this.myForm.controls['serviceTypeName'].valid &&
+        //    this.myForm.controls['instanceCount'].valid && this.myForm.controls['minReplicaSetSize'].valid &&
+        //    this.myForm.controls['targetReplicaSetSize'].valid;
     }
 
     formValid() {
-        if (this.parameters.length > 0 || this.services.length > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        //if (this.parameters.length > 0 || this.services.length > 0) {
+        //    return true;
+        //} else {
+        //    return false;
+        //}
     }
 
     healthStatus(r) {
@@ -222,6 +193,26 @@ export class TenantManagerComponent implements OnInit {
     statusRunning(r) {
         this.status = r.value;
     }
+
+    changeType() {
+    }
+
+
+    cleanFields(services) {
+        for (let idx in services) {
+            if (services[idx].type === 'stateless') {
+                delete services[idx]["minReplicaSetSize"];
+                delete services[idx]["targetReplicaSetSize"];
+            } else {
+                delete services[idx]["instanceCount"];       
+            }
+        }
+
+        return services;
+    }
+
+
+
 
 }
 

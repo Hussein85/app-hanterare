@@ -41,16 +41,18 @@
                     </a>
                 </div>
 
+                <hr />
+
                 <div class='row top-buffer'>
                     <div class='col-md-4'>
-                        <a data-toggle="collapse" href="#collapse1">
+                        <a data-toggle="collapse" href="#collapseServices">
                             <strong>Services</strong>
                             <span class="glyphicon glyphicon-triangle-bottom"></span>
                         </a>
                     </div>
                 </div>
 
-                <div id="collapse1" class="panel-collapse collapse">
+                <div id="collapseServices" class="panel-collapse collapse">
                     <div class="panel-body">
                         <div class='table-responsive'>
                             <table class='table ' *ngIf='true'>
@@ -63,34 +65,61 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>service-a</td>
-                                        <td>stateless</td>
-                                        <td>1</td>
-                                        <td>MockServiceAType</td>
+                                    <tr *ngFor="let service of services">
+                                        <td>{{service.name}}</td>
+                                        <td>{{service.type}}</td>
+                                        <td>{{service.instanceCount}}</td>
+                                        <td>{{service.typename}}</td>
                                     </tr>
-                                    <tr>
-                                        <td>service-b</td>
-                                        <td>statefull</td>
-                                        <td></td>
-                                        <td>MockServiceBType</td>
 
-                                    </tr>
-                                    <tr>
-                                        <td>service-c</td>
-                                        <td>stateless</td>
-                                        <td>3</td>
-                                        <td>MockServiceCType</td>
-                                    </tr>
                                 </tbody>
 
                             </table>
                         </div>
                     </div>
-                    <!--<div class="panel-footer">
-                       Panel footer
-                    </div>-->
+
                 </div>
+
+                <div class='row top-buffer'>
+                    <div class='col-md-4'>
+                        <a data-toggle="collapse" href="#collapseParameters">
+                            <strong>Parameters</strong>
+                            <span class="glyphicon glyphicon-triangle-bottom"></span>
+                        </a>
+                    </div>
+                </div>
+
+          
+
+                <div id="collapseParameters" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class='table-responsive'>
+                            <table class='table ' *ngIf='true'>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Value</th>
+                                        <th>Secret</th>                                     
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let parameter of parameters">
+                                        <td>{{parameter.name}}</td>
+                                        <td>{{parameter.value}}</td>
+                                        <td>{{parameter.secret}}</td>
+                                       
+                                    </tr>
+                                   
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
 
             </div>
 
@@ -143,12 +172,14 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-danger">Delete</button>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        </div>
+    </div>
+</div>
+
+
 <!-- Update Tenant Modal -->
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="width:30%;">
         <div class="modal-content panel-primary">
             <div class="modal-header panel-heading" style='font-size:large'>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -183,7 +214,7 @@
 <!--Edit Tenant Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="width:80%;">
         <div class="modal-content panel-primary">
             <div class="modal-header panel-heading" style='font-size:large'>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -196,7 +227,7 @@
                     <div class="row">
                         <div class="col-md-5">
                             <label>Display Name</label>
-                            <input type="text" class="form-control" name="fname" value="name1">
+                            <input type="text" class="form-control" name="fname" [(ngModel)]="displayName">
                         </div>
                     </div>                   
                 </div>
@@ -242,13 +273,20 @@
                                         </div>
                                     </div>
 
+                                   
 
                                 </div>
                             </div>
-
+                            <div style="margin-top:15px;" class="row">
+                                <div class="col-md-3 ">
+                                    <a (click)="addParameter()" style="cursor: pointer">
+                                        <strong>Add Parameter +</strong>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
 
-                        <!--ADD SERVICES-->
+                        <!--EDIT SERVICES-->
                         <div class="tab-pane" id="tab2">
                             <div style="margin-top:30px;" class="row" *ngIf="services.length">
                                 <div class="col-md-12">
@@ -263,10 +301,10 @@
                                             <label>Instances</label>
                                         </div>
                                         <div class="col-md-2">
-                                            <label>Min Rep. Set Size</label>
+                                            <label>Min Replica Set Size</label>
                                         </div>
                                         <div class="col-md-2">
-                                            <label>Target Rep. Set Size</label>
+                                            <label>Target Replica Set Size</label>
                                         </div>
                                         <div class="col-md-2">
                                             <label>Typename</label>
@@ -333,16 +371,28 @@
                                         </div>
                                     </div>
 
+                                    
 
                                 </div>
                             </div>
 
+                            <div style="margin-top:15px;" class="row">
+                                <div class="col-md-3 ">
+                                    <a (click)="addService()" style="cursor: pointer">
+                                        <strong>Add Service +</strong>
+                                    </a>
+                                </div>
+                            </div>
+
+
 
                         </div>
 
+                        <pre>{{tenant | json}}</pre>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary" (click)="save()">Save</button>
                         </div>
 
                     </div>

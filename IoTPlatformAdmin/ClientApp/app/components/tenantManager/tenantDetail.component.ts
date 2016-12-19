@@ -5,9 +5,9 @@ import { ThemeService } from '../../services/theme.service';
 import { TenantsService } from '../../services/tenants.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Overlay } from 'angular2-modal';
 
-import { Modal } from 'angular2-modal/plugins/bootstrap';
+
+
 
 @Component({
     template: require('./tenantDetail.component.html'),
@@ -15,8 +15,9 @@ import { Modal } from 'angular2-modal/plugins/bootstrap';
 })
 export class TenantDetailComponent implements OnInit {
 
-    tenant: any;
+    
     version = "v1.1";
+    // TODO: Get update versions from API
     versions = ["v0.9", "v1.1", "v1.2", "v1.3", "v1.4"];
 
     // TODO: get parameters from API
@@ -61,11 +62,27 @@ export class TenantDetailComponent implements OnInit {
         }
     ]
 
+    tenant = {
+        displayName: "",
+        resources: [
+            {
+                type: "tenantApp",
+                configuration: {
+                    "version": "",
+                    parameters: [],
+                    services: []
+                }
+            }
+        ]
+    }
+
+
     serviceTypes = [
         "stateless",
         "stateful"
     ]
 
+    displayName = "";
 
     constructor(
         private auth: AuthService,
@@ -73,11 +90,8 @@ export class TenantDetailComponent implements OnInit {
         private themeService: ThemeService,
         private tenantsService: TenantsService,
         private route: ActivatedRoute,
-        private router: Router,
-        public modal: Modal,
-        overlay: Overlay,
-        vcRef: ViewContainerRef, 
-    ) { overlay.defaultViewContainer = vcRef; }
+        private router: Router,              
+    ) { }
 
     ngOnInit(): void {
         // Read user preferences from localstorage 
@@ -104,23 +118,7 @@ export class TenantDetailComponent implements OnInit {
 
 
     delete() {
-        //this.modal.alert()
-        //    .size('lg')
-        //    .showClose(true)
-        //    .title('Confirm Tenant Deletion')
-        //    .body(`
-        //    <h4>Delete Tenant?</h4>
-        //    <input type="text" [(ngModel)]="filterText" placeholder="Search..." /> 
-        //    <i class="glyphicon glyphicon-search"></i>
-        //    <ul>
-        //        <li>Nodn blocking (click anywhere outside to dismiss)</li>
-        //        <li>Size large</li>
-        //        <li>Dismissed with default keyboard key (ESC)</li>
-        //        <li>Close wth button click</li>
-        //        <li>HTML content</li>
-        //    </ul>`)
-        //    .open();
-
+  
     }
 
     removeParameter(i: number) {
@@ -131,8 +129,62 @@ export class TenantDetailComponent implements OnInit {
         this.services.splice(i, 1);
     }
 
+    addParameter() {
+        let parameter = {
+            name: "",
+            value: "",
+            secret: false
+        }
+        this.parameters.push(parameter);
+    }
+
+    addService() {
+       let service = {
+            type: "stateless",
+            typename: "",
+            instanceCount: 1,
+            minReplicaSetSize: 1,
+            targetReplicaSetSize: 1,
+            name: ""
+        }
+        this.services.push(service);
+    }
+
+
     changeType() {
     }
+
+    // TODO: call API to save tenant
+    save() {
+       
+        this.tenant.displayName = this.displayName;
+
+        // Add parameters and services to tenant
+        for (let idx in this.tenant.resources) {
+            if (this.tenant.resources[idx].type === 'tenantApp') {
+                this.tenant.resources[idx].configuration.parameters = [];
+                this.tenant.resources[idx].configuration.parameters.push(this.parameters)
+                this.tenant.resources[idx].configuration.services = [];
+                this.tenant.resources[idx].configuration.services.push(this.cleanFields(this.services))
+            }
+        }
+
+    }
+
+    cleanFields(services) {
+        for (let idx in services) {
+            if (services[idx].type === 'stateless') {
+                delete services[idx]["minReplicaSetSize"];
+                delete services[idx]["targetReplicaSetSize"];
+            } else {
+                delete services[idx]["instanceCount"];
+            }
+        }
+
+        return services;
+    }
+
+
 }
 
 

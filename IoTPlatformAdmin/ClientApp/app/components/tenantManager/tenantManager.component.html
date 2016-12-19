@@ -106,7 +106,7 @@
 
 <!--ADD TENANT MODAL -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="width:80%;">
         <div class="modal-content panel-primary">
             <div class="modal-header panel-heading" style='font-size:large'>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -115,15 +115,14 @@
 
             <div class="modal-body">
    
-                <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm)">
-
-                    <div class="form-group">
-                        <label>Display Name</label>
-                        <input type="text" class="form-control" formControlName="displayName">
-                        <small *ngIf="!myForm.controls.displayName.valid" class="text-danger">
-                            Required
-                        </small>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label>Display Name</label>
+                            <input type="text" class="form-control" name="fname" [(ngModel)]="displayName">                         
+                        </div>
                     </div>
+                </div>
 
                     <div class="tabbable">
 
@@ -134,240 +133,161 @@
 
                         <div class="tab-content">
 
-                            <!--ADD PARAMETERS-->
+                            <!--ADD PARAMETERS - TODO: add validation-->                   
                             <div class="tab-pane active" id="tab1">
-
-                                <div style="margin-top:30px;" class="row">
-                                    <div class="col-md-4">
-                                        <label>Parameter Name</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" formControlName="parameterName" />
-                                        <small *ngIf="!myForm.controls.parameterName.valid" class="text-danger">
-                                            Required
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <div style="margin-top:10px;" class="row">
-                                    <div class="col-md-4">
-                                        <label>Parameter Value</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" formControlName="parameterValue" />
-                                        <small *ngIf="!myForm.controls.parameterValue.valid" class="text-danger">
-                                            Required
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <div style="margin-top:10px;" class="row">
-                                    <div class="col-md-4">
-                                        <label>Secret</label>
-                                    </div>
-                                    <div style="margin-top:5px;" class="col-md-8">
-                                        <input type="checkbox" formControlName="parameterSecret">
-                                    </div>
-                                </div>
-
-
-
-                                <div style="margin-top:15px;" class="row">
-                                    <div class="col-md-3 ">
-                                        <div [ngSwitch]="parameterValid()">
-                                            <div *ngSwitchCase="true">
-                                                <a (click)="addParameter()" style="cursor: pointer">
-                                                    <strong>Add Parameter +</strong>
-                                                </a>
-                                            </div>
-                                            <div *ngSwitchCase="false">
-                                                <a style="cursor: default; pointer-events:none;opacity: 0.5;">
-                                                    <strong>Add Parameter +</strong>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div style="margin-top:30px;" class="row" *ngIf="parameters.length">
                                     <div class="col-md-12 ">
                                         <div style="margin-bottom:-20px" class="row">
-                                            <div class="col-md-3 col-md-offset-1">
+                                            <div class="col-md-5 col-md-offset-1">
                                                 <label>Parameter Name</label>
                                             </div>
                                             <div class="col-md-4">
                                                 <label>Parameter Value</label>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-1">
                                                 <label>Secret</label>
                                             </div>
                                         </div>
                                         <hr />
                                         <div style="margin-bottom:15px;" class="row" *ngFor="let parameter of parameters; let i=index">
                                             <div class="col-md-1">
-                                                <span style="cursor:pointer;" class="glyphicon glyphicon-remove" (click)="removeParameter(i)"></span>
+                                                <span style="cursor:pointer; margin-top:10px" class="glyphicon glyphicon-remove" (click)="removeParameter(i)"></span>
                                             </div>
-                                            <div class="col-md-3">
-                                                {{parameter.name}}
-                                            </div>
-                                            <div class="col-md-4">
-                                                {{parameter.value}}
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" name="fname" [(ngModel)]="parameter.name" />
                                             </div>
                                             <div class="col-md-4">
-                                                {{parameter.secret}}
+                                                <input type="text" class="form-control" name="fname" [(ngModel)]="parameter.value" />
+                                            </div>
+                                            <div class="col-md-1">
+                                                <input style="margin-top:10px;" type="checkbox" name="fname" [(ngModel)]="parameter.secret">
                                             </div>
                                         </div>
 
+                                       
 
                                     </div>
                                 </div>
-
-                            </div>
-
-                            <!--ADD SERVICES-->
-                            <div class="tab-pane" id="tab2">
-
-                                <div style="margin-top:30px;" class="row">
-                                    <div class="col-md-4">
-                                        <label>Service Type</label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <select formControlName="serviceType" class="form-control">
-                                            <option>Stateless</option>
-                                            <option>Stateful</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div style="margin-top:10px;" class="row">
-                                    <div class="col-md-4">
-                                        <label>Service Name</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" formControlName="serviceName" />
-                                        <small *ngIf="!myForm.controls.serviceName.valid" class="text-danger">
-                                            Required
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <div style="margin-top:10px;" class="row">
-                                    <div class="col-md-4">
-                                        <label>Service Type Name</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" formControlName="serviceTypeName" />
-                                        <small *ngIf="!myForm.controls.serviceTypeName.valid" class="text-danger">
-                                            Required
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <div [ngSwitch]="myForm.controls['serviceType'].value">
-                                    <div *ngSwitchCase="'Stateless'">
-                                        <div style="margin-top:10px;" class="row">
-                                            <div class="col-md-4">
-                                                <label>Instance Count</label>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <input type="number" class="form-control" formControlName="instanceCount" />
-                                                <small *ngIf="!myForm.controls.instanceCount.valid" class="text-danger">
-                                                    Required
-                                                </small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div *ngSwitchCase="'Stateful'">
-
-                                        <div style="margin-top:10px;" class="row">
-                                            <div class="col-md-4">
-                                                <label>Min Replica Set Size</label>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <input type="number" class="form-control" formControlName="minReplicaSetSize" />
-                                                <small *ngIf="!myForm.controls.minReplicaSetSize.valid" class="text-danger">
-                                                    Required
-                                                </small>
-                                            </div>
-                                        </div>
-
-                                        <div style="margin-top:10px;" class="row">
-                                            <div class="col-md-4">
-                                                <label>Target Replica Set Size</label>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <input type="number" class="form-control" formControlName="targetReplicaSetSize" />
-                                                <small *ngIf="!myForm.controls.targetReplicaSetSize.valid" class="text-danger">
-                                                    Required
-                                                </small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
 
                                 <div style="margin-top:15px;" class="row">
                                     <div class="col-md-3 ">
-                                        <div [ngSwitch]="serviceValid()">
-                                            <div *ngSwitchCase="true">
-                                                <a (click)="addService()" style="cursor: pointer">
-                                                    <strong>Add Service +</strong>
-                                                </a>
-                                            </div>
-                                            <div *ngSwitchCase="false">
-                                                <a style="cursor: default; pointer-events:none;opacity: 0.5;">
-                                                    <strong>Add Service +</strong>
-                                                </a>
-                                            </div>
-                                        </div>
+                                        <a (click)="addParameter()" style="cursor: pointer">
+                                            <strong>Add Parameter +</strong>
+                                        </a>
                                     </div>
                                 </div>
 
+                              
+
+                            </div>
+
+
+
+                            <!--ADD SERVICES-->                       
+                            <div class="tab-pane" id="tab2">
                                 <div style="margin-top:30px;" class="row" *ngIf="services.length">
-                                    <div class="col-md-12 ">
-                                        <div style="margin-bottom:-20px" class="row">
-                                            <div class="col-md-3 col-md-offset-1">
-                                                <label>Service Name</label>
+                                    <div class="col-md-12">
+                                        <div style="margin-bottom:-20px; margin-left:20px;" class="row">
+                                            <div class="col-md-2 col-md-offset-1">
+                                                <label>Name</label>
                                             </div>
-                                            <div class="col-md-4">
-                                                <label>Service Type Name</label>
+                                            <div class="col-md-2">
+                                                <label>Type</label>
                                             </div>
-                                            <div class="col-md-4">
-                                                <label>Service Type</label>
+                                            <div class="col-md-1">
+                                                <label>Instances</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>Min Replica Set Size</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>Target Replica Set Size</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>Typename</label>
                                             </div>
                                         </div>
                                         <hr />
                                         <div style="margin-bottom:15px;" class="row" *ngFor="let service of services; let i=index">
                                             <div class="col-md-1">
-                                                <span style="cursor:pointer;" class="glyphicon glyphicon-remove" (click)="removeService(i)"></span>
+                                                <span style="cursor:pointer; margin-top:10px" class="glyphicon glyphicon-remove" (click)="removeService(i)"></span>
                                             </div>
-                                            <div class="col-md-3">
-                                                {{service.name}}
+                                            <div class="col-md-2">
+                                                <input type="text" class="form-control" name="fname" [(ngModel)]="service.name" />
                                             </div>
-                                            <div class="col-md-4">
-                                                {{service.typename}}
+                                            <div class="col-md-2">                                        
+                                                <select [(ngModel)]="service.type" name="type" class="form-control" (click)="changeType()">
+                                                    <option *ngFor="let n of serviceTypes" [ngValue]="n">{{n}}</option>
+                                                </select>
                                             </div>
-                                            <div class="col-md-4">
-                                                {{service.type}}
+                                            <div class="col-md-1">
+
+
+                                                <div [ngSwitch]="service.type">
+                                                    <div *ngSwitchCase="'stateless'">
+                                                        <input type="number" class="form-control" name="fname" [(ngModel)]="service.instanceCount" />
+                                                    </div>
+                                                    <div *ngSwitchCase="'stateful'">
+                                                        <input type="number" class="form-control" name="fname" disabled />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div [ngSwitch]="service.type">
+                                                    <div *ngSwitchCase="'stateless'">
+                                                        <input type="number" class="form-control" name="fname" disabled />
+                                                    </div>
+                                                    <div *ngSwitchCase="'stateful'">
+
+                                                        <input type="number" class="form-control" name="fname" [(ngModel)]="service.minReplicaSetSize" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+
+                                                <div [ngSwitch]="service.type">
+                                                    <div *ngSwitchCase="'stateless'">
+                                                        <input type="number" class="form-control" name="fname" disabled />
+                                                    </div>
+                                                    <div *ngSwitchCase="'stateful'">
+                                                        <input type="number" class="form-control" name="fname" [(ngModel)]="service.targetReplicaSetSize" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="text" class="form-control" name="fname" [(ngModel)]="service.typename" />
                                             </div>
                                         </div>
+
+                                       
+
+                                    </div>
+                                </div>
+
+                                <div style="margin-top:15px;" class="row">
+                                    <div class="col-md-3 ">
+                                        <a (click)="addService()" style="cursor: pointer">
+                                            <strong>Add Service +</strong>
+                                        </a>
                                     </div>
                                 </div>
 
                             </div>
+
                         </div>
 
                     </div>
 
-                    <!--<pre> {{tenant | json}}</pre>-->
-                    <!--<pre> {{myForm.value | json}}</pre>-->
+                    <pre>{{tenant | json}}</pre>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary" [disabled]="!formValid()">Add</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="false" (click)="save()">Add</button>
                     </div>
 
-                </form> 
+               
             </div> 
         </div>
     </div>
