@@ -65,30 +65,17 @@ export class TenantManagerComponent implements OnInit {
         password: ""
     }
    
-    services = [
-        //{
-        //    type: "stateless",
-        //    typename: "",
-        //    instanceCount: 1,
-        //    name: ""
-        //}
-    ];
+    services = [];
 
-    parameters = [
-        //{
-        //    name: "",
-        //    value: "",
-        //    secret: false
-        //}
-    ];
+    parameters = [];
 
     serviceTypes = [
         "stateless",
         "stateful"
     ]
 
-   tenant = {
-        displayName: "name1",
+    tenant = {
+        displayName: "",
         resources: [
             {
                 type: "mqttBroker",
@@ -110,7 +97,16 @@ export class TenantManagerComponent implements OnInit {
         ]
     }
 
-   showJSON = false;
+    showJSON = false;        // Remove when finished debugging
+
+
+    // Remove
+    user = {
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    }
 
     constructor(
         private auth: AuthService,
@@ -124,10 +120,9 @@ export class TenantManagerComponent implements OnInit {
         var specificUserPreference = JSON.parse(localStorage.getItem('userPref'));
         this.themeService.changeTheme(specificUserPreference.theme);
         this.translateService.use(specificUserPreference.language);
-        //this.getTenants();    // TODO: get Tenants from API
+        //this.getTenants();    // TODO: uncomment to get Tenants from API
     
     }
-
 
     getTenants(): void {  
         this.tenantsService.getTenants().subscribe(
@@ -136,7 +131,6 @@ export class TenantManagerComponent implements OnInit {
                 console.log(error);         
             });
     }
-
 
     addParameter() {  
         let parameter = {
@@ -156,8 +150,7 @@ export class TenantManagerComponent implements OnInit {
             targetReplicaSetSize: 1,
             name: ""
         }
-        this.services.push(service);
-        
+        this.services.push(service);   
     }
 
     removeParameter(i: number) {   
@@ -170,8 +163,6 @@ export class TenantManagerComponent implements OnInit {
 
     // TODO: call API to save tenant
     save() {
-
-        this.tenant.displayName = this.displayName;
 
         for (let idx in this.tenant.resources) {
 
@@ -188,6 +179,9 @@ export class TenantManagerComponent implements OnInit {
                 this.tenant.resources[idx].configuration = this.mqttBroker;
             }
         }
+
+        // TODO: uncomment to call API to create tenant
+        //this.tenantsService.createTenant(this.tenant);
 
         // For debugging. Remove later
         this.showJSON = true;
@@ -236,9 +230,9 @@ export class TenantManagerComponent implements OnInit {
         return services;
     }
 
-
-
-
+    onSubmit() {
+        alert("form submitted");
+    }
 }
 
 

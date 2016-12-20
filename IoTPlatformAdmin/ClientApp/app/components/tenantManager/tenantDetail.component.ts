@@ -138,8 +138,8 @@ export class TenantDetailComponent implements OnInit {
     }
 
 
+    // TODO: call api to delete tenant
     delete() {
-  
     }
 
     removeParameter(i: number) {
@@ -178,8 +178,6 @@ export class TenantDetailComponent implements OnInit {
     // TODO: call API to save tenant
     save() {
        
-        this.tenant.displayName = this.displayName;
-
         for (let idx in this.tenant.resources) {
 
             // Add parameters and services configuration
@@ -195,6 +193,9 @@ export class TenantDetailComponent implements OnInit {
                 this.tenant.resources[idx].configuration = this.mqttBroker;
             }
         }
+
+        // TODO: uncomment to edit tenant
+        //this.tenantsService.updateTenant(this.tenant);
 
         // For debugging. Remove later
         this.showJSON = true;
