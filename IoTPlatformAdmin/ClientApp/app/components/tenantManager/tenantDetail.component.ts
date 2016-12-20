@@ -20,7 +20,7 @@ export class TenantDetailComponent implements OnInit {
     // TODO: Get update versions from API
     versions = ["v0.9", "v1.1", "v1.2", "v1.3", "v1.4"];
 
-    // TODO: get parameters from API
+    // TODO: get parameters from tenant
     parameters = [
         {
             name: "param1",
@@ -39,7 +39,7 @@ export class TenantDetailComponent implements OnInit {
         }
     ]
 
-    // TODO: get services from API
+    // TODO: get services from tenant
     services = [
         {
             type: "stateless",
@@ -62,9 +62,27 @@ export class TenantDetailComponent implements OnInit {
         }
     ]
 
+    // TODO: get mqttBroker from tenant
+    mqttBroker = {
+        defaultListener: true,
+        sslTlsListener: true,
+        username: "testuser",
+        password: "secretpassword"
+    }
+
+    // TODO: get tenant from API
     tenant = {
-        displayName: "",
+        displayName: "name1",
         resources: [
+            {
+                type: "mqttBroker",
+                configuration: {
+                    defaultListener: false,
+                    sslTlsListener: false,
+                    username: "",
+                    password: ""
+                }
+            },
             {
                 type: "tenantApp",
                 configuration: {
@@ -76,6 +94,7 @@ export class TenantDetailComponent implements OnInit {
         ]
     }
 
+    showJSON = false;
 
     serviceTypes = [
         "stateless",
@@ -161,15 +180,24 @@ export class TenantDetailComponent implements OnInit {
        
         this.tenant.displayName = this.displayName;
 
-        // Add parameters and services to tenant
         for (let idx in this.tenant.resources) {
-            if (this.tenant.resources[idx].type === 'tenantApp') {
-                this.tenant.resources[idx].configuration.parameters = [];
-                this.tenant.resources[idx].configuration.parameters.push(this.parameters)
-                this.tenant.resources[idx].configuration.services = [];
-                this.tenant.resources[idx].configuration.services.push(this.cleanFields(this.services))
+
+            // Add parameters and services configuration
+            if (this.tenant.resources[idx].type === "tenantApp") {            
+                this.tenant.resources[idx].configuration['parameters'] = [];
+                this.tenant.resources[idx].configuration['parameters'].push(this.parameters)
+                this.tenant.resources[idx].configuration['services'] = [];
+                this.tenant.resources[idx].configuration['services'].push(this.cleanFields(this.services))
+            }
+
+            // Add mqtt configuration
+            if (this.tenant.resources[idx].type == "mqttBroker") {
+                this.tenant.resources[idx].configuration = this.mqttBroker;
             }
         }
+
+        // For debugging. Remove later
+        this.showJSON = true;
 
     }
 

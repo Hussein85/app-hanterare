@@ -83,7 +83,7 @@
                         </a>
                     </div>
                 </div>
-        
+
                 <div id="collapseParameters" class="panel-collapse collapse">
                     <div class="panel-body">
                         <div class='table-responsive'>
@@ -92,15 +92,15 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Value</th>
-                                        <!--<th>Secret</th>-->                                     
+                                        <!--<th>Secret</th>-->
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let parameter of parameters">
                                         <td>{{parameter.name}}</td>
                                         <td>{{parameter.value}}</td>
-                                        <!--<td>{{parameter.secret}}</td>-->                                    
-                                    </tr>                                 
+                                        <!--<td>{{parameter.secret}}</td>-->
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -161,7 +161,7 @@
 </div>
 
 
-<!-- Update Tenant Modal -->
+<!-- Upgrade Tenant Modal -->
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width:30%;">
         <div class="modal-content panel-primary">
@@ -213,7 +213,7 @@
                             <label>Display Name</label>
                             <input type="text" class="form-control" name="fname" [(ngModel)]="displayName">
                         </div>
-                    </div>                   
+                    </div>
                 </div>
 
                 <div class="tabbable">
@@ -221,6 +221,7 @@
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#tab1" data-toggle="tab">Edit Parameters</a></li>
                         <li><a href="#tab2" data-toggle="tab">Edit Services</a></li>
+                        <li *ngIf="mqttBroker"><a href="#tab3" data-toggle="tab">MQTT Broker</a></li>
                     </ul>
 
                     <div class="tab-content">
@@ -257,7 +258,7 @@
                                         </div>
                                     </div>
 
-                                   
+
 
                                 </div>
                             </div>
@@ -309,7 +310,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-1">
-                                           
+
 
                                             <div [ngSwitch]="service.type">
                                                 <div *ngSwitchCase="'stateless'">
@@ -322,24 +323,24 @@
 
                                         </div>
                                         <div class="col-md-2">
-                                           
+
 
                                             <div [ngSwitch]="service.type">
                                                 <div *ngSwitchCase="'stateless'">
                                                     <input type="number" class="form-control" name="fname" disabled />
                                                 </div>
                                                 <div *ngSwitchCase="'stateful'">
-                                                    
+
                                                     <input type="number" class="form-control" name="fname" [(ngModel)]="service.minReplicaSetSize" />
                                                 </div>
                                             </div>
 
                                         </div>
                                         <div class="col-md-2">
-                                            
+
                                             <div [ngSwitch]="service.type">
                                                 <div *ngSwitchCase="'stateless'">
-                                                   
+
                                                     <input type="number" class="form-control" name="fname" disabled />
                                                 </div>
                                                 <div *ngSwitchCase="'stateful'">
@@ -353,8 +354,6 @@
                                         </div>
                                     </div>
 
-                                    
-
                                 </div>
                             </div>
 
@@ -366,11 +365,66 @@
                                 </div>
                             </div>
 
+                        </div>
 
+
+                        <!--MQTT-->
+                        <div class="tab-pane" id="tab3">
+                            <div style="margin-top:30px;" class="row" *ngIf="mqttBroker">
+                                <div class="col-md-12">
+
+                                    <div style="margin-top:30px;" class="row">
+                                        <div class="col-md-2">
+                                            <label>Default Listener</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input style="margin-top:10px;" type="checkbox" name="fname" [(ngModel)]="mqttBroker.defaultListener">
+                                        </div>                                  
+                                    </div>
+                                    <div style="margin-top:20px;" class="row">
+                                        <div class="col-md-2">
+                                            <label>sslTls Listener</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input style="margin-top:10px;" type="checkbox" name="fname" [(ngModel)]="mqttBroker.sslTlsListener">
+                                        </div>
+                                    </div>
+                                    <div style="margin-top:20px;" class="row">
+                                        <div class="col-md-2">
+                                            <label>Username</label>
+                                        </div>
+                                        <div class="col-md-3">                                         
+                                            <input type="text" class="form-control" name="fname" [(ngModel)]="mqttBroker.username" />
+                                        </div>
+                                    </div>
+                                    <div style="margin-top:20px;margin-bottom:20px;" class="row">
+                                        <div class="col-md-2">
+                                            <label>Password</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="password" class="form-control" name="fname" [(ngModel)]="mqttBroker.password" />
+                                        </div>
+                                    </div>
+                                    <div style="margin-top:20px;margin-bottom:20px;" class="row">
+                                        <div class="col-md-2">
+                                            <label>Confirm Password</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="password" class="form-control" name="fname"  />
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                         
 
                         </div>
 
-                        <!--<pre>{{tenant | json}}</pre>-->
+
+
+                        <pre *ngIf="showJSON">{{tenant | json}}</pre>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

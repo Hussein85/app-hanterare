@@ -58,6 +58,12 @@ export class TenantManagerComponent implements OnInit {
     update = false;
     displayName = "";
 
+    mqttBroker = {
+        defaultListener: false,
+        sslTlsListener: false,
+        username: "",
+        password: ""
+    }
    
     services = [
         //{
@@ -82,8 +88,17 @@ export class TenantManagerComponent implements OnInit {
     ]
 
    tenant = {
-        displayName: "",
+        displayName: "name1",
         resources: [
+            {
+                type: "mqttBroker",
+                configuration: {
+                    defaultListener: false,
+                    sslTlsListener: false,
+                    username: "",
+                    password: ""
+                }
+            },
             {
                 type: "tenantApp",
                 configuration: {
@@ -94,6 +109,8 @@ export class TenantManagerComponent implements OnInit {
             }
         ]
     }
+
+   showJSON = false;
 
     constructor(
         private auth: AuthService,
@@ -156,16 +173,24 @@ export class TenantManagerComponent implements OnInit {
 
         this.tenant.displayName = this.displayName;
 
-        // Add parameters and services
         for (let idx in this.tenant.resources) {
-            if (this.tenant.resources[idx].type === 'tenantApp') {
-                this.tenant.resources[idx].configuration.parameters = [];
-                this.tenant.resources[idx].configuration.parameters.push(this.parameters)
-                this.tenant.resources[idx].configuration.services = [];
-                this.tenant.resources[idx].configuration.services.push(this.cleanFields(this.services))
+
+            // Add parameters and services configuration
+            if (this.tenant.resources[idx].type === "tenantApp") {            
+                this.tenant.resources[idx].configuration['parameters'] = [];
+                this.tenant.resources[idx].configuration['parameters'].push(this.parameters)
+                this.tenant.resources[idx].configuration['services'] = [];
+                this.tenant.resources[idx].configuration['services'].push(this.cleanFields(this.services))
+            }
+
+            // Add mqtt configuration
+            if (this.tenant.resources[idx].type == "mqttBroker") {
+                this.tenant.resources[idx].configuration = this.mqttBroker;
             }
         }
-  
+
+        // For debugging. Remove later
+        this.showJSON = true;
     }
 
     parameterValid() {
