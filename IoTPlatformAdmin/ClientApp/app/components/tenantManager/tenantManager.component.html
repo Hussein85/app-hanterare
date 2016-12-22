@@ -282,8 +282,12 @@
                                                             </div>
                                                             <div *ngSwitchCase="'stateful'">
                                                                 <input type="number" class="form-control" formControlName="targetReplicaSetSize" min="{{myForm.controls.services.controls[i].controls.minReplicaSetSize.value + 1}}" />
-                                                                <small [hidden]="myForm.controls.services.controls[i].controls.targetReplicaSetSize.valid" class="text-danger">
+                                                                <!--<small [hidden]="myForm.controls.services.controls[i].controls.targetReplicaSetSize.valid" class="text-danger">
                                                                     Must be larger than {{myForm.controls.services.controls[i].controls.minReplicaSetSize.value}}
+                                                                </small>-->
+
+                                                                <small class="text-danger" *ngIf="serviceGroup.hasError('invalidTargetReplicaSetSize')">
+                                                                    TargetReplicaSetSize must be larger than minReplicaSetSize
                                                                 </small>
 
                                                             </div>
@@ -365,8 +369,8 @@
 
                     </div>
 
-                    <pre *ngIf="showJSON">{{tenant | json}}</pre>
-                    <!--<pre>form value: <br>{{myForm.value.parameters | json}}</pre>-->
+                    <!--<pre *ngIf="showJSON">{{tenant | json}}</pre>-->
+                    <pre>invalid : <br>{{myForm}}</pre>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Add</button>

@@ -5,6 +5,7 @@ import { ThemeService } from '../../services/theme.service';
 import { TenantsService } from '../../services/tenants.service';
 
 import { matchingPasswords } from '../../validators/matchingPasswords';
+import { targetReplicaSetSizeValidator } from '../../validators/targetReplicaSetSizeValidator';
 
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
@@ -14,7 +15,7 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 })
 export class TenantManagerComponent implements OnInit {
     myForm: FormGroup;
-
+    serviceGroup: FormGroup;
 
     // TODO: get tenants from API
     tenants = [
@@ -146,14 +147,18 @@ export class TenantManagerComponent implements OnInit {
     }
 
     initService() {
-        return this.fb.group({
+        this.serviceGroup = this.fb.group({
             type: ['stateless'],
             typename: ['', Validators.required],
-            instanceCount: [, Validators.pattern('[1-9][0-9]{0,4}')],
-            minReplicaSetSize: [, Validators.pattern('[1-9][0-9]{0,4}')],
-            targetReplicaSetSize: [, Validators.pattern('[1-9][0-9]{0,4}')],
+            instanceCount: [1, Validators.pattern('[1-9][0-9]{0,4}')],
+            minReplicaSetSize: [1, Validators.pattern('[1-9][0-9]{0,4}')],
+            targetReplicaSetSize: [2, Validators.pattern('[1-9][0-9]{0,4}')],
             name: ['', Validators.required]
-        });
+        }, { validator: targetReplicaSetSizeValidator('minReplicaSetSize', 'targetReplicaSetSize') });
+
+       
+       
+        return this.serviceGroup;
     }
 
    
@@ -210,6 +215,7 @@ export class TenantManagerComponent implements OnInit {
 
     // TODO: call API to save tenant
     save(formValid) {
+        
 
         this.tenant.displayName = this.myForm.value.displayName;
 
