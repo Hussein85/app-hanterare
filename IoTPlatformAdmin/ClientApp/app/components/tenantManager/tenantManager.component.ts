@@ -4,13 +4,17 @@ import { TranslateService } from 'ng2-translate';
 import { ThemeService } from '../../services/theme.service';
 import { TenantsService } from '../../services/tenants.service';
 
-//import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { matchingPasswords } from '../../validators/matchingPasswords';
+
+import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
     template: require('./tenantManager.component.html'),
     styles: [require('./tenantManager.component.css')]
 })
 export class TenantManagerComponent implements OnInit {
+    myForm: FormGroup;
+
 
     // TODO: get tenants from API
     tenants = [
@@ -51,7 +55,7 @@ export class TenantManagerComponent implements OnInit {
         }
     ];
 
-    
+
     filterText = "";
     healthState = "";
     status = "";
@@ -64,7 +68,7 @@ export class TenantManagerComponent implements OnInit {
         username: "",
         password: ""
     }
-   
+
     services = [];
 
     parameters = [];
@@ -79,9 +83,7 @@ export class TenantManagerComponent implements OnInit {
         resources: [
             {
                 type: "mqttBroker",
-                configuration: {
-                    defaultListener: false,
-                    sslTlsListener: false,
+                configuration: {                 
                     username: "",
                     password: ""
                 }
@@ -112,8 +114,9 @@ export class TenantManagerComponent implements OnInit {
         private auth: AuthService,
         private translateService: TranslateService,
         private themeService: ThemeService,
-        private tenantsService: TenantsService
-       
+        private tenantsService: TenantsService,
+        private fb: FormBuilder
+
     ) { }
 
     ngOnInit(): void {
@@ -121,70 +124,126 @@ export class TenantManagerComponent implements OnInit {
         this.themeService.changeTheme(specificUserPreference.theme);
         this.translateService.use(specificUserPreference.language);
         //this.getTenants();    // TODO: uncomment to get Tenants from API
-    
+
+        this.myForm = this.fb.group({
+            displayName: ['', [Validators.required]],  
+            username: ['', Validators.required],
+            password: ['', Validators.required],
+            confirmPassword: ['', Validators.required], 
+            parameters: this.fb.array([]),
+            services: this.fb.array([])
+                   
+        }, { validator: matchingPasswords('password', 'confirmPassword') });
+
     }
 
-    getTenants(): void {  
+    initParameter() {
+        return this.fb.group({
+            name: ['', Validators.required],
+            value: ['', Validators.required],
+            secret: [false]
+        });
+    }
+
+    initService() {
+        return this.fb.group({
+            type: ['stateless'],
+            typename: ['', Validators.required],
+            instanceCount: [, Validators.pattern('[1-9][0-9]{0,4}')],
+            minReplicaSetSize: [, Validators.pattern('[1-9][0-9]{0,4}')],
+            targetReplicaSetSize: [, Validators.pattern('[1-9][0-9]{0,4}')],
+            name: ['', Validators.required]
+        });
+    }
+
+   
+
+    
+    getTenants(): void {
         this.tenantsService.getTenants().subscribe(
             tenants => this.tenants = tenants,
             error => {
-                console.log(error);         
+                console.log(error);
             });
     }
 
-    addParameter() {  
-        let parameter = {
-            name: "",
-            value: "",
-            secret: false     
-        }
-        this.parameters.push(parameter);  
+    addParameter() {
+        //let parameter = {
+        //    name: "",
+        //    value: "",
+        //    secret: false     
+        //}
+        //this.parameters.push(parameter);  
+        const control = <FormArray>this.myForm.controls['parameters'];
+        control.push(this.initParameter());
     }
 
-    addService() {        
-        let service = {
-            type: "stateless",
-            typename: "",
-            instanceCount: 1,
-            minReplicaSetSize: 1,
-            targetReplicaSetSize: 1,
-            name: ""
-        }
-        this.services.push(service);   
+    addService() {
+        //let service = {
+        //    type: "stateless",
+        //    typename: "",
+        //    instanceCount: 1,
+        //    minReplicaSetSize: 1,
+        //    targetReplicaSetSize: 2,
+        //    name: ""
+        //}
+        //this.services.push(service);   
+
+
+        const control = <FormArray>this.myForm.controls['services'];
+        control.push(this.initService());
     }
 
-    removeParameter(i: number) {   
-        this.parameters.splice(i, 1);
+    removeParameter(i: number) {
+        //this.parameters.splice(i, 1);
+
+        const control = <FormArray>this.myForm.controls['parameters'];
+        control.removeAt(i);
     }
 
     removeService(i: number) {
-        this.services.splice(i, 1);
+        //this.services.splice(i, 1);
+
+        const control = <FormArray>this.myForm.controls['services'];
+        control.removeAt(i);
     }
 
     // TODO: call API to save tenant
-    save() {
+    save(formValid) {
+
+        this.tenant.displayName = this.myForm.value.displayName;
 
         for (let idx in this.tenant.resources) {
 
-            // Add parameters and services configuration
-            if (this.tenant.resources[idx].type === "tenantApp") {            
+            // Add parameters and services configuration to tenant
+            if (this.tenant.resources[idx].type === "tenantApp") {
                 this.tenant.resources[idx].configuration['parameters'] = [];
-                this.tenant.resources[idx].configuration['parameters'].push(this.parameters)
+                if(this.myForm.value.parameters.length > 0)
+                    this.tenant.resources[idx].configuration['parameters'].push(this.myForm.value.parameters)
+
                 this.tenant.resources[idx].configuration['services'] = [];
-                this.tenant.resources[idx].configuration['services'].push(this.cleanFields(this.services))
+                if (this.myForm.value.services.length > 0)
+                    this.tenant.resources[idx].configuration['services'].push(this.cleanFields(this.myForm.value.services))
+                
             }
 
-            // Add mqtt configuration
+            // Add mqtt configuration to tenant
+            let mqttBroker = {           
+                username: this.myForm.value.username,
+                password: this.myForm.value.password
+            }
+
             if (this.tenant.resources[idx].type == "mqttBroker") {
-                this.tenant.resources[idx].configuration = this.mqttBroker;
+                this.tenant.resources[idx].configuration = mqttBroker;
             }
         }
 
-        // TODO: uncomment to call API to create tenant
+        // TODO: uncomment to call API to create a new tenant
         //this.tenantsService.createTenant(this.tenant);
 
         // For debugging. Remove later
         this.showJSON = true;
+
     }
 
     parameterValid() {
@@ -223,7 +282,7 @@ export class TenantManagerComponent implements OnInit {
                 delete services[idx]["minReplicaSetSize"];
                 delete services[idx]["targetReplicaSetSize"];
             } else {
-                delete services[idx]["instanceCount"];       
+                delete services[idx]["instanceCount"];
             }
         }
 
@@ -236,4 +295,3 @@ export class TenantManagerComponent implements OnInit {
 }
 
 
- 

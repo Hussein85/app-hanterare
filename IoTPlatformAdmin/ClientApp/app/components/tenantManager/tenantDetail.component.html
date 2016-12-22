@@ -207,233 +207,278 @@
 
             <div class="modal-body">
 
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <label>Display Name</label>
-                            <input type="text" class="form-control" name="fname" [(ngModel)]="tenant.displayName">
+                <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm)">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label>Display Name</label>
+                                <input type="text" class="form-control" formControlName="displayName">
+                                <small *ngIf="!myForm.controls.displayName.valid" class="text-danger">
+                                    Required
+                                </small>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="tabbable">
+                    <div class="tabbable">
 
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab1" data-toggle="tab">Edit Parameters</a></li>
-                        <li><a href="#tab2" data-toggle="tab">Edit Services</a></li>
-                        <li *ngIf="mqttBroker"><a href="#tab3" data-toggle="tab">MQTT Broker</a></li>
-                    </ul>
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab1" data-toggle="tab">Edit Parameters</a></li>
+                            <li><a href="#tab2" data-toggle="tab">Edit Services</a></li>
+                            <li *ngIf="mqttBroker"><a href="#tab3" data-toggle="tab">MQTT Broker</a></li>
+                        </ul>
 
-                    <div class="tab-content">
+                        <div class="tab-content">
 
-                        <!--EDIT PARAMETERS-->
-                        <div class="tab-pane active" id="tab1">
+                            <!--EDIT PARAMETERS-->
+                            <div class="tab-pane active" id="tab1">
 
-                            <div style="margin-top:30px;" class="row" *ngIf="parameters.length">
-                                <div class="col-md-12 ">
-                                    <div style="margin-bottom:-20px" class="row">
-                                        <div class="col-md-5 col-md-offset-1">
-                                            <label>Parameter Name</label>
+                                <div style="margin-top:30px;" class="row" *ngIf="myForm.controls.parameters.controls.length > 0">
+                                    <div class="col-md-12 ">
+                                        <div style="margin-bottom:-20px" class="row">
+                                            <div class="col-md-5 col-md-offset-1">
+                                                <label>Parameter Name</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Parameter Value</label>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label>Secret</label>
+                                            </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <label>Parameter Value</label>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <label>Secret</label>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <div style="margin-bottom:15px;" class="row" *ngFor="let parameter of parameters; let i=index">
-                                        <div class="col-md-1">
-                                            <span style="cursor:pointer; margin-top:10px" class="glyphicon glyphicon-remove" (click)="removeParameter(i)"></span>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <input type="text" class="form-control" name="fname" [(ngModel)]="parameter.name" />
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="text" class="form-control" name="fname" [(ngModel)]="parameter.value" />
-                                        </div>
-                                        <div class="col-md-1">
-                                            <input style="margin-top:10px;" type="checkbox" name="fname" [(ngModel)]="parameter.secret">
-                                        </div>
-                                    </div>
+                                        <hr />
+                                        <div formArrayName="parameters">
+                                            <div style="margin-bottom:15px;" class="row" *ngFor="let parameter of myForm.controls.parameters.controls; let i=index">
 
+                                                <div [formGroupName]="i">
 
+                                                    <div class="col-md-1">
+                                                        <span style="cursor:pointer; margin-top:10px" class="glyphicon glyphicon-remove" (click)="removeParameter(i)"></span>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <input type="text" class="form-control" formControlName="name" />
+                                                        <small [hidden]="myForm.controls.parameters.controls[i].controls.name.valid" class="text-danger">
+                                                            Required
+                                                        </small>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input type="text" class="form-control" formControlName="value" />
+                                                        <small [hidden]="myForm.controls.parameters.controls[i].controls.value.valid" class="text-danger">
+                                                            Required
+                                                        </small>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <input style="margin-top:10px;" type="checkbox" formControlName="secret">
+                                                    </div>
 
-                                </div>
-                            </div>
-                            <div style="margin-top:15px;" class="row">
-                                <div class="col-md-3 ">
-                                    <a (click)="addParameter()" style="cursor: pointer">
-                                        <strong>Add Parameter +</strong>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--EDIT SERVICES-->
-                        <div class="tab-pane" id="tab2">
-                            <div style="margin-top:30px;" class="row" *ngIf="services.length">
-                                <div class="col-md-12">
-                                    <div style="margin-bottom:-20px; margin-left:20px;" class="row">
-                                        <div class="col-md-2 col-md-offset-1">
-                                            <label>Name</label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label>Type</label>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <label>Instances</label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label>Min Replica Set Size</label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label>Target Replica Set Size</label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label>Typename</label>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <div style="margin-bottom:15px;" class="row" *ngFor="let service of services; let i=index">
-                                        <div class="col-md-1">
-                                            <span style="cursor:pointer; margin-top:10px" class="glyphicon glyphicon-remove" (click)="removeService(i)"></span>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control" name="fname" [(ngModel)]="service.name" />
-                                        </div>
-                                        <div class="col-md-2">
-                                            <!--<input type="text" class="form-control" name="fname" [(ngModel)]="service.type" />-->
-                                            <select [(ngModel)]="service.type" name="type" class="form-control" (click)="changeType()">
-                                                <option *ngFor="let n of serviceTypes" [ngValue]="n">{{n}}</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-1">
-
-
-                                            <div [ngSwitch]="service.type">
-                                                <div *ngSwitchCase="'stateless'">
-                                                    <input type="number" class="form-control" name="fname" [(ngModel)]="service.instanceCount" />
                                                 </div>
-                                                <div *ngSwitchCase="'stateful'">
-                                                    <input type="number" class="form-control" name="fname" disabled />
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                                <div style="margin-top:15px;" class="row">
+                                    <div class="col-md-3 ">
+                                        <a (click)="addParameter()" style="cursor: pointer">
+                                            <strong>Add Parameter +</strong>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--EDIT SERVICES-->
+                            <div class="tab-pane" id="tab2">
+                                <div style="margin-top:30px;" class="row" *ngIf="myForm.controls.services.controls.length > 0">
+                                    <div class="col-md-12">
+                                        <div style="margin-bottom:-20px; margin-left:20px;" class="row">
+                                            <div class="col-md-2 col-md-offset-1">
+                                                <label>Name</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>Type</label>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label>Instances</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>Min Replica Set Size</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>Target Replica Set Size</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>Typename</label>
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                        <div formArrayName="services">
+                                            <div style="margin-bottom:15px;" class="row" *ngFor="let service of myForm.controls.services.controls; let i=index">
+
+                                                <div [formGroupName]="i">
+
+                                                    <div class="col-md-1">
+                                                        <span style="cursor:pointer; margin-top:10px" class="glyphicon glyphicon-remove" (click)="removeService(i)"></span>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" class="form-control" formControlName="name" />
+                                                        <small [hidden]="myForm.controls.services.controls[i].controls.name.valid" class="text-danger">
+                                                            Required
+                                                        </small>
+                                                    </div>
+                                                    <div class="col-md-2">                                                      
+                                                        <select formControlName="type" class="form-control" (click)="changeType()">
+                                                            <option *ngFor="let n of serviceTypes" [ngValue]="n">{{n}}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-1">
+
+
+                                                        <div [ngSwitch]="myForm.controls.services.controls[i].controls.type.value">
+                                                            <div *ngSwitchCase="'stateless'">
+                                                                <input type="number" class="form-control" formControlName="instanceCount" min="1" />
+                                                                <small [hidden]="myForm.controls.services.controls[i].controls.instanceCount.value > 0" class="text-danger">
+                                                                    Must be larger than 0
+                                                                </small>
+                                                            </div>
+                                                            <div *ngSwitchCase="'stateful'">
+                                                                <input type="number" class="form-control" name="instCount" disabled />
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-2">
+
+
+                                                        <div [ngSwitch]="myForm.controls.services.controls[i].controls.type.value">
+                                                            <div *ngSwitchCase="'stateless'">
+                                                                <input type="number" class="form-control" name="servminRep" disabled />
+                                                            </div>
+                                                            <div *ngSwitchCase="'stateful'">
+
+                                                                <input type="number" class="form-control" formControlName="minReplicaSetSize" min="1" />
+                                                                <small [hidden]="myForm.controls.services.controls[i].controls.minReplicaSetSize.value > 0" class="text-danger">
+                                                                    Must be larger than 0
+                                                                </small>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-2">
+
+                                                        <div [ngSwitch]="myForm.controls.services.controls[i].controls.type.value">
+                                                            <div *ngSwitchCase="'stateless'">
+
+                                                                <input type="number" class="form-control" name="typename" disabled />
+                                                            </div>
+                                                            <div *ngSwitchCase="'stateful'">
+                                                                <input type="number" class="form-control" formControlName="targetReplicaSetSize" min="{{myForm.controls.services.controls[i].controls.minReplicaSetSize.value + 1}}" />
+                                                                <small [hidden]="myForm.controls.services.controls[i].controls.targetReplicaSetSize.value > myForm.controls.services.controls[i].controls.minReplicaSetSize.value" class="text-danger">
+                                                                    Must be larger than {{myForm.controls.services.controls[i].controls.minReplicaSetSize.value}}
+                                                                </small>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="text" class="form-control" formControlName="typename" />
+                                                        <small [hidden]="myForm.controls.services.controls[i].controls.typename.valid" class="text-danger">
+                                                            Required
+                                                        </small>
+                                                    </div>
+
                                                 </div>
                                             </div>
 
                                         </div>
-                                        <div class="col-md-2">
+
+                                    </div>
+                                </div>
+
+                                <div style="margin-top:15px;" class="row">
+                                    <div class="col-md-3 ">
+                                        <a (click)="addService()" style="cursor: pointer">
+                                            <strong>Add Service +</strong>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
 
 
-                                            <div [ngSwitch]="service.type">
-                                                <div *ngSwitchCase="'stateless'">
-                                                    <input type="number" class="form-control" name="fname" disabled />
-                                                </div>
-                                                <div *ngSwitchCase="'stateful'">
+                            <!--MQTT-->
+                            <!--<div class="tab-pane" id="tab3">
+                                <div style="margin-top:30px;" class="row" *ngIf="mqttBroker">
+                                    <div class="col-md-12">
 
-                                                    <input type="number" class="form-control" name="fname" [(ngModel)]="service.minReplicaSetSize" />
-                                                </div>
+                                        <div style="margin-top:30px;" class="row">
+                                            <div class="col-md-2">
+                                                <label>Default Listener</label>
                                             </div>
-
-                                        </div>
-                                        <div class="col-md-2">
-
-                                            <div [ngSwitch]="service.type">
-                                                <div *ngSwitchCase="'stateless'">
-
-                                                    <input type="number" class="form-control" name="fname" disabled />
-                                                </div>
-                                                <div *ngSwitchCase="'stateful'">
-                                                    <input type="number" class="form-control" name="fname" [(ngModel)]="service.targetReplicaSetSize" />
-                                                </div>
+                                            <div class="col-md-3">
+                                                <input style="margin-top:10px;" type="checkbox" name="fname" [(ngModel)]="mqttBroker.defaultListener">
                                             </div>
+                                        </div>
+                                        <div style="margin-top:20px;" class="row">
+                                            <div class="col-md-2">
+                                                <label>sslTls Listener</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input style="margin-top:10px;" type="checkbox" name="fname" [(ngModel)]="mqttBroker.sslTlsListener">
+                                            </div>
+                                        </div>
+                                        <div style="margin-top:20px;" class="row">
+                                            <div class="col-md-2">
+                                                <label>Username</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" name="fname" [(ngModel)]="mqttBroker.username" />
+                                            </div>
+                                        </div>
+                                        <div style="margin-top:20px;margin-bottom:20px;" class="row">
+                                            <div class="col-md-2">
+                                                <label>Password</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="password" class="form-control" name="fname" [(ngModel)]="mqttBroker.password" />
+                                            </div>
+                                        </div>
+                                        <div style="margin-top:20px;margin-bottom:20px;" class="row">
+                                            <div class="col-md-2">
+                                                <label>Confirm Password</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="password" class="form-control" name="fname" />
+                                            </div>
+                                        </div>
 
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control" name="fname" [(ngModel)]="service.typename" />
-                                        </div>
+
                                     </div>
-
                                 </div>
+
+
+
+                            </div>-->
+
+
+
+                            <pre *ngIf="showJSON">{{tenant | json}}</pre>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Add</button>
                             </div>
 
-                            <div style="margin-top:15px;" class="row">
-                                <div class="col-md-3 ">
-                                    <a (click)="addService()" style="cursor: pointer">
-                                        <strong>Add Service +</strong>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                        <!--MQTT-->
-                        <div class="tab-pane" id="tab3">
-                            <div style="margin-top:30px;" class="row" *ngIf="mqttBroker">
-                                <div class="col-md-12">
-
-                                    <div style="margin-top:30px;" class="row">
-                                        <div class="col-md-2">
-                                            <label>Default Listener</label>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <input style="margin-top:10px;" type="checkbox" name="fname" [(ngModel)]="mqttBroker.defaultListener">
-                                        </div>                                  
-                                    </div>
-                                    <div style="margin-top:20px;" class="row">
-                                        <div class="col-md-2">
-                                            <label>sslTls Listener</label>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <input style="margin-top:10px;" type="checkbox" name="fname" [(ngModel)]="mqttBroker.sslTlsListener">
-                                        </div>
-                                    </div>
-                                    <div style="margin-top:20px;" class="row">
-                                        <div class="col-md-2">
-                                            <label>Username</label>
-                                        </div>
-                                        <div class="col-md-3">                                         
-                                            <input type="text" class="form-control" name="fname" [(ngModel)]="mqttBroker.username" />
-                                        </div>
-                                    </div>
-                                    <div style="margin-top:20px;margin-bottom:20px;" class="row">
-                                        <div class="col-md-2">
-                                            <label>Password</label>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <input type="password" class="form-control" name="fname" [(ngModel)]="mqttBroker.password" />
-                                        </div>
-                                    </div>
-                                    <div style="margin-top:20px;margin-bottom:20px;" class="row">
-                                        <div class="col-md-2">
-                                            <label>Confirm Password</label>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <input type="password" class="form-control" name="fname"  />
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-                         
-
-                        </div>
-
-
-
-                        <pre *ngIf="showJSON">{{tenant | json}}</pre>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary" (click)="save()">Save</button>
                         </div>
 
                     </div>
 
-                </div>
+                </form>
 
             </div>
 

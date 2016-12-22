@@ -6,7 +6,7 @@ import { TenantsService } from '../../services/tenants.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 
-
+import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -14,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     styles: [require('./tenantDetail.component.css')]
 })
 export class TenantDetailComponent implements OnInit {
-
+    myForm: FormGroup;
     
     version = "v1.1";
     // TODO: Get update versions from API
@@ -109,7 +109,8 @@ export class TenantDetailComponent implements OnInit {
         private themeService: ThemeService,
         private tenantsService: TenantsService,
         private route: ActivatedRoute,
-        private router: Router,              
+        private router: Router, 
+        private fb: FormBuilder             
     ) { }
 
     ngOnInit(): void {
@@ -124,6 +125,12 @@ export class TenantDetailComponent implements OnInit {
         });
 
         this.version = "v1.2";
+
+        this.myForm = this.fb.group({
+            displayName: ['', [Validators.required]],
+            parameters: this.fb.array([]),
+            services: this.fb.array([])
+        });
     }
 
     // TODO: get tenant from API
@@ -137,38 +144,68 @@ export class TenantDetailComponent implements OnInit {
         this.router.navigate(['/tenantManager']);
     }
 
+    initParameter() {
+        return this.fb.group({
+            name: ['', Validators.required],
+            value: ['', Validators.required],
+            secret: [false]
+        });
+    }
+
+    initService() {
+        return this.fb.group({
+            type: ['stateless'],
+            typename: ['', Validators.required],
+            instanceCount: [1, Validators.pattern('[1-9][0-9]{0,4}')],
+            minReplicaSetSize: [1, Validators.pattern('[1-9][0-9]{0,4}')],
+            targetReplicaSetSize: [2, Validators.pattern('[1-9][0-9]{0,4}')],
+            name: ['', Validators.required]
+        });
+    }
 
     // TODO: call api to delete tenant
     delete() {
     }
 
     removeParameter(i: number) {
-        this.parameters.splice(i, 1);
+        //this.parameters.splice(i, 1);
+
+        const control = <FormArray>this.myForm.controls['parameters'];
+        control.removeAt(i);
     }
 
     removeService(i: number) {
-        this.services.splice(i, 1);
+        //this.services.splice(i, 1);
+
+        const control = <FormArray>this.myForm.controls['services'];
+        control.removeAt(i);
     }
 
     addParameter() {
-        let parameter = {
-            name: "",
-            value: "",
-            secret: false
-        }
-        this.parameters.push(parameter);
+        //let parameter = {
+        //    name: "",
+        //    value: "",
+        //    secret: false     
+        //}
+        //this.parameters.push(parameter);  
+        const control = <FormArray>this.myForm.controls['parameters'];
+        control.push(this.initParameter());
     }
 
     addService() {
-       let service = {
-            type: "stateless",
-            typename: "",
-            instanceCount: 1,
-            minReplicaSetSize: 1,
-            targetReplicaSetSize: 1,
-            name: ""
-        }
-        this.services.push(service);
+        //let service = {
+        //    type: "stateless",
+        //    typename: "",
+        //    instanceCount: 1,
+        //    minReplicaSetSize: 1,
+        //    targetReplicaSetSize: 2,
+        //    name: ""
+        //}
+        //this.services.push(service);   
+
+
+        const control = <FormArray>this.myForm.controls['services'];
+        control.push(this.initService());
     }
 
 
@@ -178,14 +215,17 @@ export class TenantDetailComponent implements OnInit {
     // TODO: call API to save tenant
     save() {
        
+        this.tenant.displayName = this.myForm.value.displayName;
+
+
         for (let idx in this.tenant.resources) {
 
             // Add parameters and services configuration
-            if (this.tenant.resources[idx].type === "tenantApp") {            
+            if (this.tenant.resources[idx].type === "tenantApp") {
                 this.tenant.resources[idx].configuration['parameters'] = [];
-                this.tenant.resources[idx].configuration['parameters'].push(this.parameters)
+                this.tenant.resources[idx].configuration['parameters'].push(this.myForm.value.parameters)
                 this.tenant.resources[idx].configuration['services'] = [];
-                this.tenant.resources[idx].configuration['services'].push(this.cleanFields(this.services))
+                this.tenant.resources[idx].configuration['services'].push(this.cleanFields(this.myForm.value.services))
             }
 
             // Add mqtt configuration
