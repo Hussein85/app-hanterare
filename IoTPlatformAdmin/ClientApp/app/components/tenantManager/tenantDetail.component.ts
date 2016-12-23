@@ -8,6 +8,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { matchingPasswords } from '../../validators/matchingPasswords';
 import { targetReplicaSetSizeValidator } from '../../validators/targetReplicaSetSizeValidator';
 
+
+
+import { matchingDisplayNames } from '../../validators/matchingDisplayNamesValidator';
+
+
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 
@@ -17,8 +22,11 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
     styles: [require('./tenantDetail.component.css')]
 })
 export class TenantDetailComponent implements OnInit {
-    myForm: FormGroup;
+    editTenantForm: FormGroup;
+    deleteTenantForm: FormGroup;
     tenant: any;
+
+    deleteTenantInputText = "";
 
     version = "v1.1";
     // TODO: Get update versions from API
@@ -56,6 +64,10 @@ export class TenantDetailComponent implements OnInit {
         });
 
         this.version = "v1.2";
+
+
+
+        
    
     }
 
@@ -132,7 +144,7 @@ export class TenantDetailComponent implements OnInit {
     }
 
     fillValuesInForm() {
-        this.myForm = this.fb.group({
+        this.editTenantForm = this.fb.group({
             displayName: [this.tenant.displayName, [Validators.required]],
             username: [this.getMQTTUserName(), Validators.required],
             password: [this.getMQTTPassword(), Validators.required],
@@ -143,7 +155,7 @@ export class TenantDetailComponent implements OnInit {
 
 
         let parameters = this.getParameters();
-        const controlParameters = <FormArray>this.myForm.controls['parameters'];
+        const controlParameters = <FormArray>this.editTenantForm.controls['parameters'];
         for (let idx in parameters) {
             controlParameters.push(this.fb.group({          
                 name: [parameters[idx].name, Validators.required],
@@ -153,7 +165,7 @@ export class TenantDetailComponent implements OnInit {
         }
    
         let services = this.getServices();
-        const controlServices = <FormArray>this.myForm.controls['services'];
+        const controlServices = <FormArray>this.editTenantForm.controls['services'];
         for (let idx in services) {
             if (services[idx].type === 'stateless') {
                 controlServices.push(this.fb.group({
@@ -176,6 +188,12 @@ export class TenantDetailComponent implements OnInit {
 
             }         
         }
+
+        this.deleteTenantForm = this.fb.group({
+            displayName: [this.tenant.displayName],
+            confirmDisplayName: ['', [Validators.required]]
+
+        }, { validator: matchingDisplayNames('displayName', 'confirmDisplayName') });
 
     }
 
@@ -246,25 +264,29 @@ export class TenantDetailComponent implements OnInit {
 
     // TODO: uncomment code below to delete a tenant
     delete() {
+        alert("Deleted tenant");
+
+        // TODO: uncomment the code to delete tenant
+        //this.tenantsService.deleteTenant(this.tenant.id);
     }
 
     removeParameter(i: number) {
-        const control = <FormArray>this.myForm.controls['parameters'];
+        const control = <FormArray>this.editTenantForm.controls['parameters'];
         control.removeAt(i);
     }
 
     removeService(i: number) {      
-        const control = <FormArray>this.myForm.controls['services'];
+        const control = <FormArray>this.editTenantForm.controls['services'];
         control.removeAt(i);
     }
 
     addParameter() {     
-        const control = <FormArray>this.myForm.controls['parameters'];
+        const control = <FormArray>this.editTenantForm.controls['parameters'];
         control.push(this.initParameter());
     }
 
     addService() {
-        const control = <FormArray>this.myForm.controls['services'];
+        const control = <FormArray>this.editTenantForm.controls['services'];
         control.push(this.initService());
     }
 
@@ -275,26 +297,26 @@ export class TenantDetailComponent implements OnInit {
     // TODO: uncomment code below to create a tenant
     save() {
        
-        this.tenant.displayName = this.myForm.value.displayName;
+        this.tenant.displayName = this.editTenantForm.value.displayName;
 
         for (let idx in this.tenant.resources) {
 
             // Add parameters and services configuration
             if (this.tenant.resources[idx].type === "tenantApp") {
                 this.tenant.resources[idx].configuration['parameters'] = [];
-                if (this.myForm.value.parameters.length > 0)
-                    this.tenant.resources[idx].configuration['parameters'].push(this.myForm.value.parameters)
+                if (this.editTenantForm.value.parameters.length > 0)
+                    this.tenant.resources[idx].configuration['parameters'].push(this.editTenantForm.value.parameters)
 
                 this.tenant.resources[idx].configuration['services'] = [];
-                if (this.myForm.value.services.length > 0)
-                    this.tenant.resources[idx].configuration['services'].push(this.cleanFields(this.myForm.value.services))
+                if (this.editTenantForm.value.services.length > 0)
+                    this.tenant.resources[idx].configuration['services'].push(this.cleanFields(this.editTenantForm.value.services))
 
             }
 
             // Add mqtt configuration
             let mqttBroker = {
-                username: this.myForm.value.username,
-                password: this.myForm.value.password
+                username: this.editTenantForm.value.username,
+                password: this.editTenantForm.value.password
             }
 
             if (this.tenant.resources[idx].type == "mqttBroker") {

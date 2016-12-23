@@ -14,7 +14,7 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
     styles: [require('./tenantManager.component.css')]
 })
 export class TenantManagerComponent implements OnInit {
-    myForm: FormGroup;
+    addTenantForm: FormGroup;
 
 
     // TODO: get tenants from API
@@ -126,7 +126,7 @@ export class TenantManagerComponent implements OnInit {
         this.translateService.use(specificUserPreference.language);
         //this.getTenants();    // TODO: uncomment to get Tenants from API
 
-        this.myForm = this.fb.group({
+        this.addTenantForm = this.fb.group({
             displayName: ['', [Validators.required]],  
             username: ['', Validators.required],
             password: ['', Validators.required],
@@ -174,7 +174,7 @@ export class TenantManagerComponent implements OnInit {
         //    secret: false     
         //}
         //this.parameters.push(parameter);  
-        const control = <FormArray>this.myForm.controls['parameters'];
+        const control = <FormArray>this.addTenantForm.controls['parameters'];
         control.push(this.initParameter());
     }
 
@@ -190,43 +190,43 @@ export class TenantManagerComponent implements OnInit {
         //this.services.push(service);   
 
 
-        const control = <FormArray>this.myForm.controls['services'];
+        const control = <FormArray>this.addTenantForm.controls['services'];
         control.push(this.initService());
     }
 
     removeParameter(i: number) { 
-        const control = <FormArray>this.myForm.controls['parameters'];
+        const control = <FormArray>this.addTenantForm.controls['parameters'];
         control.removeAt(i);
     }
 
     removeService(i: number) {
-        const control = <FormArray>this.myForm.controls['services'];
+        const control = <FormArray>this.addTenantForm.controls['services'];
         control.removeAt(i);
     }
 
     // TODO: call API to save tenant
     save(formValid) {
         
-        this.tenant.displayName = this.myForm.value.displayName;
+        this.tenant.displayName = this.addTenantForm.value.displayName;
 
         for (let idx in this.tenant.resources) {
 
             // Add parameters and services configuration to tenant
             if (this.tenant.resources[idx].type === "tenantApp") {
                 this.tenant.resources[idx].configuration['parameters'] = [];
-                if(this.myForm.value.parameters.length > 0)
-                    this.tenant.resources[idx].configuration['parameters'].push(this.myForm.value.parameters)
+                if(this.addTenantForm.value.parameters.length > 0)
+                    this.tenant.resources[idx].configuration['parameters'].push(this.addTenantForm.value.parameters)
 
                 this.tenant.resources[idx].configuration['services'] = [];
-                if (this.myForm.value.services.length > 0)
-                    this.tenant.resources[idx].configuration['services'].push(this.cleanFields(this.myForm.value.services))
+                if (this.addTenantForm.value.services.length > 0)
+                    this.tenant.resources[idx].configuration['services'].push(this.cleanFields(this.addTenantForm.value.services))
                 
             }
 
             // Add mqtt configuration to tenant
             let mqttBroker = {           
-                username: this.myForm.value.username,
-                password: this.myForm.value.password
+                username: this.addTenantForm.value.username,
+                password: this.addTenantForm.value.password
             }
 
             if (this.tenant.resources[idx].type == "mqttBroker") {
