@@ -15,7 +15,7 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 })
 export class TenantManagerComponent implements OnInit {
     myForm: FormGroup;
-    serviceGroup: FormGroup;
+
 
     // TODO: get tenants from API
     tenants = [
@@ -147,7 +147,7 @@ export class TenantManagerComponent implements OnInit {
     }
 
     initService() {
-        this.serviceGroup = this.fb.group({
+        return this.fb.group({
             type: ['stateless'],
             typename: ['', Validators.required],
             instanceCount: [1, Validators.pattern('[1-9][0-9]{0,4}')],
@@ -155,15 +155,10 @@ export class TenantManagerComponent implements OnInit {
             targetReplicaSetSize: [2, Validators.pattern('[1-9][0-9]{0,4}')],
             name: ['', Validators.required]
         }, { validator: targetReplicaSetSizeValidator('minReplicaSetSize', 'targetReplicaSetSize') });
-
-       
-       
-        return this.serviceGroup;
+    
     }
 
    
-
-    
     getTenants(): void {
         this.tenantsService.getTenants().subscribe(
             tenants => this.tenants = tenants,
@@ -199,16 +194,12 @@ export class TenantManagerComponent implements OnInit {
         control.push(this.initService());
     }
 
-    removeParameter(i: number) {
-        //this.parameters.splice(i, 1);
-
+    removeParameter(i: number) { 
         const control = <FormArray>this.myForm.controls['parameters'];
         control.removeAt(i);
     }
 
     removeService(i: number) {
-        //this.services.splice(i, 1);
-
         const control = <FormArray>this.myForm.controls['services'];
         control.removeAt(i);
     }
@@ -216,7 +207,6 @@ export class TenantManagerComponent implements OnInit {
     // TODO: call API to save tenant
     save(formValid) {
         
-
         this.tenant.displayName = this.myForm.value.displayName;
 
         for (let idx in this.tenant.resources) {
@@ -251,24 +241,7 @@ export class TenantManagerComponent implements OnInit {
         this.showJSON = true;
 
     }
-
-    parameterValid() {
-        //return this.myForm.controls['parameterName'].valid && this.myForm.controls['parameterValue'].valid 
-    }
-
-    serviceValid() {
-        //return this.myForm.controls['serviceName'].valid && this.myForm.controls['serviceTypeName'].valid &&
-        //    this.myForm.controls['instanceCount'].valid && this.myForm.controls['minReplicaSetSize'].valid &&
-        //    this.myForm.controls['targetReplicaSetSize'].valid;
-    }
-
-    formValid() {
-        //if (this.parameters.length > 0 || this.services.length > 0) {
-        //    return true;
-        //} else {
-        //    return false;
-        //}
-    }
+    
 
     healthStatus(r) {
         this.healthState = r.value;

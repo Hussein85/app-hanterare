@@ -25,13 +25,23 @@ export class HomeComponent implements OnInit {
 
 
     ngOnInit(): void {
-        this.getUserPreferences();
+        //this.getUserPreferences(); // Uncomment to get userpreferenses from API
+
+        // Fake userPreferences. Remove later
+        this.userPreferences = {
+            id: "1",
+            theme: "default",
+            language: "en",
+            userId: "user1"
+        }
+        localStorage.setItem('userPref', JSON.stringify(this.userPreferences));
+
     }
 
 
     getUserPreferences(): void {
 
-        // If no user preferences exists in local storage, then do a server call.
+        // If no user preferences exists in local storage, then call API to get user preferences.
         if (localStorage.getItem('userPref') === null) {
             this.userPreferencesService.getUserPreferences().subscribe(
                 userPreferences => {
@@ -52,40 +62,5 @@ export class HomeComponent implements OnInit {
 
     }
 
-    //getAllPreferences(): void {
-    //    this.userPreferencesService.getAllUserPreferences()
-    //        .subscribe(
-    //        userPreferences => this.userPreferences = userPreferences,
-    //        error => {
-    //            console.log(error);
-    //        });
-    //}
-
-
-    //getSpecificUserPreference(id): void {
-
-    //    // If no userPref exists in localStorage, then do a server call.
-    //    if (localStorage.getItem('userPref') === null) {
-
-    //        this.userPreferencesService.getSpecificUserPreference(id)
-    //            .subscribe(
-    //            specificUserPreference => {
-    //                this.specificUserPreference = specificUserPreference;
-    //                this.translateService.use(specificUserPreference.language);
-    //                this.themeService.changeTheme(this.specificUserPreference.theme);
-    //                localStorage.setItem('userPref', JSON.stringify(specificUserPreference));
-    //            },
-    //            error => {
-    //                console.log(error);
-    //            });
-    //    } else {
-    //        // Read userPref from localstorage 
-    //        this.specificUserPreference = JSON.parse(localStorage.getItem('userPref'));
-    //        this.themeService.changeTheme(this.specificUserPreference.theme);
-    //        this.translateService.use(this.specificUserPreference.language);
-    //    }
-
-    //}
-
-
+    
 }

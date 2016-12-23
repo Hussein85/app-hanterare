@@ -60,7 +60,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let service of services">
+                                    <tr *ngFor="let service of getServices()">
                                         <td>{{service.name}}</td>
                                         <td>{{service.type}}</td>
                                         <!--<td>{{service.instanceCount}}</td>-->
@@ -72,7 +72,6 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
 
                 <div class='row top-buffer'>
@@ -96,16 +95,35 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let parameter of parameters">
+                                    <tr *ngFor="let parameter of getParameters()">
                                         <td>{{parameter.name}}</td>
-                                        <td>{{parameter.value}}</td>
-                                        <!--<td>{{parameter.secret}}</td>-->
+                                        <td>{{parameter.value}}</td>                                       
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                </div>
 
+                <div class='row top-buffer'>
+                    <div class='col-md-4'>
+                        <a data-toggle="collapse" href="#collapseMQTTBroker">
+                            <strong>MQTT Broker</strong>
+                            <span class="glyphicon glyphicon-triangle-bottom"></span>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="collapseMQTTBroker" class="panel-collapse collapse">
+                    <div class="panel-body">
+          
+                        <div class='row top-buffer'>
+                            <div class='col-md-4'><strong>Username:</strong></div>
+                            <div class='col-md-4'>{{getMQTTUserName()}}</div>
+                           
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
@@ -132,7 +150,7 @@
 
 
 
-<!-- Delete Tenant Modal -->
+<!-- DELETE TENANT MODAL -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content panel-primary">
@@ -161,7 +179,7 @@
 </div>
 
 
-<!-- Upgrade Tenant Modal -->
+<!-- UPGRADE TENANT MODAL -->
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width:30%;">
         <div class="modal-content panel-primary">
@@ -195,9 +213,8 @@
 
 
 
-<!--Edit Tenant Modal -->
+<!--EDIT TENANT MODAL -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
     <div class="modal-dialog" style="width:80%;">
         <div class="modal-content panel-primary">
             <div class="modal-header panel-heading" style='font-size:large'>
@@ -226,7 +243,7 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#tab1" data-toggle="tab">Edit Parameters</a></li>
                             <li><a href="#tab2" data-toggle="tab">Edit Services</a></li>
-                            <li *ngIf="mqttBroker"><a href="#tab3" data-toggle="tab">MQTT Broker</a></li>
+                            <li *ngIf="getMQTTConfiguration()"><a href="#tab3" data-toggle="tab">MQTT Broker</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -342,7 +359,7 @@
                                                         <div [ngSwitch]="myForm.controls.services.controls[i].controls.type.value">
                                                             <div *ngSwitchCase="'stateless'">
                                                                 <input type="number" class="form-control" formControlName="instanceCount" min="1" />
-                                                                <small [hidden]="myForm.controls.services.controls[i].controls.instanceCount.value > 0" class="text-danger">
+                                                                <small [hidden]="myForm.controls.services.controls[i].controls.instanceCount.valid" class="text-danger">
                                                                     Must be larger than 0
                                                                 </small>
                                                             </div>
@@ -362,7 +379,7 @@
                                                             <div *ngSwitchCase="'stateful'">
 
                                                                 <input type="number" class="form-control" formControlName="minReplicaSetSize" min="1" />
-                                                                <small [hidden]="myForm.controls.services.controls[i].controls.minReplicaSetSize.value > 0" class="text-danger">
+                                                                <small [hidden]="myForm.controls.services.controls[i].controls.minReplicaSetSize.valid" class="text-danger">
                                                                     Must be larger than 0
                                                                 </small>
                                                             </div>
@@ -378,8 +395,8 @@
                                                             </div>
                                                             <div *ngSwitchCase="'stateful'">
                                                                 <input type="number" class="form-control" formControlName="targetReplicaSetSize" min="{{myForm.controls.services.controls[i].controls.minReplicaSetSize.value + 1}}" />
-                                                                <small [hidden]="myForm.controls.services.controls[i].controls.targetReplicaSetSize.value > myForm.controls.services.controls[i].controls.minReplicaSetSize.value" class="text-danger">
-                                                                    Must be larger than {{myForm.controls.services.controls[i].controls.minReplicaSetSize.value}}
+                                                                <small class="text-danger" *ngIf="myForm.controls.services.controls[i].hasError('invalidTargetReplicaSetSize')">
+                                                                    TargetReplicaSetSize must be larger than minReplicaSetSize
                                                                 </small>
                                                             </div>
                                                         </div>
@@ -412,32 +429,20 @@
 
 
                             <!--MQTT-->
-                            <!--<div class="tab-pane" id="tab3">
-                                <div style="margin-top:30px;" class="row" *ngIf="mqttBroker">
+                            <div class="tab-pane" id="tab3">
+                                <div style="margin-top:30px;" class="row" >
                                     <div class="col-md-12">
 
-                                        <div style="margin-top:30px;" class="row">
-                                            <div class="col-md-2">
-                                                <label>Default Listener</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input style="margin-top:10px;" type="checkbox" name="fname" [(ngModel)]="mqttBroker.defaultListener">
-                                            </div>
-                                        </div>
-                                        <div style="margin-top:20px;" class="row">
-                                            <div class="col-md-2">
-                                                <label>sslTls Listener</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input style="margin-top:10px;" type="checkbox" name="fname" [(ngModel)]="mqttBroker.sslTlsListener">
-                                            </div>
-                                        </div>
+                                                                  
                                         <div style="margin-top:20px;" class="row">
                                             <div class="col-md-2">
                                                 <label>Username</label>
                                             </div>
                                             <div class="col-md-3">
-                                                <input type="text" class="form-control" name="fname" [(ngModel)]="mqttBroker.username" />
+                                                <input type="text" class="form-control" formControlName="username" />
+                                                <small *ngIf="!myForm.controls.username.valid" class="text-danger">
+                                                    Required
+                                                </small>
                                             </div>
                                         </div>
                                         <div style="margin-top:20px;margin-bottom:20px;" class="row">
@@ -445,7 +450,11 @@
                                                 <label>Password</label>
                                             </div>
                                             <div class="col-md-3">
-                                                <input type="password" class="form-control" name="fname" [(ngModel)]="mqttBroker.password" />
+                                                <input type="password" class="form-control" formControlName="password" />
+                                                <small *ngIf="!myForm.controls.password.valid" class="text-danger">
+                                                    Required
+                                                </small>
+
                                             </div>
                                         </div>
                                         <div style="margin-top:20px;margin-bottom:20px;" class="row">
@@ -453,7 +462,10 @@
                                                 <label>Confirm Password</label>
                                             </div>
                                             <div class="col-md-3">
-                                                <input type="password" class="form-control" name="fname" />
+                                                <input type="password" class="form-control" formControlName="confirmPassword" />
+                                                <small class="text-danger" *ngIf="myForm.hasError('mismatchedPasswords')">
+                                                    Passwords do not match.
+                                                </small>
                                             </div>
                                         </div>
 
@@ -463,10 +475,9 @@
 
 
 
-                            </div>-->
+                            </div>
 
-
-
+                           
                             <pre *ngIf="showJSON">{{tenant | json}}</pre>
 
                             <div class="modal-footer">
