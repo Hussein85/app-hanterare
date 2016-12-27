@@ -6,8 +6,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { LoginComponent } from './components/login/login.component';
 import { AdminComponent } from './components/admin/admin.component';
-import { TenantManagerComponent } from './components/tenantManager/tenantManager.component'
-import { TenantDetailComponent } from './components/tenantManager/tenantDetail.component'
+import { TenantsComponent } from './components/tenants/tenants.component'
+import { TenantDetailComponent } from './components/tenants/tenantDetail.component'
 
 import { AuthGuardUser } from './auth.guard';
 import { AuthGuardAdmin } from './auth.guard';
@@ -38,8 +38,8 @@ const appRoutes: Routes = [
         canActivate: [AuthGuardUser]
     },
     {
-        path: 'tenantManager',
-        component: TenantManagerComponent,
+        path: 'tenants',
+        component: TenantsComponent,
         canActivate: [AuthGuardUser]
     },
     {

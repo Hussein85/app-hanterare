@@ -5,12 +5,12 @@ import { ThemeService } from '../../services/theme.service';
 import { TenantsService } from '../../services/tenants.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { matchingPasswords } from '../../validators/matchingPasswords';
+import { matchingPasswordsValidator } from '../../validators/matchingPasswordsValidator';
 import { targetReplicaSetSizeValidator } from '../../validators/targetReplicaSetSizeValidator';
 
 
 
-import { matchingDisplayNames } from '../../validators/matchingDisplayNamesValidator';
+import { matchingDisplayNamesValidator } from '../../validators/matchingDisplayNamesValidator';
 
 
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
@@ -151,7 +151,7 @@ export class TenantDetailComponent implements OnInit {
             confirmPassword: [this.getMQTTPassword(), Validators.required],
             parameters: this.fb.array([]),
             services: this.fb.array([])
-        }, { validator: matchingPasswords('password', 'confirmPassword') });
+        }, { validator: matchingPasswordsValidator('password', 'confirmPassword') });
 
 
         let parameters = this.getParameters();
@@ -193,7 +193,7 @@ export class TenantDetailComponent implements OnInit {
             displayName: [this.tenant.displayName],
             confirmDisplayName: ['', [Validators.required]]
 
-        }, { validator: matchingDisplayNames('displayName', 'confirmDisplayName') });
+        }, { validator: matchingDisplayNamesValidator('displayName', 'confirmDisplayName') });
 
     }
 
@@ -239,7 +239,7 @@ export class TenantDetailComponent implements OnInit {
     }
 
     onBack(): void {     
-        this.router.navigate(['/tenantManager']);
+        this.router.navigate(['/tenants']);
     }
 
     initParameter() {

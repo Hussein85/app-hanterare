@@ -18,7 +18,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a [routerLink]="['/admin']" *ngIf="auth.isAdmin()"><span class='glyphicon glyphicon-cog'></span> {{ 'NAV.ADMIN' | translate }}</a></li>
                 <!--<li><a [routerLink]="['/fetch-data']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-th-list'></span> {{ 'NAV.FETCHDATA' | translate }}</a></li>-->
-                <li><a [routerLink]="['/tenantManager']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-th-list'></span>{{ 'NAV.TENANTMANAGER' | translate }}</a></li>
+                <li><a [routerLink]="['/tenants']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-th-list'></span>{{ 'NAV.TENANTMANAGER' | translate }}</a></li>
                 <li><a [routerLink]="['/profile']" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-user'></span>{{ 'NAV.PROFILE' | translate }}</a></li>
                 <li><a href="#" (click)="auth.logout()" *ngIf="auth.authenticated()"><span class='glyphicon glyphicon-log-out'></span> {{ 'NAV.LOGOUT' | translate }}</a></li>
                 <li style="margin-top:5px; margin-right:-60px;">

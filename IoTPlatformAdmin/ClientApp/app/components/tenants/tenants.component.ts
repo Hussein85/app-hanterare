@@ -4,16 +4,19 @@ import { TranslateService } from 'ng2-translate';
 import { ThemeService } from '../../services/theme.service';
 import { TenantsService } from '../../services/tenants.service';
 
-import { matchingPasswords } from '../../validators/matchingPasswords';
+import { matchingPasswordsValidator } from '../../validators/matchingPasswordsValidator';
 import { targetReplicaSetSizeValidator } from '../../validators/targetReplicaSetSizeValidator';
+
+import { TenantFilterPipe } from '../../pipes/tenant-filter.pipe';
+
 
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-    template: require('./tenantManager.component.html'),
-    styles: [require('./tenantManager.component.css')]
+    template: require('./tenants.component.html'),
+    styles: [require('./tenants.component.css')]
 })
-export class TenantManagerComponent implements OnInit {
+export class TenantsComponent implements OnInit {
     addTenantForm: FormGroup;
 
 
@@ -24,35 +27,40 @@ export class TenantManagerComponent implements OnInit {
             name: "name1",
             version: "1.0",
             healthState: "OK",
-            status: "Running"
+            status: "Running",
+            selected: false,
         },
         {
             id: "2",
             name: "name2",
             version: "1.0",
             healthState: "OK",
-            status: "Running"
+            status: "Running",
+            selected: false,
         },
         {
             id: "3",
             name: "name3",
             version: "1.1",
             healthState: "Error",
-            status: "Stopped"
+            status: "Stopped",
+            selected: false,
         },
         {
             id: "4",
             name: "name4",
             version: "1.1",
             healthState: "OK",
-            status: "Running"
+            status: "Running",
+            selected: false,
         },
         {
             id: "5",
             name: "name5",
             version: "1.1",
             healthState: "OK",
-            status: "Running"
+            status: "Running",
+            selected: false,
         }
     ];
 
@@ -80,6 +88,7 @@ export class TenantManagerComponent implements OnInit {
     ]
 
     tenant = {
+        
         displayName: "",
         resources: [
             {
@@ -134,7 +143,7 @@ export class TenantManagerComponent implements OnInit {
             parameters: this.fb.array([]),
             services: this.fb.array([])
                    
-        }, { validator: matchingPasswords('password', 'confirmPassword') });
+        }, { validator: matchingPasswordsValidator('password', 'confirmPassword') });
 
     }
 
@@ -270,6 +279,23 @@ export class TenantManagerComponent implements OnInit {
 
     onSubmit() {
         alert("form submitted");
+    }
+
+    selected = false;
+    itemsSelected = 0;
+
+    selectAll() {
+        this.selected = !this.selected;
+        this.tenants.forEach(tenant => { tenant.selected = this.selected; })
+    }
+
+    getNbrItemSelected() {
+        var nbrITems = 0;
+        this.tenants.forEach(tenant => {
+            if (tenant.selected === true)
+                nbrITems++;
+        })
+        return nbrITems;
     }
 }
 

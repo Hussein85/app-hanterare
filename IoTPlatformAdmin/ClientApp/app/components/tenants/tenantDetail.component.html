@@ -167,7 +167,7 @@
                         <div class='col-md-10'>
                             <input type="text" class="form-control" formControlName="confirmDisplayName" />
                             <small class="text-danger" *ngIf="deleteTenantForm.hasError('mismatchedDisplayNames')">
-                                Type in {{deleteTenantForm.controls.displayName.value}} to confirm deletion.
+                                Type in <strong>{{deleteTenantForm.controls.displayName.value}}</strong> to confirm deletion.
                             </small>
                         </div>
                     </div>
