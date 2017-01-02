@@ -1,6 +1,4 @@
 ﻿
-
-
 <div style="margin-top:50px;" class='panel panel-primary'>
     <div class='panel-heading' style='font-size:large'>
         Tenant Detail
@@ -24,14 +22,14 @@
                 </div>
                 <div class='row top-buffer'>
                     <div class='col-md-4'><strong>Status:</strong></div>
-                    <div class='col-md-4'>Running</div>
-                    <a [routerLink]=""> Stop </a>
+                    <div class='col-md-4'>{{status}}</div>
+                    <a [routerLink]="" (click)="startStop()"> {{status=='Running' ? "Stop" : "Start"}} </a>
                 </div>
                 <div class='row top-buffer'>
                     <div class='col-md-4'><strong>Version:</strong></div>
-                    <div class='col-md-4'>1.0</div>
+                    <div class='col-md-4'>{{getVersion()}}</div>
                     <a data-toggle="modal" data-target="#updateModal">
-                        <!--<span class="glyphicon glyphicon-download-alt"></span>-->
+                        <span class="glyphicon glyphicon-download-alt"></span>
                         Upgrade
                     </a>
                 </div>
@@ -50,7 +48,7 @@
                 <div id="collapseServices" class="panel-collapse collapse">
                     <div class="panel-body">
                         <div class='table-responsive'>
-                            <table class='table ' *ngIf='true'>
+                            <table class='table' *ngIf='true'>
                                 <thead>
                                     <tr>
                                         <th>Name</th>
@@ -204,7 +202,7 @@
                     <div class='col-md-1 col-md-offset-1'><strong>To:</strong></div>
                     <div class='col-md-3 col-md-offset-1'>
                         <select [(ngModel)]="version" name="Select" class="form-control">
-                            <option *ngFor="let n of versions" [attr.value]="n">{{n}}</option>
+                            <option *ngFor="let n of getAvailableUpgradeVersions()" [attr.value]="n">{{n}}</option>
                         </select>
                     </div>
                 </div>
@@ -219,8 +217,6 @@
 </div>
 
 
-
-
 <!--EDIT TENANT MODAL -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width:80%;">
@@ -232,7 +228,7 @@
 
             <div class="modal-body">
 
-                <form [formGroup]="editTenantForm" novalidate (ngSubmit)="save(editTenantForm)">
+                <form [formGroup]="editTenantForm" novalidate (ngSubmit)="save()">
 
                     <div class="form-group">
                         <div class="row">
@@ -490,7 +486,7 @@
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary" [disabled]="!editTenantForm.valid">Add</button>
+                                <button type="submit" class="btn btn-primary" [disabled]="!editTenantForm.valid">Save</button>
                             </div>
 
                         </div>

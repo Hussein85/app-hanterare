@@ -4,17 +4,10 @@ import { TranslateService } from 'ng2-translate';
 import { ThemeService } from '../../services/theme.service';
 import { TenantsService } from '../../services/tenants.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { matchingPasswordsValidator } from '../../validators/matchingPasswordsValidator';
 import { targetReplicaSetSizeValidator } from '../../validators/targetReplicaSetSizeValidator';
-
-
-
 import { matchingDisplayNamesValidator } from '../../validators/matchingDisplayNamesValidator';
-
-
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
-
 
 
 @Component({
@@ -27,10 +20,10 @@ export class TenantDetailComponent implements OnInit {
     tenant: any;
 
     deleteTenantInputText = "";
-
-    version = "v1.1";
-    // TODO: Get update versions from API
-    versions = ["v0.9", "v1.1", "v1.2", "v1.3", "v1.4"];
+    
+    version ="";
+   
+    versions: any;
 
     showJSON = false;
 
@@ -39,7 +32,8 @@ export class TenantDetailComponent implements OnInit {
         "stateful"
     ]
 
-    displayName = "";
+  
+    status = "Running";
 
     constructor(
         private auth: AuthService,
@@ -64,16 +58,11 @@ export class TenantDetailComponent implements OnInit {
         });
 
         this.version = "v1.2";
-
-
-
-        
-   
+    
     }
 
-    // TODO: uncomment code below to get a tenant by id
     getTenant(id) {
-        // Uncomment to get tenant from API
+        // Uncomment code to get tenant from API
         /*this.tenantsService.getTenantById(id).subscribe(
             tenant => {
                 this.tenant = tenant
@@ -81,66 +70,10 @@ export class TenantDetailComponent implements OnInit {
             });
         */
 
-        // Fake tenant. Remove later when API works
-        this.tenant = {
-            displayName: "name1",
-            resources: [
-                {
-                    type: "mqttBroker",
-                    configuration: {
-                        username: "testuser",
-                        password: "secretpassword"
-                    }
-                },
-                {
-                    type: "tenantApp",
-                    configuration: {
-                        "version": "",
-                        parameters: [
-                            {
-                                name: "param1",
-                                value: "value1",
-                                secret: true
-                            },
-                            {
-                                name: "param2",
-                                value: "value2",
-                                secret: false
-                            },
-                            {
-                                name: "param3",
-                                value: "value3",
-                                secret: true
-                            }
-                        ],
-                        services: [
-                            {
-                                type: "stateless",
-                                typename: "MockServiceAType",
-                                instanceCount: 1,
-                                name: "service-a"
-                            },
-                            {
-                                type: "stateful",
-                                typename: "MockServiceBType",
-                                minReplicaSetSize: 1,
-                                targetReplicaSetSize: 2,
-                                name: "service-b"
-                            },
-                            {
-                                type: "stateless",
-                                typename: "MockServiceCType",
-                                instanceCount: 3,
-                                name: "service-c"
-                            }
-                        ]
-                    }
-                }
-            ]
-        }
-        // Remove later when API works
+        // Remove these lines of code when API is working
+        this.tenant = this.tenantsService.getTenantById(id);
         this.fillValuesInForm();
-      
+   
     }
 
     fillValuesInForm() {
@@ -220,6 +153,24 @@ export class TenantDetailComponent implements OnInit {
         return "";  
     }
 
+    getVersion() {
+        for (let idx in this.tenant.resources) {
+            if (this.tenant.resources[idx].type === "tenantApp") {
+                return this.tenant.resources[idx].configuration['version']
+            }
+        }
+        
+    }
+
+    getAvailableUpgradeVersions() {
+        //TODO: call service to get available upgrade versions for tenant
+        // ...
+
+        // Remove this when when API works
+        return ["v0.9", "v1.1", "v1.2", "v1.3", "v1.4"];
+
+    }
+
     getParameters() {
         for (let idx in this.tenant.resources) {
             if (this.tenant.resources[idx].type === "tenantApp") {
@@ -261,13 +212,11 @@ export class TenantDetailComponent implements OnInit {
         }, { validator: targetReplicaSetSizeValidator('minReplicaSetSize', 'targetReplicaSetSize') });
 
     }
-
-    // TODO: uncomment code below to delete a tenant
+   
     delete() {
-        alert("Deleted tenant");
-
-        // TODO: uncomment the code to delete tenant
-        //this.tenantsService.deleteTenant(this.tenant.id);
+        alert("Tenant Deleted!");
+        
+        this.tenantsService.deleteTenant(this.tenant.id);      
     }
 
     removeParameter(i: number) {
@@ -294,7 +243,7 @@ export class TenantDetailComponent implements OnInit {
     changeType() {
     }
 
-    // TODO: uncomment code below to create a tenant
+    // Update tenant
     save() {
        
         this.tenant.displayName = this.editTenantForm.value.displayName;
@@ -324,8 +273,8 @@ export class TenantDetailComponent implements OnInit {
             }
         }
 
-        // TODO: uncomment to call API to create a new tenant
-        //this.tenantsService.createTenant(this.tenant);
+        // Update tenant
+        this.tenantsService.updateTenant(this.tenant);
 
         // For debugging. Remove later
         this.showJSON = true;
@@ -345,6 +294,18 @@ export class TenantDetailComponent implements OnInit {
         return services;
     }
 
+ 
+    startStop() {
+        if (this.status === "Running") {
+            this.status = "Stopped";
+            //TODO: Call service to stop the app
+            // ...
+        } else {
+            this.status = "Running";
+            //TODO: Call service to start the app
+            // ...
+        }
+    }
 
 }
 

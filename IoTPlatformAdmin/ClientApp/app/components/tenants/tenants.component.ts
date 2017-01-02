@@ -35,6 +35,10 @@ export class TenantsComponent implements OnInit {
     showJSON = false;        // Remove when finished debugging
 
 
+    // TODO: Get update versions from API
+    version = "v1.1";
+    versions = ["v0.9", "v1.1", "v1.2", "v1.3", "v1.4"];
+
     constructor(
         private auth: AuthService,
         private translateService: TranslateService,
@@ -82,8 +86,8 @@ export class TenantsComponent implements OnInit {
     
     }
 
-    getTenants(): void {
-        //Uncomment code when API works
+    // OBS! Uncomment code when API works
+    getTenants(): void {     
         /*
         this.tenantsService.getTenants().subscribe(
             tenants => this.tenants = tenants,
@@ -116,7 +120,7 @@ export class TenantsComponent implements OnInit {
     }
 
  
-    save() {
+    addTenant() {
 
         this.tenant = {
             displayName: "",
@@ -232,8 +236,6 @@ export class TenantsComponent implements OnInit {
         //    this.nameCheckBox = false;
         //} 
     }
-
-
 
 
 }

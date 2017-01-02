@@ -49,6 +49,64 @@ var tenants = [
     }
 ];
 
+// Fake tenant. Remove later
+var tenant = {
+    displayName: "name1",
+    resources: [
+        {
+            type: "mqttBroker",
+            configuration: {
+                username: "testuser",
+                password: "secretpassword"
+            }
+        },
+        {
+            type: "tenantApp",
+            configuration: {
+                "version": "1.0",
+                parameters: [
+                    {
+                        name: "param1",
+                        value: "value1",
+                        secret: true
+                    },
+                    {
+                        name: "param2",
+                        value: "value2",
+                        secret: false
+                    },
+                    {
+                        name: "param3",
+                        value: "value3",
+                        secret: true
+                    }
+                ],
+                services: [
+                    {
+                        type: "stateless",
+                        typename: "MockServiceAType",
+                        instanceCount: 1,
+                        name: "service-a"
+                    },
+                    {
+                        type: "stateful",
+                        typename: "MockServiceBType",
+                        minReplicaSetSize: 1,
+                        targetReplicaSetSize: 2,
+                        name: "service-b"
+                    },
+                    {
+                        type: "stateless",
+                        typename: "MockServiceCType",
+                        instanceCount: 3,
+                        name: "service-c"
+                    }
+                ]
+            }
+        }
+    ]
+}
+
 
 
 
@@ -64,7 +122,6 @@ export class TenantsService {
 
     // Get all tenants
     getTenants() {
-
         //Uncomment code when API is working
         /*
         return this.http.get(this.API_URL)
@@ -72,7 +129,7 @@ export class TenantsService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
         */
 
-        return tenants;  // Return fake tenants
+        return tenants;  // Return fake tenants. Remove
     }
 
     // Create a tenant
@@ -97,16 +154,24 @@ export class TenantsService {
 
     // Get a tenant by id
     getTenantById(id) {
+        //Uncomment code when API is working
+        /*
         return this.http.get(this.API_URL + "/" + id)
             .map((response: Response) => response.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+        */
+
+        return tenant;
     }
 
     // Update a tenant
     updateTenant(tenant) {
+        //Uncomment code when API is working
+        /*
         return this.http.put(this.API_URL + "/" + tenant['id'], tenant)
             .map((response: Response) => response.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+        */
     }
 
     // Get a tenant configuration 
