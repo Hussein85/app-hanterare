@@ -3,13 +3,9 @@ import { AuthService } from '../../services/auth.service';
 import { TranslateService } from 'ng2-translate';
 import { ThemeService } from '../../services/theme.service';
 import { TenantsService } from '../../services/tenants.service';
-
 import { matchingPasswordsValidator } from '../../validators/matchingPasswordsValidator';
 import { targetReplicaSetSizeValidator } from '../../validators/targetReplicaSetSizeValidator';
-
 import { TenantFilterPipe } from '../../pipes/tenant-filter.pipe';
-
-
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -17,108 +13,27 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
     styles: [require('./tenants.component.css')]
 })
 export class TenantsComponent implements OnInit {
+
     addTenantForm: FormGroup;
+    tenantFilterPipe: any;
 
+    tenants: any;
+    selectedTenants: any;
+    tenant: any;
 
-    // TODO: get tenants from API
-    tenants = [
-        {
-            id: "1",
-            name: "name1",
-            version: "1.0",
-            healthState: "OK",
-            status: "Running",
-            selected: false,
-        },
-        {
-            id: "2",
-            name: "name2",
-            version: "1.0",
-            healthState: "OK",
-            status: "Running",
-            selected: false,
-        },
-        {
-            id: "3",
-            name: "name3",
-            version: "1.1",
-            healthState: "Error",
-            status: "Stopped",
-            selected: false,
-        },
-        {
-            id: "4",
-            name: "name4",
-            version: "1.1",
-            healthState: "OK",
-            status: "Running",
-            selected: false,
-        },
-        {
-            id: "5",
-            name: "name5",
-            version: "1.1",
-            healthState: "OK",
-            status: "Running",
-            selected: false,
-        }
-    ];
-
-
+    nameCheckBox = false;
     filterText = "";
     healthState = "";
     status = "";
-    update = false;
-    displayName = "";
-
-    mqttBroker = {
-        defaultListener: false,
-        sslTlsListener: false,
-        username: "",
-        password: ""
-    }
-
-    services = [];
-
-    parameters = [];
-
     serviceTypes = [
         "stateless",
         "stateful"
     ]
+    isNameSelected = false;
 
-    tenant = {
-        
-        displayName: "",
-        resources: [
-            {
-                type: "mqttBroker",
-                configuration: {                 
-                    username: "",
-                    password: ""
-                }
-            },
-            {
-                type: "tenantApp",
-                configuration: {
-                    "version": "",
-                    parameters: [],
-                    services: []
-                }
-            }
-        ]
-    }
 
     showJSON = false;        // Remove when finished debugging
 
-
-    // Remove
-    user = {
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-    }
 
     constructor(
         private auth: AuthService,
@@ -126,14 +41,15 @@ export class TenantsComponent implements OnInit {
         private themeService: ThemeService,
         private tenantsService: TenantsService,
         private fb: FormBuilder
-
-    ) { }
+    ) {
+        this.tenantFilterPipe = new TenantFilterPipe();
+     }
 
     ngOnInit(): void {
         var specificUserPreference = JSON.parse(localStorage.getItem('userPref'));
         this.themeService.changeTheme(specificUserPreference.theme);
         this.translateService.use(specificUserPreference.language);
-        //this.getTenants();    // TODO: uncomment to get Tenants from API
+        this.getTenants();   
 
         this.addTenantForm = this.fb.group({
             displayName: ['', [Validators.required]],  
@@ -141,10 +57,9 @@ export class TenantsComponent implements OnInit {
             password: ['', Validators.required],
             confirmPassword: ['', Validators.required], 
             parameters: this.fb.array([]),
-            services: this.fb.array([])
-                   
+            services: this.fb.array([])          
         }, { validator: matchingPasswordsValidator('password', 'confirmPassword') });
-
+        this.selectedTenants = this.tenants;
     }
 
     initParameter() {
@@ -167,38 +82,25 @@ export class TenantsComponent implements OnInit {
     
     }
 
-   
     getTenants(): void {
+        //Uncomment code when API works
+        /*
         this.tenantsService.getTenants().subscribe(
             tenants => this.tenants = tenants,
             error => {
                 console.log(error);
             });
+        */
+
+        this.tenants = this.tenantsService.getTenants();  // Remove this line when api works
     }
 
-    addParameter() {
-        //let parameter = {
-        //    name: "",
-        //    value: "",
-        //    secret: false     
-        //}
-        //this.parameters.push(parameter);  
+    addParameter() {       
         const control = <FormArray>this.addTenantForm.controls['parameters'];
         control.push(this.initParameter());
     }
 
-    addService() {
-        //let service = {
-        //    type: "stateless",
-        //    typename: "",
-        //    instanceCount: 1,
-        //    minReplicaSetSize: 1,
-        //    targetReplicaSetSize: 2,
-        //    name: ""
-        //}
-        //this.services.push(service);   
-
-
+    addService() {     
         const control = <FormArray>this.addTenantForm.controls['services'];
         control.push(this.initService());
     }
@@ -213,9 +115,30 @@ export class TenantsComponent implements OnInit {
         control.removeAt(i);
     }
 
-    // TODO: call API to save tenant
-    save(formValid) {
-        
+ 
+    save() {
+
+        this.tenant = {
+            displayName: "",
+                resources: [
+                    {
+                        type: "mqttBroker",
+                        configuration: {
+                            username: "",
+                            password: ""
+                        }
+                    },
+                    {
+                        type: "tenantApp",
+                        configuration: {
+                            "version": "",
+                            parameters: [],
+                            services: []
+                        }
+                    }
+                ]
+        }
+
         this.tenant.displayName = this.addTenantForm.value.displayName;
 
         for (let idx in this.tenant.resources) {
@@ -243,8 +166,9 @@ export class TenantsComponent implements OnInit {
             }
         }
 
-        // TODO: uncomment to call API to create a new tenant
-        //this.tenantsService.createTenant(this.tenant);
+        // Create a new tenant
+        this.tenantsService.createTenant(this.tenant);
+
 
         // For debugging. Remove later
         this.showJSON = true;
@@ -254,16 +178,20 @@ export class TenantsComponent implements OnInit {
 
     healthStatus(r) {
         this.healthState = r.value;
+        this.selectedTenants = this.tenantFilterPipe.transform(this.tenants, 'name', this.filterText);
+        this.selectedTenants = this.tenantFilterPipe.transform(this.selectedTenants, 'healthState', this.healthState)
+        this.selectedTenants = this.tenantFilterPipe.transform(this.selectedTenants, 'status', this.status)
+
     }
 
     statusRunning(r) {
         this.status = r.value;
+        this.selectedTenants = this.tenantFilterPipe.transform(this.tenants, 'name', this.filterText);
+        this.selectedTenants = this.tenantFilterPipe.transform(this.selectedTenants, 'healthState', this.healthState)
+        this.selectedTenants = this.tenantFilterPipe.transform(this.selectedTenants, 'status', this.status)
     }
 
-    changeType() {
-    }
-
-
+  
     cleanFields(services) {
         for (let idx in services) {
             if (services[idx].type === 'stateless') {
@@ -277,26 +205,37 @@ export class TenantsComponent implements OnInit {
         return services;
     }
 
-    onSubmit() {
-        alert("form submitted");
-    }
-
-    selected = false;
-    itemsSelected = 0;
 
     selectAll() {
-        this.selected = !this.selected;
-        this.tenants.forEach(tenant => { tenant.selected = this.selected; })
+        this.isNameSelected = !this.isNameSelected;
+      
+        this.selectedTenants = this.tenantFilterPipe.transform(this.tenants, 'name', this.filterText);
+        this.selectedTenants = this.tenantFilterPipe.transform(this.selectedTenants, 'healthState', this.healthState)
+        this.selectedTenants = this.tenantFilterPipe.transform(this.selectedTenants, 'status', this.status)
+
+        this.selectedTenants.forEach(tenant => { tenant.selected = this.isNameSelected; })
     }
 
     getNbrItemSelected() {
         var nbrITems = 0;
-        this.tenants.forEach(tenant => {
+        this.selectedTenants.forEach(tenant => {
             if (tenant.selected === true)
                 nbrITems++;
         })
         return nbrITems;
     }
+
+    checkboxClicked() {
+        //alert(this.getNbrItemSelected() + '\n' + this.tenants.length);
+
+        //if ((this.getNbrItemSelected() <= this.tenants.length) && this.nameCheckBox == true) {
+        //    this.nameCheckBox = false;
+        //} 
+    }
+
+
+
+
 }
 
 

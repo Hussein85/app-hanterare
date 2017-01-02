@@ -1,0 +1,42 @@
+﻿ [
+    {
+      "id": "1",
+      "name": "name1",
+      "version": "1.0",
+      "healthState": "OK",
+      "status": "Running",
+      "selected": false
+    },
+    {
+      "id": "2",
+      "name": "name2",
+      "version": "1.0",
+      "healthState": "OK",
+      "status": "Running",
+      "selected": false
+    },
+    {
+      "id": "3",
+      "name": "name3",
+      "version": "1.1",
+      "healthState": "Error",
+      "status": "Stopped",
+      "selected": false
+    },
+    {
+      "id": "4",
+      "name": "name4",
+      "version": "1.1",
+      "healthState": "OK",
+      "status": "Running",
+      "selected": false
+    },
+    {
+      "id": "5",
+      "name": "name5",
+      "version": "1.1",
+      "healthState": "OK",
+      "status": "Running",
+      "selected": false
+    }
+]

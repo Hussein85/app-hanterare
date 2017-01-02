@@ -14,11 +14,13 @@
                 </div>
             </div>
 
-            <div class='col-md-3 '>
-                <label *ngIf="getNbrItemSelected()>0">{{getNbrItemSelected()}}   {{ getNbrItemSelected() === 1 ? 'item' : 'items'}} selected</label>
-                <button *ngIf="getNbrItemSelected()>0" type="button" class="btn btn-primary btn-sm">
-                    Upgrade
-                </button>
+            <div class='col-md-3' >
+                <div *ngIf="getNbrItemSelected()>0">
+                    <label>{{getNbrItemSelected()}}   {{ getNbrItemSelected() === 1 ? 'item' : 'items'}} selected</label>
+                    <button type="button" class="btn btn-primary btn-sm">
+                        Upgrade
+                    </button>
+                </div>
             </div>
 
             <div class='col-md-2 col-md-offset-4'>
@@ -38,7 +40,10 @@
                 <thead style="font-size:18px;">
                     <tr>
                         <th>
-                            <input type="checkbox" (click)="selectAll()"> Name
+                            <input type="checkbox" [(ngModel)]="nameCheckBox" (change)="selectAll()"> Name
+
+                            
+
                         </th>
                         <th>Version</th>
                         <th>
@@ -73,7 +78,7 @@
                         <td>
                             <!--<input #name1 type="checkbox" (change)="update = name1.checked"> <a [routerLink]="['/tenant', 1]">{{tenant.name}}</a>-->
                             
-                            <input #name1 type="checkbox" [(ngModel)]="tenant.selected"> <a [routerLink]="['/tenant', 1]">{{tenant.name}}</a>
+                            <input type="checkbox" [(ngModel)]="tenant.selected" (change)="checkboxClicked()"> <a [routerLink]="['/tenant', 1]">{{tenant.name}}</a>
                         </td>
                         <td>{{tenant.version}}</td>
 
@@ -104,7 +109,9 @@
 
     </div>
 
-    <pre>{{tenants | json}}</pre>
+    
+    <!--<pre>Tenants:{{selectedTenants | json}}</pre>-->
+    
 </div>
 
 
@@ -120,7 +127,7 @@
 
             <div class="modal-body">
 
-                <form [formGroup]="addTenantForm" novalidate (ngSubmit)="save(addTenantForm)">
+                <form [formGroup]="addTenantForm" novalidate (ngSubmit)="save()">
 
                     <div class="form-group">
                         <div class="row">
@@ -245,7 +252,7 @@
                                                         </small>
                                                     </div>
                                                     <div class="col-md-2">
-                                                        <select class="form-control" formControlName="type" (click)="changeType()">
+                                                        <select class="form-control" formControlName="type">
                                                             <option *ngFor="let n of serviceTypes" [ngValue]="n">{{n}}</option>
                                                         </select>
                                                     </div>
