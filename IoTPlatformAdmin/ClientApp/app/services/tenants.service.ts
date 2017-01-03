@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map'
 
 
-// Fake tenants. Remove later when API is working
+// Fake tenants. 
 var tenants = [
     {
         id: "1",
@@ -49,7 +49,7 @@ var tenants = [
     }
 ];
 
-// Fake tenant. Remove later
+// Fake tenant. 
 var tenant = {
     displayName: "name1",
     resources: [
@@ -109,8 +109,6 @@ var tenant = {
 
 
 
-
-
 @Injectable()
 export class TenantsService {
 
@@ -120,7 +118,7 @@ export class TenantsService {
     constructor(private http: Http) { }
 
 
-    // Get all tenants
+    //OBS!!! Uncomment code below when API works
     getTenants() {
         //Uncomment code when API is working
         /*
@@ -132,7 +130,7 @@ export class TenantsService {
         return tenants;  // Return fake tenants. Remove
     }
 
-    // Create a tenant
+    //OBS!!! Uncomment code below when API works
     createTenant(tenant) {
         //Uncomment code when API is working
         /*
@@ -142,7 +140,7 @@ export class TenantsService {
         */
     }
 
-    // Delete a tenant
+    //OBS!!! Uncomment code below when API works
     deleteTenant(id) {
         //Uncomment code when API is working
         /*
@@ -152,7 +150,7 @@ export class TenantsService {
         */
     }
 
-    // Get a tenant by id
+    //OBS!!! Uncomment code below when API works
     getTenantById(id) {
         //Uncomment code when API is working
         /*
@@ -164,7 +162,7 @@ export class TenantsService {
         return tenant;
     }
 
-    // Update a tenant
+    //OBS!!! Uncomment code below when API works
     updateTenant(tenant) {
         //Uncomment code when API is working
         /*

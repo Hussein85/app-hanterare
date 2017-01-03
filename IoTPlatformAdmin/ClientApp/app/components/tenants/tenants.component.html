@@ -290,7 +290,7 @@
                                                             <div *ngSwitchCase="'stateful'">
                                                                 <input type="number" class="form-control" formControlName="targetReplicaSetSize" min="{{addTenantForm.controls.services.controls[i].controls.minReplicaSetSize.value + 1}}" />
                                                                 <small class="text-danger" *ngIf="addTenantForm.controls.services.controls[i].hasError('invalidTargetReplicaSetSize')">
-                                                                    TargetReplicaSetSize must be larger than minReplicaSetSize
+                                                                    TargetReplicaSetSize must be larger or equal to minReplicaSetSize
                                                                 </small>
                                                             </div>
                                                         </div>

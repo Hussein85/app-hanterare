@@ -6,8 +6,7 @@ export function targetReplicaSetSizeValidator(minReplicaSetSize, targetReplicaSe
         let targetReplica = group.controls[targetReplicaSetSize];
 
      
-
-        if (minReplica.value >= targetReplica.value) {
+        if (minReplica.value > targetReplica.value) {
             return {
                 invalidTargetReplicaSetSize: true
             };

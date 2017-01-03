@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-
+using IoTPlatformAdmin.Models;
 
 namespace IoTPlatformAdmin
 {
@@ -32,6 +32,8 @@ namespace IoTPlatformAdmin
         {
             // Add framework services.
             services.AddMvc();
+
+            services.Configure<DocumentDBConfig>(Configuration.GetSection("documentDB"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

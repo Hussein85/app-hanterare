@@ -13,7 +13,6 @@ import { TranslateModule } from 'ng2-translate';
 import { AppComponent } from './components/app/app.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
-import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { LoginComponent } from './components/login/login.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { TenantsComponent } from './components/tenants/tenants.component';
@@ -26,7 +25,6 @@ import { AuthGuardAdmin } from './auth.guard';
 
 // Services
 import { AuthService } from './services/auth.service';
-import { ForecastService } from './services/forecast.service';
 import { UserPreferencesService } from './services/userPreferences.service';
 import { ThemeService } from './services/theme.service';
 import { TenantsService } from './services/tenants.service';
@@ -42,7 +40,6 @@ import { TenantFilterPipe } from "./pipes/tenant-filter.pipe";
     bootstrap: [ AppComponent ],
     declarations: [
         AppComponent, 
-        FetchDataComponent,
         HomeComponent,
         ProfileComponent,
         LoginComponent,
@@ -67,7 +64,6 @@ import { TenantFilterPipe } from "./pipes/tenant-filter.pipe";
         AuthGuardAdmin,
         AUTH_PROVIDERS,
         appRoutingProviders,
-        ForecastService,
         UserPreferencesService,
         ThemeService,
         TenantsService

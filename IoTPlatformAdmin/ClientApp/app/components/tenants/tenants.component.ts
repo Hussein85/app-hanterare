@@ -96,7 +96,8 @@ export class TenantsComponent implements OnInit {
             });
         */
 
-        this.tenants = this.tenantsService.getTenants();  // Remove this line when api works
+        // Remove this line when api works
+        this.tenants = this.tenantsService.getTenants();  
     }
 
     addParameter() {       
@@ -150,13 +151,20 @@ export class TenantsComponent implements OnInit {
             // Add parameters and services configuration to tenant
             if (this.tenant.resources[idx].type === "tenantApp") {
                 this.tenant.resources[idx].configuration['parameters'] = [];
-                if(this.addTenantForm.value.parameters.length > 0)
-                    this.tenant.resources[idx].configuration['parameters'].push(this.addTenantForm.value.parameters)
+                if (this.addTenantForm.value.parameters.length > 0) {                  
+                    this.addTenantForm.value.parameters.forEach(parameter => {
+                        this.tenant.resources[idx].configuration['parameters'].push(parameter);
+                    })
+                }
 
                 this.tenant.resources[idx].configuration['services'] = [];
-                if (this.addTenantForm.value.services.length > 0)
-                    this.tenant.resources[idx].configuration['services'].push(this.cleanFields(this.addTenantForm.value.services))
-                
+                if (this.addTenantForm.value.services.length > 0) {                
+                    this.addTenantForm.value.services.forEach(service => {
+                        this.tenant.resources[idx].configuration['services'].push(service);
+                    })
+
+                    this.cleanFields(this.tenant.resources[idx].configuration['services']);
+                }
             }
 
             // Add mqtt configuration to tenant

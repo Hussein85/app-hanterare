@@ -1,14 +1,17 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs';
-
-import { Router } from '@angular/router';
 
 import 'rxjs/add/operator/map'
 
 
-import { UserPreferences } from '../models/userPreferences';
+// Fake user preferences.
+var fakeUserPreferences = {
+        id: "1",
+        theme: "default",
+        language: "en",
+        userId: "user1"
+    }
 
 
 @Injectable()
@@ -19,47 +22,31 @@ export class UserPreferencesService {
     headers = new Headers({ 'Authorization': 'Bearer ' + this.token });
     options = new RequestOptions({ headers: this.headers });
 
-    constructor(private http: Http, private authHttp: AuthHttp) { }
+    constructor(private http: Http) { }
 
 
-    // Get user preferences
-    getUserPreferences(): Observable<UserPreferences> {
+    //OBS!!! Uncomment code below when API works
+    getUserPreferences() { 
+          
+        // Uncomment code when API works
+        /*
         return this.http.get(this.API_URL, this.options)
             .map((response: Response) => response.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+        */
+
+        return fakeUserPreferences;       
     }
 
-    // Update user preferences
-    updateUserPreferences(userPref): Observable<UserPreferences> {
+    //OBS!!! Uncomment code below when API works
+    updateUserPreferences(userPref) {
+        // Uncomment code when API works
+        /*    
         return this.http.put(this.API_URL, userPref, this.options)
             .map((response: Response) => response.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+        */  
     }
-
-
-
-
-    //// Get all user preferences
-    //getAllUserPreferences(): Observable<UserPreferences> {
-    //    return this.http.get(this.API_URL, this.options)
-    //        .map((response: Response) => response.json())
-    //        .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-    //}
-
-    //// Get specific user preferences
-    //getSpecificUserPreference(id): Observable<UserPreferences> {
-    //    return this.http.get(this.API_URL + "/" + id, this.options)
-    //        .map((response: Response) => response.json())
-    //        .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-    //}
-
-   
-    //// Update user preferences
-    ////updateSpecificUserPreference(userPref): Observable<UserPreferences> {
-    ////    return this.http.put(this.API_URL, userPref, this.options)
-    ////        .map((response: Response) => response.json())
-    ////        .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-    ////}
 
 
 }

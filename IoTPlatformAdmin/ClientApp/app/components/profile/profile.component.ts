@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, Inject } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { Router } from '@angular/router';
@@ -43,8 +43,10 @@ export class ProfileComponent implements OnInit {
         this.translateService.use(this.userPreferences.language);
     }
 
-
+    //OBS!!! Uncomment code below when API works
     getUserPreferences(): void {
+        // Uncomment when API works
+        /*
         this.userPreferencesService.getUserPreferences().subscribe(
             userPreferences => {
                 this.userPreferences = userPreferences;
@@ -54,6 +56,15 @@ export class ProfileComponent implements OnInit {
             error => {
                 console.log(error);
             });
+        */
+
+        // Remove these of lines code when API works
+
+        let userPreferences = this.userPreferencesService.getUserPreferences();
+        this.userPreferences = userPreferences;
+        this.translateService.use(userPreferences.language);
+        this.themeService.changeTheme(userPreferences.theme);
+        
     }
 
 
@@ -86,7 +97,10 @@ export class ProfileComponent implements OnInit {
 
     }
 
+    //OBS!!! Uncomment code below when API works
     savePreferences(): void {
+        // Uncomment when API is working
+        /*
         this.userPreferencesService.updateUserPreferences(this.userPreferences).subscribe(
             userPreferences => {
                 this.userPreferences = userPreferences;
@@ -104,6 +118,7 @@ export class ProfileComponent implements OnInit {
             error => {
                 console.log(error);
             });
+        */
     }
 
     changeTheme(): void {

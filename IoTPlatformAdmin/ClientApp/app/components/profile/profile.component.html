@@ -1,5 +1,4 @@
 ﻿
-
 <div class="container" style="padding-top: 60px;" *ngIf="profile">
 
     <ul class="nav nav-tabs">
@@ -101,7 +100,6 @@
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{ 'PROFILE.LANGUAGE' | translate }}:</label>
                             <div class="col-md-5">
-                                <!--<input class="form-control" [(ngModel)]="userPreferences[0].language" name="language" type="text">-->
                                 <select [(ngModel)]="userPreferences.language" name="Select language" class="form-control">
                                     <option *ngFor="let n of languages" [attr.value]="n">{{n}}</option>
                                 </select>

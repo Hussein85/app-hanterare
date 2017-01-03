@@ -15,13 +15,15 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
     styles: [require('./tenantDetail.component.css')]
 })
 export class TenantDetailComponent implements OnInit {
+
     editTenantForm: FormGroup;
     deleteTenantForm: FormGroup;
+
     tenant: any;
 
     deleteTenantInputText = "";
     
-    version ="";
+    version = "";
    
     versions: any;
 
@@ -61,6 +63,7 @@ export class TenantDetailComponent implements OnInit {
     
     }
 
+    //OBS!!! Uncomment code below when API works
     getTenant(id) {
         // Uncomment code to get tenant from API
         /*this.tenantsService.getTenantById(id).subscribe(
@@ -70,7 +73,7 @@ export class TenantDetailComponent implements OnInit {
             });
         */
 
-        // Remove these lines of code when API is working
+        // Remove these two lines when API is working
         this.tenant = this.tenantsService.getTenantById(id);
         this.fillValuesInForm();
    
@@ -88,7 +91,7 @@ export class TenantDetailComponent implements OnInit {
 
 
         let parameters = this.getParameters();
-        const controlParameters = <FormArray>this.editTenantForm.controls['parameters'];
+        let controlParameters = <FormArray>this.editTenantForm.controls['parameters'];
         for (let idx in parameters) {
             controlParameters.push(this.fb.group({          
                 name: [parameters[idx].name, Validators.required],
@@ -98,7 +101,7 @@ export class TenantDetailComponent implements OnInit {
         }
    
         let services = this.getServices();
-        const controlServices = <FormArray>this.editTenantForm.controls['services'];
+        let controlServices = <FormArray>this.editTenantForm.controls['services'];
         for (let idx in services) {
             if (services[idx].type === 'stateless') {
                 controlServices.push(this.fb.group({
@@ -108,7 +111,7 @@ export class TenantDetailComponent implements OnInit {
                     minReplicaSetSize: [1, Validators.pattern('[1-9][0-9]{0,4}')],
                     targetReplicaSetSize: [2, Validators.pattern('[1-9][0-9]{0,4}')],                
                     name: [services[idx].name, Validators.required]
-                }));
+                }, { validator: targetReplicaSetSizeValidator('minReplicaSetSize', 'targetReplicaSetSize') }));
             } else {
                 controlServices.push(this.fb.group({
                     type: [services[idx].type],
@@ -253,15 +256,24 @@ export class TenantDetailComponent implements OnInit {
             // Add parameters and services configuration
             if (this.tenant.resources[idx].type === "tenantApp") {
                 this.tenant.resources[idx].configuration['parameters'] = [];
-                if (this.editTenantForm.value.parameters.length > 0)
-                    this.tenant.resources[idx].configuration['parameters'].push(this.editTenantForm.value.parameters)
+                if (this.editTenantForm.value.parameters.length > 0) {                  
+                    this.editTenantForm.value.parameters.forEach(parameter => {
+                        this.tenant.resources[idx].configuration['parameters'].push(parameter);
+                    })
+                }
 
                 this.tenant.resources[idx].configuration['services'] = [];
-                if (this.editTenantForm.value.services.length > 0)
-                    this.tenant.resources[idx].configuration['services'].push(this.cleanFields(this.editTenantForm.value.services))
+                if (this.editTenantForm.value.services.length > 0) {
 
+                    this.editTenantForm.value.services.forEach(service => {
+                        this.tenant.resources[idx].configuration['services'].push(service);
+                    })
+
+                    this.cleanFields(this.tenant.resources[idx].configuration['services']);
+                }
             }
 
+      
             // Add mqtt configuration
             let mqttBroker = {
                 username: this.editTenantForm.value.username,

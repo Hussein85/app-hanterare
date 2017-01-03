@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { LoginComponent } from './components/login/login.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { TenantsComponent } from './components/tenants/tenants.component'
@@ -30,11 +29,6 @@ const appRoutes: Routes = [
     {
         path: 'profile',
         component: ProfileComponent,
-        canActivate: [AuthGuardUser]
-    },  
-    {
-        path: 'fetch-data',
-        component: FetchDataComponent,
         canActivate: [AuthGuardUser]
     },
     {

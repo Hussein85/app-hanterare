@@ -16,7 +16,7 @@ export class AdminComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        // Read user preferences from localstorage 
+        // Read user preferences from localstorage and apply them in the component.
         var specificUserPreference = JSON.parse(localStorage.getItem('userPref'));
         this.themeService.changeTheme(specificUserPreference.theme);
         this.translateService.use(specificUserPreference.language);
