@@ -72,9 +72,7 @@
 
                 <tbody>
                     <tr *ngFor="let tenant of tenants | tenantFilter:'name':filterText | tenantFilter:'healthState':healthState | tenantFilter:'status':status ">
-                        <td>
-                            <!--<input #name1 type="checkbox" (change)="update = name1.checked"> <a [routerLink]="['/tenant', 1]">{{tenant.name}}</a>-->
-                            
+                        <td>                                            
                             <input type="checkbox" [(ngModel)]="tenant.selected" (change)="checkboxClicked()"> <a [routerLink]="['/tenant', 1]">{{tenant.name}}</a>
                         </td>
                         <td>{{tenant.version}}</td>
@@ -396,10 +394,8 @@
                 Upgrade {{ getNbrItemSelected() === 1 ? 'Tenant' : 'Tenants'}}
             </div>
             <div class="modal-body">
-                <!--<div class="row top-buffer">
-                    <div class='col-md-1 col-md-offset-1'><strong>From:</strong></div>
-                    <div class='col-md-1 col-md-offset-1'>v1.0</div>
-                </div>-->
+             
+                <!--
                 <div class="row top-buffer">
                     <div class='col-md-1 col-md-offset-1'><strong>To:</strong></div>
                     <div class='col-md-3 col-md-offset-1'>
@@ -408,10 +404,34 @@
                         </select>
                     </div>
                 </div>
+                -->
+            
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tenants</th>
+                                <th>version</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let tenant of selectedTenants; let i=index">
+
+                                <td *ngIf="tenant.selected">{{tenant.name}}</td>
+                                <td *ngIf="tenant.selected">{{tenant.version}}</td>
+                                <td *ngIf="tenant.selected">
+                                    <span style="cursor:pointer; margin-top:10px" class="glyphicon glyphicon-remove" (click)="removeSelectedTenant(i)"></span>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+               
+
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Upgrade</button>
+                <button type="button" class="btn btn-primary" [disabled]="getNbrItemSelected() === 0">Upgrade</button>   
             </div>
 
         </div>

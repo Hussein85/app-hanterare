@@ -123,6 +123,10 @@ export class ProfileComponent implements OnInit {
         localStorage.setItem('userPref', JSON.stringify(this.userPreferences));
     }
 
-
+    resetUserSettings() {
+        this.userPreferences.language = this.translateService.getBrowserLang();
+        this.userPreferences.theme = 'default';
+        this.themeService.changeTheme(this.userPreferences.theme);
+    }
 }
 

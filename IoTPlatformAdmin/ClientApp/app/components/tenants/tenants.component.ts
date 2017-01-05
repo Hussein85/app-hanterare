@@ -118,7 +118,11 @@ export class TenantsComponent implements OnInit {
         control.removeAt(i);
     }
 
- 
+    removeSelectedTenant(i) {
+        this.selectedTenants[i].selected = false;
+    }
+
+
     addTenant() {
 
         this.tenant = {

@@ -112,11 +112,41 @@ var tenant = {
 @Injectable()
 export class TenantsService {
 
-    API_URL = 'http://localhost:19081/Platform/TenantMgmt/api/tenants';
-    
+    API_URL = 'https://dev-beta.combitech-iot.net:19008/PlatformApp/TenantMgmt/api/tenants';
+    token = localStorage.getItem('id_token');
+    headers = new Headers({ 'Authorization': 'Bearer ' + this.token });
+    options = new RequestOptions({ headers: this.headers });
 
     constructor(private http: Http) { }
 
+
+    // Remove
+    testGetTenant() {
+        return this.http.get(this.API_URL, this.options)
+            .map((response: Response) => response.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    // Remove
+    testGetTenantById(id) {
+        return this.http.get(this.API_URL + "/" + id, this.options)
+            .map((response: Response) => response.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    // Remove
+    testGetTenantState(id) {
+        return this.http.get(this.API_URL + "/" + id + "/state", this.options)
+            .map((response: Response) => response.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    // Remove
+    testGetTenantConf(id) {
+        return this.http.get(this.API_URL + "/" + id + "/configuration", this.options)
+            .map((response: Response) => response.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
 
     //Uncomment code below when API works
     getTenants() {

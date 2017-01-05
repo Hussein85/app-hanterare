@@ -112,14 +112,25 @@
                                 <select [(ngModel)]="userPreferences.theme" name="Select theme" class="form-control" (click)="changeTheme()">
                                     <option *ngFor="let n of themes" [ngValue]="n">{{n}}</option>
                                 </select>
-                            </div>
+                                
+                            </div>                         
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-3 control-label"></label>
                             <div class="col-md-8">
+                                <a style="cursor:pointer" (click)="resetUserSettings()">Default user settings </a>
+                            </div>
+
+                        </div>
+
+                        
+                        <div style="margin-top:50px;"class="form-group">
+                            <label class="col-md-3 control-label"></label>
+                            <div class="col-md-8">
                                 <input class="btn btn-primary" value="{{ 'PROFILE.SAVECHANGES' | translate }}" type="submit">
                             </div>
+                           
                         </div>
 
                     </form>
