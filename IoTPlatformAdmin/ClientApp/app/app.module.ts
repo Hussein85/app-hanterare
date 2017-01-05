@@ -20,11 +20,10 @@ import { TenantDetailComponent } from './components/tenants/tenantDetail.compone
 
 // Routing and AuthGuard
 import { routing, appRoutingProviders } from './app.routing';
-import { AuthGuardUser } from './auth.guard';
-import { AuthGuardAdmin } from './auth.guard';
+import { AuthGuard } from './auth.guard';
 
 // Services
-import { AuthService } from './services/auth.service';
+import { LoginService } from './services/login.service';
 import { UserPreferencesService } from './services/userPreferences.service';
 import { ThemeService } from './services/theme.service';
 import { TenantsService } from './services/tenants.service';
@@ -59,9 +58,8 @@ import { TenantFilterPipe } from "./pipes/tenant-filter.pipe";
         BootstrapModalModule
     ],
     providers: [
-        AuthService,
-        AuthGuardUser,
-        AuthGuardAdmin,
+        LoginService,
+        AuthGuard,
         AUTH_PROVIDERS,
         appRoutingProviders,
         UserPreferencesService,

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { LoginService } from '../../services/login.service';
 import { TranslateService } from 'ng2-translate';
 
 
@@ -12,7 +12,7 @@ import { TranslateService } from 'ng2-translate';
 export class AppComponent {
 
     constructor(
-        private auth: AuthService,
+        private loginService: LoginService,
         private translate: TranslateService
     ) {
         // Add languages

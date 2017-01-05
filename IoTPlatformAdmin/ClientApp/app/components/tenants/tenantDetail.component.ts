@@ -1,5 +1,4 @@
 ﻿import { Component, OnInit, ViewContainerRef, ViewEncapsulation  } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
 import { TranslateService } from 'ng2-translate';
 import { ThemeService } from '../../services/theme.service';
 import { TenantsService } from '../../services/tenants.service';
@@ -38,7 +37,6 @@ export class TenantDetailComponent implements OnInit {
     status = "Running";
 
     constructor(
-        private auth: AuthService,
         private translateService: TranslateService,
         private themeService: ThemeService,
         private tenantsService: TenantsService,
@@ -242,10 +240,6 @@ export class TenantDetailComponent implements OnInit {
         control.push(this.initService());
     }
 
-
-    changeType() {
-    }
-
     // Update tenant
     save() {
        
@@ -306,7 +300,6 @@ export class TenantDetailComponent implements OnInit {
         return services;
     }
 
- 
     startStop() {
         if (this.status === "Running") {
             this.status = "Stopped";

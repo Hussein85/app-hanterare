@@ -2,11 +2,8 @@
 import { Http } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { Router } from '@angular/router';
-
 import { UserPreferences } from '../../models/userPreferences';
-
 import { UserPreferencesService } from '../../services/userPreferences.service';
-import { AuthService } from '../../services/auth.service';
 import { TranslateService } from 'ng2-translate';
 import { ThemeService } from '../../services/theme.service';
 
@@ -22,8 +19,7 @@ export class ProfileComponent implements OnInit {
     languages: string[];
 
 
-    constructor(
-        private auth: AuthService,
+    constructor( 
         private authHttp: AuthHttp,
         private router: Router,
         private userPreferencesService: UserPreferencesService,
@@ -59,7 +55,6 @@ export class ProfileComponent implements OnInit {
         */
 
         // Remove these of lines code when API works
-
         let userPreferences = this.userPreferencesService.getUserPreferences();
         this.userPreferences = userPreferences;
         this.translateService.use(userPreferences.language);

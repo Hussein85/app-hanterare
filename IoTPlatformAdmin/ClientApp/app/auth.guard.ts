@@ -1,36 +1,27 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { CanActivate } from '@angular/router';
-import { AuthService } from './services/auth.service';
+
+import { LoginService } from './services/login.service';
+
+
 
 @Injectable()
-export class AuthGuardUser implements CanActivate {
-    constructor(private auth: AuthService, private router: Router) {}
+export class AuthGuard implements CanActivate {
+    constructor(
+        private loginService: LoginService,
+        private router: Router)
+    { }
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if (this.auth.authenticated()) {
-            console.log('AUTH GUARD USER  PASSED');
+        if (this.loginService.authenticated()) {
+            console.log('AUTH GUARD PASSED');
             return true;
         } else {
-            console.log('BLOCKED BY AUTH GUARD USER ');
+            console.log('BLOCKED BY AUTH GUARD');
             this.router.navigate(['/login']);
             return false;
         }
     }
 }
 
-@Injectable()
-export class AuthGuardAdmin implements CanActivate {
-    constructor(private auth: AuthService, private router: Router) { }
-
-    canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if (this.auth.authenticated() && this.auth.isAdmin()) {
-            console.log('AUTH GUARD ADMIN PASSED');
-            return true;
-        } else {
-            console.log('BLOCKED BY AUTH GUARD ADMIN');
-            this.router.navigate(['/login']);
-            return false;
-        }
-    }
-}

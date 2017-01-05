@@ -118,7 +118,7 @@ export class TenantsService {
     constructor(private http: Http) { }
 
 
-    //OBS!!! Uncomment code below when API works
+    //Uncomment code below when API works
     getTenants() {
         //Uncomment code when API is working
         /*
@@ -130,7 +130,7 @@ export class TenantsService {
         return tenants;  // Return fake tenants. Remove
     }
 
-    //OBS!!! Uncomment code below when API works
+    //Uncomment code below when API works
     createTenant(tenant) {
         //Uncomment code when API is working
         /*
@@ -140,7 +140,7 @@ export class TenantsService {
         */
     }
 
-    //OBS!!! Uncomment code below when API works
+    //Uncomment code below when API works
     deleteTenant(id) {
         //Uncomment code when API is working
         /*
@@ -150,7 +150,7 @@ export class TenantsService {
         */
     }
 
-    //OBS!!! Uncomment code below when API works
+    //Uncomment code below when API works
     getTenantById(id) {
         //Uncomment code when API is working
         /*
@@ -162,7 +162,7 @@ export class TenantsService {
         return tenant;
     }
 
-    //OBS!!! Uncomment code below when API works
+    //Uncomment code below when API works
     updateTenant(tenant) {
         //Uncomment code when API is working
         /*

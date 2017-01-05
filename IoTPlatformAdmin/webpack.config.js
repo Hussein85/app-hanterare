@@ -54,7 +54,7 @@ var serverBundleConfig = merge(sharedConfig, {
     plugins: [
          new CopyWebpackPlugin([
         {
-            from: 'ClientApp/i18n', // copy i18n folder to wwwrot folder
+            from: 'ClientApp/i18n', // copy i18n folder to wwwroot folder
             to: '../../wwwroot/i18n'
         }
          ])

@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
 import { UserPreferences } from '../../models/userPreferences';
-
-import { AuthService } from '../../services/auth.service';
 import { TranslateService } from 'ng2-translate';
 import { ThemeService } from '../../services/theme.service';
 import { UserPreferencesService } from '../../services/userPreferences.service';
@@ -17,7 +14,6 @@ export class HomeComponent implements OnInit {
     userPreferences: any;
 
     constructor(
-        private authService: AuthService,
         private translateService: TranslateService,
         private userPreferencesService: UserPreferencesService,
         private themeService: ThemeService
@@ -63,6 +59,9 @@ export class HomeComponent implements OnInit {
         }
 
     }
+
+
+
 
     
 }
