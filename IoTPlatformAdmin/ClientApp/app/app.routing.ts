@@ -4,8 +4,8 @@ import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LoginComponent } from './components/login/login.component';
 import { AdminComponent } from './components/admin/admin.component';
-import { TenantsComponent } from './components/tenants/tenants.component'
-import { TenantDetailComponent } from './components/tenants/tenantDetail.component'
+import { TenantListComponent } from './components/tenants/tenant-list.component'
+import { TenantDetailComponent } from './components/tenants/tenant-detail.component'
 import { AuthGuard } from './auth.guard';
 
 
@@ -31,7 +31,7 @@ const appRoutes: Routes = [
     },
     {
         path: 'tenants',
-        component: TenantsComponent,
+        component: TenantListComponent,
         canActivate: [AuthGuard]
     },
     {

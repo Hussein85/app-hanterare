@@ -1,5 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { TranslateService } from 'ng2-translate';
 import { LoginService } from '../../services/login.service';
 
@@ -18,6 +19,7 @@ export class LoginComponent {
         private router: Router
     ) { }
 
+    errorText = "";
 
     login(username, password): void {
              
@@ -31,7 +33,9 @@ export class LoginComponent {
                 this.router.navigate(['']);
             },
             error => {
+                this.errorText = error;
                 this.wrongPassOrEmail = true;
+                console.log(error);
             });
     }
 

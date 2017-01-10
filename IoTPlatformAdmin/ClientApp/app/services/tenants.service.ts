@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map'
 
 
-// Fake tenants. 
+// Fake tenants. Remove later
 var tenants = [
     {
         id: "1",
@@ -49,7 +49,7 @@ var tenants = [
     }
 ];
 
-// Fake tenant. 
+// Fake tenant. Remove later
 var tenant = {
     displayName: "name1",
     resources: [
@@ -120,101 +120,74 @@ export class TenantsService {
     constructor(private http: Http) { }
 
 
-    // Remove
-    testGetTenant() {
+    getTenants() {
+
         return this.http.get(this.API_URL, this.options)
             .map((response: Response) => response.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+
     }
 
-    // Remove
-    testGetTenantById(id) {
+   
+    createTenant(tenant) {
+
+        return this.http.post(this.API_URL, tenant, this.options)
+            .map((response: Response) => response.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+        
+    }
+
+   
+    deleteTenant(id) {
+
+        return this.http.delete(this.API_URL + "/" + id, this.options)
+            .map((response: Response) => response.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+        
+    }
+
+  
+    getTenantById(id) {
+        
         return this.http.get(this.API_URL + "/" + id, this.options)
             .map((response: Response) => response.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+           
     }
 
-    // Remove
-    testGetTenantState(id) {
-        return this.http.get(this.API_URL + "/" + id + "/state", this.options)
+   
+    updateTenant(tenant) {
+       
+        return this.http.put(this.API_URL + "/" + tenant['id'], tenant, this.options)
             .map((response: Response) => response.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+        
     }
 
-    // Remove
-    testGetTenantConf(id) {
+    
+    getTenantConfiguration(id) {
+
         return this.http.get(this.API_URL + "/" + id + "/configuration", this.options)
             .map((response: Response) => response.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
-    //Uncomment code below when API works
-    getTenants() {
-        //Uncomment code when API is working
-        /*
-        return this.http.get(this.API_URL)
-            .map((response: Response) => response.json())
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-        */
 
-        return tenants;  // Return fake tenants. Remove
-    }
-
-    //Uncomment code below when API works
-    createTenant(tenant) {
-        //Uncomment code when API is working
-        /*
-        return this.http.post(this.API_URL, tenant)
-            .map((response: Response) => response.json())
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-        */
-    }
-
-    //Uncomment code below when API works
-    deleteTenant(id) {
-        //Uncomment code when API is working
-        /*
-        return this.http.delete(this.API_URL + "/" + id)
-            .map((response: Response) => response.json())
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-        */
-    }
-
-    //Uncomment code below when API works
-    getTenantById(id) {
-        //Uncomment code when API is working
-        /*
-        return this.http.get(this.API_URL + "/" + id)
-            .map((response: Response) => response.json())
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-        */
-
-        return tenant;
-    }
-
-    //Uncomment code below when API works
-    updateTenant(tenant) {
-        //Uncomment code when API is working
-        /*
-        return this.http.put(this.API_URL + "/" + tenant['id'], tenant)
-            .map((response: Response) => response.json())
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-        */
-    }
-
-    // Get a tenant configuration 
-    getTenantConfiguration(id) {
-        return this.http.get(this.API_URL + "/" + id + "/configuration")
-            .map((response: Response) => response.json())
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-    }
-
-    // Update a tenant configuration
     updateTenantConfiguration(tenant) {
-        return this.http.put(this.API_URL + "/" + tenant['id'] + "/configuration", tenant)
+
+        return this.http.put(this.API_URL + "/" + tenant['id'] + "/configuration", tenant, this.options)
             .map((response: Response) => response.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
+
+
+    getTenantState(id) {
+
+        return this.http.get(this.API_URL + "/" + id + "/state", this.options)
+            .map((response: Response) => response.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
 
 
 }

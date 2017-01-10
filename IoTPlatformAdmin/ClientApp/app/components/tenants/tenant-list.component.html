@@ -1,4 +1,4 @@
-<div style="margin-top:50px;" class='panel panel-primary'>
+<div style="margin-top:50px;" class='panel panel-primary' >
     <div class='panel-heading' style='font-size:large'>
         Tenants
     </div>
@@ -34,8 +34,7 @@
 
         <!-- TENANTS -->
         <div class='table-responsive'>
-            <table class='table table-striped' *ngIf='tenants.length > 0'>
-
+            <table class='table table-striped' *ngIf='tenants'>
 
                 <thead style="font-size:18px;">
                     <tr>
@@ -68,17 +67,18 @@
                         </th>
                     </tr>
                 </thead>
-
-
+              
                 <tbody>
-                    <tr *ngFor="let tenant of tenants | tenantFilter:'name':filterText | tenantFilter:'healthState':healthState | tenantFilter:'status':status ">
-                        <td>                                            
-                            <input type="checkbox" [(ngModel)]="tenant.selected" (change)="checkboxClicked()"> <a [routerLink]="['/tenant', 1]">{{tenant.name}}</a>
+                    <!--<tr *ngFor="let tenant of tenants | tenantFilter:'name':filterText | tenantFilter:'healthState':healthState | tenantFilter:'status':status ">-->
+                    <tr *ngFor="let tenant of tenants">
+                        <td>
+                            <input type="checkbox" [(ngModel)]="tenant.selected" (change)="checkboxClicked()"> <a [routerLink]="['/tenant', tenant.id]">{{tenant.displayName}}</a>
                         </td>
-                        <td>{{tenant.version}}</td>
+                        <td>{{tenant.version}} </td>
 
                         <td>
-                            <div [ngSwitch]="tenant.healthState">
+                            todo: get tenant healthState
+                            <!--<div [ngSwitch]="tenant.healthState">
                                 <div *ngSwitchCase="'OK'">
                                     <div class="round-green">
                                         <span class="glyphicon glyphicon-ok"></span>
@@ -91,10 +91,10 @@
                                     </div>
                                     Error
                                 </div>
-                            </div>
+                            </div>-->
                         </td>
 
-                        <td>{{tenant.status}}</td>
+                        <td>todo: get tenantstatus</td>
                     </tr>
 
                 </tbody>
@@ -104,10 +104,13 @@
 
     </div>
 
-    
-    <!--<pre>Tenants:{{selectedTenants | json}}</pre>-->
-    
+       
 </div>
+
+
+
+
+
 
 
 

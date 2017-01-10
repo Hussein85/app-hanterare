@@ -1,17 +1,20 @@
-﻿import { Component, OnInit, ViewContainerRef, ViewEncapsulation  } from '@angular/core';
+﻿import { Component, OnInit, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+
 import { TranslateService } from 'ng2-translate';
 import { ThemeService } from '../../services/theme.service';
 import { TenantsService } from '../../services/tenants.service';
-import { ActivatedRoute, Router } from '@angular/router';
+
 import { matchingPasswordsValidator } from '../../validators/matchingPasswordsValidator';
 import { targetReplicaSetSizeValidator } from '../../validators/targetReplicaSetSizeValidator';
 import { matchingDisplayNamesValidator } from '../../validators/matchingDisplayNamesValidator';
-import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+
 
 
 @Component({
-    template: require('./tenantDetail.component.html'),
-    styles: [require('./tenantDetail.component.css')]
+    template: require('./tenant-detail.component.html'),
+    styles: [require('./tenant-detail.component.css')]
 })
 export class TenantDetailComponent implements OnInit {
 
@@ -60,11 +63,11 @@ export class TenantDetailComponent implements OnInit {
         this.version = "v1.2";
     
     }
-
-    //OBS!!! Uncomment code below when API works
+    
     getTenant(id) {
         // Uncomment code to get tenant from API
-        /*this.tenantsService.getTenantById(id).subscribe(
+        /*
+        this.tenantsService.getTenantById(id).subscribe(
             tenant => {
                 this.tenant = tenant
                 this.fillValuesInForm()

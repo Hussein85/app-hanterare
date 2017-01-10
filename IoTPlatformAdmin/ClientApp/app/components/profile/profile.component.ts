@@ -2,6 +2,7 @@
 import { Http } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { Router } from '@angular/router';
+
 import { UserPreferences } from '../../models/userPreferences';
 import { UserPreferencesService } from '../../services/userPreferences.service';
 import { TranslateService } from 'ng2-translate';
@@ -127,6 +128,8 @@ export class ProfileComponent implements OnInit {
         this.userPreferences.language = this.translateService.getBrowserLang();
         this.userPreferences.theme = 'default';
         this.themeService.changeTheme(this.userPreferences.theme);
+        this.translateService.use(this.userPreferences.language);
     }
+
 }
 

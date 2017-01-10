@@ -1,23 +1,30 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+
 import { TranslateService } from 'ng2-translate';
 import { ThemeService } from '../../services/theme.service';
 import { TenantsService } from '../../services/tenants.service';
+
 import { matchingPasswordsValidator } from '../../validators/matchingPasswordsValidator';
 import { targetReplicaSetSizeValidator } from '../../validators/targetReplicaSetSizeValidator';
 import { TenantFilterPipe } from '../../pipes/tenant-filter.pipe';
-import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+
+
+import { Tenant } from '../../models/tenant';
+
 
 @Component({
-    template: require('./tenants.component.html'),
-    styles: [require('./tenants.component.css')]
+    template: require('./tenant-list.component.html'),
+    styles: [require('./tenant-list.component.css')]
 })
-export class TenantsComponent implements OnInit {
+export class TenantListComponent implements OnInit {
 
     addTenantForm: FormGroup;
     tenantFilterPipe: any;
 
     tenants: any;
-    selectedTenants: any;
+
+    selectedTenants = [];
     tenant: any;
 
     nameCheckBox = false;
@@ -64,6 +71,116 @@ export class TenantsComponent implements OnInit {
         this.selectedTenants = this.tenants;
     }
 
+
+ 
+
+
+    getTenants() {
+         
+        this.tenantsService.getTenants().subscribe(
+            response => {
+                this.tenants = response.tenants;
+                
+                // For each tenant, get version and state
+                for (let i = 0; i < this.tenants.length; i++) {
+
+                    this.tenantsService.getTenantConfiguration(this.tenants[i].id).subscribe(
+                        response => {
+                            let resources = response.resources;
+                            this.tenants[i].version = resources[0].configuration.version;
+                        },
+                        error => {
+                            console.log(error);
+                        }
+                    )
+
+                    this.tenantsService.getTenantState(this.tenants[i].id).subscribe(
+                        response => {
+                            this.tenants[i].state = response.currentState;
+                        },
+                        error => {
+                            console.log(error);
+                        }
+                    )
+                }
+                                           
+            }, 
+            error => {
+                console.log(error);
+            }
+        )
+    }
+
+    addTenant() {
+
+        this.tenant = {
+            displayName: "",
+            resources: [
+                {
+                    type: "mqttBroker",
+                    configuration: {
+                        username: "",
+                        password: ""
+                    }
+                },
+                {
+                    type: "tenantApp",
+                    configuration: {
+                        "version": "",
+                        parameters: [],
+                        services: []
+                    }
+                }
+            ]
+        }
+
+        this.tenant.displayName = this.addTenantForm.value.displayName;
+
+        for (let idx in this.tenant.resources) {
+
+            // Add parameters and services configuration to tenant
+            if (this.tenant.resources[idx].type === "tenantApp") {
+                this.tenant.resources[idx].configuration['parameters'] = [];
+                if (this.addTenantForm.value.parameters.length > 0) {
+                    this.addTenantForm.value.parameters.forEach(parameter => {
+                        this.tenant.resources[idx].configuration['parameters'].push(parameter);
+                    })
+                }
+
+                this.tenant.resources[idx].configuration['services'] = [];
+                if (this.addTenantForm.value.services.length > 0) {
+                    this.addTenantForm.value.services.forEach(service => {
+                        this.tenant.resources[idx].configuration['services'].push(service);
+                    })
+
+                    this.cleanFields(this.tenant.resources[idx].configuration['services']);
+                }
+            }
+
+            // Add mqtt configuration to tenant
+            let mqttBroker = {
+                username: this.addTenantForm.value.username,
+                password: this.addTenantForm.value.password
+            }
+
+            if (this.tenant.resources[idx].type == "mqttBroker") {
+                this.tenant.resources[idx].configuration = mqttBroker;
+            }
+        }
+
+        // Create a new tenant
+        this.tenantsService.createTenant(this.tenant).subscribe(
+            response => alert("Tenant added!")
+        );
+
+
+        // For debugging. Remove later
+        this.showJSON = true;
+
+    }
+
+
+ 
     initParameter() {
         return this.fb.group({
             name: ['', Validators.required],
@@ -84,19 +201,6 @@ export class TenantsComponent implements OnInit {
     
     }
 
-    // OBS! Uncomment code when API works
-    getTenants(): void {     
-        /*
-        this.tenantsService.getTenants().subscribe(
-            tenants => this.tenants = tenants,
-            error => {
-                console.log(error);
-            });
-        */
-
-        // Remove this line when api works
-        this.tenants = this.tenantsService.getTenants();  
-    }
 
     addParameter() {       
         const control = <FormArray>this.addTenantForm.controls['parameters'];
@@ -121,74 +225,6 @@ export class TenantsComponent implements OnInit {
     removeSelectedTenant(i) {
         this.selectedTenants[i].selected = false;
     }
-
-
-    addTenant() {
-
-        this.tenant = {
-            displayName: "",
-                resources: [
-                    {
-                        type: "mqttBroker",
-                        configuration: {
-                            username: "",
-                            password: ""
-                        }
-                    },
-                    {
-                        type: "tenantApp",
-                        configuration: {
-                            "version": "",
-                            parameters: [],
-                            services: []
-                        }
-                    }
-                ]
-        }
-
-        this.tenant.displayName = this.addTenantForm.value.displayName;
-
-        for (let idx in this.tenant.resources) {
-
-            // Add parameters and services configuration to tenant
-            if (this.tenant.resources[idx].type === "tenantApp") {
-                this.tenant.resources[idx].configuration['parameters'] = [];
-                if (this.addTenantForm.value.parameters.length > 0) {                  
-                    this.addTenantForm.value.parameters.forEach(parameter => {
-                        this.tenant.resources[idx].configuration['parameters'].push(parameter);
-                    })
-                }
-
-                this.tenant.resources[idx].configuration['services'] = [];
-                if (this.addTenantForm.value.services.length > 0) {                
-                    this.addTenantForm.value.services.forEach(service => {
-                        this.tenant.resources[idx].configuration['services'].push(service);
-                    })
-
-                    this.cleanFields(this.tenant.resources[idx].configuration['services']);
-                }
-            }
-
-            // Add mqtt configuration to tenant
-            let mqttBroker = {           
-                username: this.addTenantForm.value.username,
-                password: this.addTenantForm.value.password
-            }
-
-            if (this.tenant.resources[idx].type == "mqttBroker") {
-                this.tenant.resources[idx].configuration = mqttBroker;
-            }
-        }
-
-        // Create a new tenant
-        this.tenantsService.createTenant(this.tenant);
-
-
-        // For debugging. Remove later
-        this.showJSON = true;
-
-    }
-    
 
     healthStatus(r) {
         this.healthState = r.value;
@@ -232,10 +268,12 @@ export class TenantsComponent implements OnInit {
 
     getNbrItemSelected() {
         var nbrITems = 0;
-        this.selectedTenants.forEach(tenant => {
-            if (tenant.selected === true)
-                nbrITems++;
-        })
+        //if (this.selectedTenants.length > 0) {
+        //    this.selectedTenants.forEach(tenant => {
+        //        if (tenant.selected === true)
+        //            nbrITems++;
+        //    })
+        //}
         return nbrITems;
     }
 

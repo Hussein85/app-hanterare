@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { UserPreferences } from '../../models/userPreferences';
 import { TranslateService } from 'ng2-translate';
 import { ThemeService } from '../../services/theme.service';
@@ -33,44 +34,56 @@ export class HomeComponent implements OnInit {
         this.getUserPreferences(); 
 
         this.getTenants();  // Remove
-        this.getTenant("5c6dce5d-52ed-451f-8d21-817657b6bfb2");  // Remove
-        this.getTenantState("5c6dce5d-52ed-451f-8d21-817657b6bfb2");  // Remove
-        this.getTenantConf("5c6dce5d-52ed-451f-8d21-817657b6bfb2"); // Remove
+        this.getTenant("dbfb3678-99a9-421e-bd9f-aedbe6d3e95f");  // Remove
+        this.getTenantState("dbfb3678-99a9-421e-bd9f-aedbe6d3e95f");  // Remove
+        this.getTenantConf("dbfb3678-99a9-421e-bd9f-aedbe6d3e95f"); // Remove
     }
 
 
     // Remove
     getTenants() {
-        this.tenantsService.testGetTenant().subscribe(
+        this.tenantsService.getTenants().subscribe(
             data => {
                 this.tenants = data;
+            },
+            error => {
+                console.log(error);
             }
-        )
+        );
     }
 
     // Remove
     getTenant(id) {
-        this.tenantsService.testGetTenantById(id).subscribe(
+        this.tenantsService.getTenantById(id).subscribe(
             data => {
                 this.tenant = data;
+            },
+            error => {
+                console.log(error);
             }
         )
     }
 
     // Remove
     getTenantState(id) {
-        this.tenantsService.testGetTenantState(id).subscribe(
+        this.tenantsService.getTenantState(id).subscribe(
             data => {
                 this.tenantState = data;
+            },
+            error => {
+                console.log(error);
             }
         )
     }
 
     // Remove
     getTenantConf(id) {
-        this.tenantsService.testGetTenantConf(id).subscribe(
+        this.tenantsService.getTenantConfiguration(id).subscribe(
             data => {
                 this.tenantConf = data;
+            },
+            error => {
+                console.log(error);
             }
         )
     }

@@ -11,6 +11,7 @@
                     <input type="password" class="form-control" #password placeholder="{{ 'LOGIN.PASSWORD' | translate }}" required>
                     
                     <div class="alert alert-danger" *ngIf="wrongEmailOrPassword()">{{ 'LOGIN.WRONGEMAILORPASSWORD' | translate }}</div>
+                    <div class="alert alert-danger" *ngIf="errorText !== ''">{{ errorText }}</div>
 
                     <button class="btn btn-lg btn-primary btn-block" (click)="login(username.value, password.value)" type="submit">
                         {{ 'LOGIN.LOGIN' | translate }}

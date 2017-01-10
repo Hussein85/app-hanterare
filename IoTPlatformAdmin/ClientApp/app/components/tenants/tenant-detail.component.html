@@ -1,5 +1,5 @@
 ﻿
-<div style="margin-top:50px;" class='panel panel-primary'>
+<div style="margin-top:50px;" class='panel panel-primary' *ngIf="tenant">
     <div class='panel-heading' style='font-size:large'>
         Tenant Detail
     </div>
@@ -8,7 +8,7 @@
             <div class='col-md-12'>
                 <div class='row top-buffer'>
                     <div class='col-md-4'><strong>Name:</strong></div>
-                    <div class='col-md-4'>name1</div>
+                    <div class='col-md-4'>{{tenant.displayName}}</div>
                 </div>
                 <div class='row top-buffer'>
                     <div class='col-md-4'><strong>Health State:</strong></div>
@@ -21,12 +21,12 @@
                 </div>
                 <div class='row top-buffer'>
                     <div class='col-md-4'><strong>Status:</strong></div>
-                    <div class='col-md-4'>{{status}}</div>
+                    <div class='col-md-4'>TODO: get tenant version</div>
                     <a [routerLink]="" (click)="startStop()"> {{status=='Running' ? "Stop" : "Start"}} </a>
                 </div>
                 <div class='row top-buffer'>
                     <div class='col-md-4'><strong>Version:</strong></div>
-                    <div class='col-md-4'>{{getVersion()}}</div>
+                    <div class='col-md-4'>TODO: get tenant version</div>
                     <a data-toggle="modal" data-target="#updateModal">
                         <span class="glyphicon glyphicon-download-alt"></span>
                         Upgrade

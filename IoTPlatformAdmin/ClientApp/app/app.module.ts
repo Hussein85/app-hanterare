@@ -15,8 +15,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { AdminComponent } from './components/admin/admin.component';
-import { TenantsComponent } from './components/tenants/tenants.component';
-import { TenantDetailComponent } from './components/tenants/tenantDetail.component';
+import { TenantListComponent } from './components/tenants/tenant-list.component';
+import { TenantDetailComponent } from './components/tenants/tenant-detail.component';
 
 // Routing and AuthGuard
 import { routing, appRoutingProviders } from './app.routing';
@@ -43,7 +43,7 @@ import { TenantFilterPipe } from "./pipes/tenant-filter.pipe";
         ProfileComponent,
         LoginComponent,
         AdminComponent,
-        TenantsComponent,
+        TenantListComponent,
         TenantDetailComponent,
         TenantFilterPipe
     ],
