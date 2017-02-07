@@ -1,13 +1,4 @@
-﻿* Beskriv källkodsstruktur
-* Beskriv hur man bygger
-  * Vad behöver vara installerat 
-* Beskriv hur man testar
-* Andra saker som är bra att veta
-
-
-[Markdown Guide](https://guides.github.com/features/mastering-markdown/)
-
-### Prerequisites 
+﻿### Prerequisites 
 These prerequisites must be installed:
 * Visual Studio 2015 Update 3
 * .Net Core 1.0.1
